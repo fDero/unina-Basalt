@@ -1,0 +1,14 @@
+.vscode
+basalt
+*.elf
+*.exe
+*.out
+hidden
+*.bt
+*.basalt
+grammar/.antlr
+.antlr
+generated
+.generated
+.antlr-generated
+antlr-generated
