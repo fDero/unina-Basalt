@@ -1,4 +1,4 @@
-lexer grammar BasaltVocabulary;
+lexer grammar BasaltLexer;
 
 STRUCT   : 'struct';
 UNION    : 'union';

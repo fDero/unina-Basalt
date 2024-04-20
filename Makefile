@@ -1,4 +1,8 @@
 
+CPPCOMPILER := g++ -std=c++17 -Wall -Wno-attributes
+ANTLR4 := -I/usr/include/antlr4-runtime -I./generated  -L/usr/lib/x86_64-linux-gnu/libantlr4-runtime.so -lantlr4-runtime
+GTEST := -lgtest -lgtest_main -pthread
+
 dependencies:
 	sudo apt-get update
 	sudo apt-get upgrade
@@ -12,12 +16,18 @@ dependencies:
 
 parser:
 	@mkdir -p generated
-	cp grammar/BasaltVocabulary.g4 generated/BasaltVocabulary.g4
-	cp grammar/BasaltGrammar.g4 generated/BasaltGrammar.g4
-	cd generated && antlr4 -Dlanguage=Cpp BasaltVocabulary.g4
-	cd generated && antlr4 -Dlanguage=Cpp -visitor BasaltGrammar.g4
+	cp grammar/BasaltLexer.g4 generated/BasaltLexer.g4
+	cp grammar/BasaltParser.g4 generated/BasaltParser.g4
+	cd generated && antlr4 -Dlanguage=Cpp -visitor BasaltLexer.g4 BasaltParser.g4
 	@ls generated
 
 clean:
 	@rm -rf generated
 	@ls
+
+build:
+	${CPPCOMPILER} src/main.cpp src/*/*.cpp generated/*.cpp ${ANTLR4} -o basalt -I./include
+
+test:
+	${CPPCOMPILER} src/*/*.cpp tests/*/*.cpp generated/*.cpp ${ANTLR4} ${GTEST} -o test_binary -I./include
+	./test_binary && rm test_binary
