@@ -21,16 +21,91 @@ definition
 
 
 
+// SYMBOLS
+
+arrow               : '->';
+pointerDereference  : '#';
+pointerSymbol       : '#';
+sliceSymbol         : '#';
+addressOf           : '&';
+squareBracketsOpen  : '[';
+squareBracketsClose : ']';
+parenthesysOpen     : '(';
+parenthesysClose    : ')';
+curlyBracketsOpen   : '{';
+curlyBracketsClose  : '}';
+comma               : ',';
+semicolon           : ';';
+colon               : ':';
+dot                 : '.';
+plus                : '+';
+minus               : '-';
+star                : '*';
+div                 : '/';
+mod                 : '%';
+pow                 : '^';
+logicalAnd          : '&&';
+logicalOr           : '||';
+logicalXor          : '^^';
+logicalNot          : '!';
+logicalEqual        : '==';
+logicalNotEqual     : '!=';
+logicalGt           : '>';
+logicalLt           : '<';
+logicalGe           : '>=';
+logicalLe           : '<=';
+inc                 : '++';
+dec                 : '--';
+assign              : '=';
+addeq               : '+=';
+subeq               : '-=';
+muleq               : '*=';
+diveq               : '/=';
+modeq               : '%=';
+poweq               : '^=';
+
+diamondOpen         : '<';
+diamondClose        : '>';
+varKeyword          : 'var';
+constKeyword        : 'const';
+structKeyword       : 'struct';
+unionKeyword        : 'union';
+funcKeyword         : 'func';
+returnKeyword       : 'return';
+breakKeyword        : 'break';
+continueKeyword     : 'continue';
+ifKeyword           : 'if';
+elseKeyword         : 'else';
+whileKeyword        : 'while';
+untilKeyword        : 'until';
+switchKeyword       : 'switch';
+defaultKeyword      : 'default';
+
+identifier          : ID;
+typeName            : TYPENAME;
+primitiveType       : BASETYPE;
+
+intLiteral          : INT_LITERAL;
+floatLiteral        : FLOAT_LITERAL;
+boolLiteral         : BOOL_LITERAL;
+charLiteral         : CHAR_LITERAL;
+stringLiteral       : STRING_LITERAL;
+nullKeyword         : 'null';
+
+
+
+
+
 
 // DECLARATIONS
 
 variableDeclaration
-    : VAR ID ':' typeSignature '=' expression ';'
-    | VAR ID ':' typeSignature ';'
+    : varKeyword identifier colon typeSignature assign expression semicolon
+    | varKeyword identifier colon typeSignature semicolon
     ;
     
 constDeclaration
-    : CONST ID ':' typeSignature '=' expression ';'
+    : constKeyword identifier colon typeSignature assign expression semicolon
     ; 
 
 
@@ -40,12 +115,13 @@ constDeclaration
 // STRUCTS
 
 structDefinition
-    : STRUCT TYPENAME formalTypeParametersSection? 
-      '{' structField* '}'
+    : 
+        structKeyword typeName formalTypeParametersSection? 
+        curlyBracketsOpen structField* curlyBracketsClose
     ;
 
 structField
-    : ID ':' typeSignature ';' 
+    : identifier colon typeSignature semicolon 
     ;
 
 
@@ -55,8 +131,9 @@ structField
 // UNIONS
 
 unionDefinition
-    : UNION TYPENAME formalTypeParametersSection? 
-      '{' typeSignature* '}'
+    : 
+        unionKeyword typeName formalTypeParametersSection? 
+        curlyBracketsOpen typeSignature* curlyBracketsClose
     ;
 
 
@@ -66,36 +143,38 @@ unionDefinition
 // FUNCTIONS 
 
 functionDefinition
-    : FUNC ID formalTypeParametersSection? 
-      functionDefinitionArgumentsSection
-      functionReturnTypeSection? 
-      multilineScopedInstructionBlock
+    : 
+        funcKeyword identifier formalTypeParametersSection? 
+        functionDefinitionArgumentsSection
+        functionReturnTypeSection? 
+        multilineScopedInstructionBlock
     ;
     
 functionDefinitionArgumentsSection
-    : '(' functionDefinition_arguments_list? ')'
+    : parenthesysOpen functionDefinition_arguments_list? parenthesysClose
     ;
     
 functionDefinition_arguments_list
-    : ID ':' typeSignature (',' ID ':' typeSignature)* 
+    : identifier colon typeSignature (comma identifier colon typeSignature)* 
     ;
     
 functionReturnTypeSection
-    : ':' typeSignature
+    : colon typeSignature
     ;
     
 functionCall
-    : ID actualTypeParametersSection? 
-      actualFunctionCallArgumentsSection
+    : 
+        identifier actualTypeParametersSection? 
+        actualFunctionCallArgumentsSection
     ;
     
 functionCallStatement
-    : functionCall ';'
+    : functionCall semicolon
     ;
 
 actualFunctionCallArgumentsSection
-    : '(' expression (',' expression)* ')' 
-    | '(' ')'
+    : parenthesysOpen expression (comma expression)* parenthesysClose 
+    | parenthesysOpen parenthesysClose
     ;
 
 
@@ -105,28 +184,28 @@ actualFunctionCallArgumentsSection
 // TYPES
 
 typeSignature
-    : BASETYPE
-    | TYPENAME actualTypeParametersSection?
+    : primitiveType
+    | typeName actualTypeParametersSection?
     | pointerType
     | sliceType
     | arrayType
     ;
 
 pointerType
-    : '#' typeSignature ;
+    : pointerSymbol typeSignature ;
 
 sliceType
-    : '$' typeSignature ;
+    : sliceSymbol typeSignature ;
 
 arrayType
-    : '[' INT_LITERAL ']' typeSignature ;
+    : squareBracketsOpen intLiteral squareBracketsClose typeSignature ;
 
 actualTypeParametersSection
-    : '<' typeSignature (',' typeSignature)* '>'
+    : diamondOpen typeSignature (comma typeSignature)* diamondClose
     ;
 
 formalTypeParametersSection
-    : '<' TYPENAME (',' TYPENAME)* '>'
+    : diamondOpen typeName (comma typeName)* diamondClose
     ;
 
 
@@ -148,37 +227,42 @@ terminalExpression
     | functionCall
     | parenthesysDelimitedExpression
     | prefixOperator
-    | INT_LITERAL
-    | FLOAT_LITERAL
-    | CHAR_LITERAL
-    | STRING_LITERAL
-    | BOOL_LITERAL
-    | ID
+    | intLiteral
+    | floatLiteral
+    | charLiteral
+    | stringLiteral
+    | boolLiteral
+    | identifier
     ;
 
 infixOperator
-    : terminalExpression (PLUS | MINUS | MUL | DIV | POW | MOD) expression
-    | terminalExpression (AND | OR | EQUAL | NOTEQUAL) expression
-    | terminalExpression (GT | LT | LE | GE | EQUAL | NOTEQUAL) expression
+    : terminalExpression (plus | minus | star | div | pow | mod) expression
+    | terminalExpression (logicalAnd | logicalOr | logicalEqual | logicalNotEqual) expression
+    | terminalExpression (logicalGt | logicalLt | logicalLe | logicalGe | logicalEqual | logicalNotEqual) expression
     ;
 
 dotMemberAccess
-    : terminalExpression ('.' ID)+
+    : terminalExpression (dot identifier)+
     ;
 
 prefixOperator
-    : ('#' | NOT | PLUS | MINUS | INC | DEC) expression
+    : (pointerDereference | logicalNot | plus | minus | inc | dec) expression
     ;
 
 squareBracketsAccess
-    : (ID | parenthesysDelimitedExpression | arrayLiteral | functionCall) ('[' expression ']')+
+    : 
+        (identifier | parenthesysDelimitedExpression | arrayLiteral | functionCall) 
+        (squareBracketsOpen expression squareBracketsClose)+
     ;
 
 arrayLiteral
-    : '[' typeSignature ']' '{' expression (',' expression)* '}' ;
+    : 
+        squareBracketsOpen typeSignature squareBracketsClose 
+        curlyBracketsOpen expression (comma expression)* curlyBracketsClose 
+    ;
 
 parenthesysDelimitedExpression
-    : '(' expression ')'
+    : parenthesysOpen expression parenthesysClose
     ;
 
 
@@ -188,14 +272,18 @@ parenthesysDelimitedExpression
 
 // STATEMENTS
 
+instructionBlock
+    : multilineScopedInstructionBlock
+    | statement
+    ;
+
 multilineScopedInstructionBlock
-    : '{' statement* '}'
+    : curlyBracketsOpen statement* curlyBracketsClose
     ;
     
 assignment
-    : expression '=' expression ';'
-    | expression (ADDEQ | SUBEQ | MULEQ | DIVEQ) expression ';'
-    | expression (OREQ | POWEQ | MODEQ | ANDEQ) expression ';'
+    : expression assign expression semicolon
+    | expression (addeq | subeq | muleq | diveq | modeq | poweq ) expression semicolon
     ;
 
 statement
@@ -212,40 +300,38 @@ statement
     ;
     
 returnStatement
-    : RETURN expression? ';'
+    : returnKeyword expression? semicolon
     ;
     
 breakStatement
-    : BREAK ';'
+    : breakKeyword semicolon
     ;
 
 continueStatement
-    : CONTINUE ';'
-    ;
-    
-instructionBlock
-    : multilineScopedInstructionBlock
-    | statement
+    : continueKeyword semicolon
     ;
 
 ifStatement
-    : IF '(' expression ')' instructionBlock 'else' instructionBlock
-    | IF '(' expression ')' instructionBlock
+    : 
+        ifKeyword parenthesysOpen expression parenthesysClose 
+        instructionBlock ( elseKeyword instructionBlock )?
     ;
     
 whileLoop
-    : WHILE '(' expression ')' instructionBlock
+    : whileKeyword parenthesysOpen expression parenthesysClose instructionBlock
     ;
 
 untilLoop
-    : UNTIL '(' expression ')' instructionBlock
+    : untilKeyword parenthesysOpen expression parenthesysClose instructionBlock
     ;
 
 switchStatement
-    : SWITCH '(' expression ')' '{' switchCase* '}'
+    : 
+        switchKeyword parenthesysOpen expression parenthesysClose 
+        squareBracketsOpen switchCase* curlyBracketsClose
     ;
 
 switchCase
-    : DEFAULT instructionBlock
-    | ID ':' typeSignature instructionBlock
+    : defaultKeyword instructionBlock
+    | identifier colon typeSignature instructionBlock
     ;
