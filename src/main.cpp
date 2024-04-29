@@ -3,7 +3,7 @@
 
 int main(int , const char **) {
     
-    antlr4::ANTLRInputStream input("retrun;");
+    antlr4::ANTLRInputStream input("func f() { }");
     BasaltLexer lexer(&input);
     antlr4::CommonTokenStream tokens(&lexer);
 

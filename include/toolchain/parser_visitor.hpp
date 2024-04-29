@@ -7,25 +7,16 @@
 class ConcreteBasaltParserVisitor : public BasaltParserVisitor {
 public:
 
+    // GLOBAL SCOPE
+
     virtual antlrcpp::Any visitProgram(BasaltParser::ProgramContext *context) override { return nullptr; } // TEMPORARY;
 
+
+
+
+    // DEFINITIONS
+
     virtual antlrcpp::Any visitDefinition(BasaltParser::DefinitionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitIdentifier(BasaltParser::IdentifierContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitTypeName(BasaltParser::TypeNameContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitPrimitiveType(BasaltParser::PrimitiveTypeContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitIntLiteral(BasaltParser::IntLiteralContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitFloatLiteral(BasaltParser::FloatLiteralContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitBoolLiteral(BasaltParser::BoolLiteralContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitCharLiteral(BasaltParser::CharLiteralContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitStringLiteral(BasaltParser::StringLiteralContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitVariableDeclaration(BasaltParser::VariableDeclarationContext *context) override { return nullptr; } // TEMPORARY;
 
@@ -43,51 +34,71 @@ public:
 
     virtual antlrcpp::Any visitFunctionDefinition_arguments_list(BasaltParser::FunctionDefinition_arguments_listContext *context) override { return nullptr; } // TEMPORARY;
 
+
+
+
+
+    // LITERALS & IDENTIFIERS  
+
+    virtual antlrcpp::Any visitIdentifier(BasaltParser::IdentifierContext *context) override;
+
+    virtual antlrcpp::Any visitIntLiteral(BasaltParser::IntLiteralContext *context) override;
+
+    virtual antlrcpp::Any visitFloatLiteral(BasaltParser::FloatLiteralContext *context) override;
+
+    virtual antlrcpp::Any visitBoolLiteral(BasaltParser::BoolLiteralContext *context) override;
+
+    virtual antlrcpp::Any visitCharLiteral(BasaltParser::CharLiteralContext *context) override;
+
+    virtual antlrcpp::Any visitStringLiteral(BasaltParser::StringLiteralContext *context) override;
+
+    virtual antlrcpp::Any visitArrayLiteral(BasaltParser::ArrayLiteralContext *context) override;
+
+
+
+
+    // EXPRESSIONS
+
+    virtual antlrcpp::Any visitExpression(BasaltParser::ExpressionContext *context) override;
+
+    virtual antlrcpp::Any visitTerminalExpression(BasaltParser::TerminalExpressionContext *context) override;
+
+    virtual antlrcpp::Any visitInfixOperator(BasaltParser::InfixOperatorContext *context) override;
+
+    virtual antlrcpp::Any visitDotMemberAccess(BasaltParser::DotMemberAccessContext *context) override;
+
+    virtual antlrcpp::Any visitPrefixOperator(BasaltParser::PrefixOperatorContext *context) override;
+
+    virtual antlrcpp::Any visitSquareBracketsAccess(BasaltParser::SquareBracketsAccessContext *context) override;
+
+    virtual antlrcpp::Any visitParenthesysDelimitedExpression(BasaltParser::ParenthesysDelimitedExpressionContext *context) override;
+
+
+
+
+    // FUNCTION CALLS
+
     virtual antlrcpp::Any visitFunctionReturnTypeSection(BasaltParser::FunctionReturnTypeSectionContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitFunctionCall(BasaltParser::FunctionCallContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitActualFunctionCallArgumentsSection(BasaltParser::ActualFunctionCallArgumentsSectionContext *context) override { return nullptr; } // TEMPORARY;
 
-    virtual antlrcpp::Any visitTypeSignature(BasaltParser::TypeSignatureContext *context) override { return nullptr; } // TEMPORARY;
 
-    virtual antlrcpp::Any visitPointerType(BasaltParser::PointerTypeContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitSliceType(BasaltParser::SliceTypeContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitArrayType(BasaltParser::ArrayTypeContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitActualTypeParametersSection(BasaltParser::ActualTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitFormalTypeParametersSection(BasaltParser::FormalTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitExpression(BasaltParser::ExpressionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitTerminalExpression(BasaltParser::TerminalExpressionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitInfixOperator(BasaltParser::InfixOperatorContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitDotMemberAccess(BasaltParser::DotMemberAccessContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitPrefixOperator(BasaltParser::PrefixOperatorContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitSquareBracketsAccess(BasaltParser::SquareBracketsAccessContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitArrayLiteral(BasaltParser::ArrayLiteralContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitParenthesysDelimitedExpression(BasaltParser::ParenthesysDelimitedExpressionContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitAssignment(BasaltParser::AssignmentContext *context) override { return nullptr; } // TEMPORARY;
 
 
     // STATEMENTS ( WORK IN PROGRESS )
+
+    virtual antlrcpp::Any visitAssignment(BasaltParser::AssignmentContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitFunctionCallStatement(BasaltParser::FunctionCallStatementContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitSwitchStatement(BasaltParser::SwitchStatementContext *context) override { return nullptr; } // TEMPORARY;
 
     virtual antlrcpp::Any visitSwitchCase(BasaltParser::SwitchCaseContext *context) override { return nullptr; } // TEMPORARY;
-    
+
+
+
     
     // STATEMENTS
     
@@ -110,6 +121,28 @@ public:
     virtual antlrcpp::Any visitUntilLoop(BasaltParser::UntilLoopContext *context) override;
 
 
+
+
+    // TYPES
+
+    virtual antlrcpp::Any visitTypeName(BasaltParser::TypeNameContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitPrimitiveType(BasaltParser::PrimitiveTypeContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitTypeSignature(BasaltParser::TypeSignatureContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitPointerType(BasaltParser::PointerTypeContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitSliceType(BasaltParser::SliceTypeContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitArrayType(BasaltParser::ArrayTypeContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitActualTypeParametersSection(BasaltParser::ActualTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
+
+    virtual antlrcpp::Any visitFormalTypeParametersSection(BasaltParser::FormalTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
+
+
+    
 
     // KEYWPORDS AND SYMBOLS
 

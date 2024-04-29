@@ -124,7 +124,5 @@ antlrcpp::Any ConcreteBasaltParserVisitor::visitMultilineScopedInstructionBlock(
 
 antlrcpp::Any ConcreteBasaltParserVisitor::visitStatement(BasaltParser::StatementContext *context) {
     assert( context->children.size() == 1 );
-    antlrcpp::Any code = visit(context->children[0]);
-    assert (code.is<std::vector<Statement>>());
-    return code;
+    return visit(context->children[0]);
 }
