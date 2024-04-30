@@ -151,10 +151,10 @@ functionDefinition
     ;
     
 functionDefinitionArgumentsSection
-    : parenthesysOpen functionDefinition_arguments_list? parenthesysClose
+    : parenthesysOpen functionDefinitionArgumentsList? parenthesysClose
     ;
     
-functionDefinition_arguments_list
+functionDefinitionArgumentsList
     : identifier colon typeSignature (comma identifier colon typeSignature)* 
     ;
     

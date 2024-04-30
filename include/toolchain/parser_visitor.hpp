@@ -16,23 +16,23 @@ public:
 
     // DEFINITIONS
 
-    virtual antlrcpp::Any visitDefinition(BasaltParser::DefinitionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitDefinition(BasaltParser::DefinitionContext *context) override;
 
-    virtual antlrcpp::Any visitVariableDeclaration(BasaltParser::VariableDeclarationContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitVariableDeclaration(BasaltParser::VariableDeclarationContext *context) override;
 
-    virtual antlrcpp::Any visitConstDeclaration(BasaltParser::ConstDeclarationContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitConstDeclaration(BasaltParser::ConstDeclarationContext *context) override;
 
-    virtual antlrcpp::Any visitStructDefinition(BasaltParser::StructDefinitionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitStructDefinition(BasaltParser::StructDefinitionContext *context) override;
 
-    virtual antlrcpp::Any visitStructField(BasaltParser::StructFieldContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitStructField(BasaltParser::StructFieldContext *context) override;
 
-    virtual antlrcpp::Any visitUnionDefinition(BasaltParser::UnionDefinitionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitUnionDefinition(BasaltParser::UnionDefinitionContext *context) override;
 
-    virtual antlrcpp::Any visitFunctionDefinition(BasaltParser::FunctionDefinitionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitFunctionDefinition(BasaltParser::FunctionDefinitionContext *context) override;
 
-    virtual antlrcpp::Any visitFunctionDefinitionArgumentsSection(BasaltParser::FunctionDefinitionArgumentsSectionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitFunctionDefinitionArgumentsSection(BasaltParser::FunctionDefinitionArgumentsSectionContext *context) override;
 
-    virtual antlrcpp::Any visitFunctionDefinition_arguments_list(BasaltParser::FunctionDefinition_arguments_listContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitFunctionDefinitionArgumentsList(BasaltParser::FunctionDefinitionArgumentsListContext *context) override;
 
 
 
