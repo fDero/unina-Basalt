@@ -1,17 +1,17 @@
-#include <iostream>
-#include "toolchain/parser.hpp"
 
-int main(int , const char **) {
-    
-    antlr4::ANTLRInputStream input("func f() { }");
-    BasaltLexer lexer(&input);
-    antlr4::CommonTokenStream tokens(&lexer);
+#include "errors/display_utilities.hpp"
+#include "toolchain/commandline.hpp"
+#include <exception>
 
-    BasaltParser parser(&tokens);
-    antlr4::tree::ParseTree& tree = *parser.program();
-
-    ConcreteBasaltParserVisitor visitor;
-    visitor.visit(&tree);
-
-    return 0;
+int main(int argc, char** argv) {
+    try {
+        CommandLineController controller(argc, argv);
+        controller.dispatch_based_on_user_input();
+        exit(EXIT_SUCCESS);
+    }
+    catch(...) {
+        std::exception_ptr error = std::current_exception();
+        display_pretty_error_message(error);
+        exit(EXIT_FAILURE);
+    }
 }

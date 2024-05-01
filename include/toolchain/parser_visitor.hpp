@@ -9,7 +9,7 @@ public:
 
     // GLOBAL SCOPE
 
-    virtual antlrcpp::Any visitProgram(BasaltParser::ProgramContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitProgram(BasaltParser::ProgramContext *context) override;
 
 
 

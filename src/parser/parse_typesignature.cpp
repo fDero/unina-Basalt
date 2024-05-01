@@ -32,7 +32,7 @@ antlrcpp::Any ConcreteBasaltParserVisitor::visitCustomType(BasaltParser::CustomT
     antlrcpp::Any type = visit(context->children[0]);
     antlrcpp::Any generics = (context->children.size() == 2)
         ? visit(context->children[1])
-        : nullptr ;
+        : antlrcpp::Any(nullptr) ;
     assert(type.is<std::string>());
     std::string type_name = type.as<std::string>();
     std::vector<TypeSignature> generic_types = (generics.is<std::vector<TypeSignature>>())
@@ -66,7 +66,7 @@ antlrcpp::Any ConcreteBasaltParserVisitor::visitArrayType(BasaltParser::ArrayTyp
     assert(visit(context->children[2]).is<BasaltSymbol>() && visit(context->children[2]).as<BasaltSymbol>() == BasaltSymbol::SQUARE_BRACKETS_CLOSE);
     antlrcpp::Any type = visit(context->children[3]);
     assert(type.is<TypeSignature>());
-    return TypeSignature { ArrayType { length, type.as<TypeSignature>() } };
+    return TypeSignature { ArrayType { (int)length, type.as<TypeSignature>() } };
 }
 
 antlrcpp::Any ConcreteBasaltParserVisitor::visitActualTypeParametersSection(BasaltParser::ActualTypeParametersSectionContext *context) {

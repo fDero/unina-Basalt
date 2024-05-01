@@ -37,8 +37,11 @@ typedef std::string StringLiteralText;
 
 class Parser {
 
-    public:
-        Parser(const antlr4::CommonTokenStream& tokens) {}
+    private:
+        FileRappresentation file_rappresentation;
 
-        [[nodiscard]] FileRappresentation parse_everything() { return FileRappresentation{}; };
+    public:
+        Parser(antlr4::CommonTokenStream& tokens);
+
+        [[nodiscard]] FileRappresentation parse_everything();
 };
