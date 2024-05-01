@@ -328,7 +328,7 @@ untilLoop
 switchStatement
     : 
         switchKeyword parenthesysOpen expression parenthesysClose 
-        squareBracketsOpen switchCase* curlyBracketsClose
+        curlyBracketsOpen switchCase* curlyBracketsClose
     ;
 
 switchCase

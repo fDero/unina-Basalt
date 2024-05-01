@@ -126,3 +126,14 @@ antlrcpp::Any ConcreteBasaltParserVisitor::visitStatement(BasaltParser::Statemen
     assert( context->children.size() == 1 );
     return visit(context->children[0]);
 }
+
+antlrcpp::Any ConcreteBasaltParserVisitor::visitAssignment(BasaltParser::AssignmentContext *context) {
+    assert(context->children.size() == 4);
+    antlrcpp::Any left = visit(context->children[0]);
+    assert(visit(context->children[1]).is<BasaltSymbol>() && visit(context->children[1]).as<BasaltSymbol>() == BasaltSymbol::ASSIGN);
+    antlrcpp::Any right = visit(context->children[2]);
+    assert(visit(context->children[3]).is<BasaltSymbol>() && visit(context->children[3]).as<BasaltSymbol>() == BasaltSymbol::SEMICOLON);
+    assert(left.is<Expression>());
+    assert(right.is<Expression>());
+    return Assignment { left.as<Expression>(), right.as<Expression>() };
+}

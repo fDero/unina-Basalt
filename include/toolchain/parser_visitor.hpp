@@ -78,28 +78,15 @@ public:
 
     // FUNCTION CALLS
 
-    virtual antlrcpp::Any visitFunctionReturnTypeSection(BasaltParser::FunctionReturnTypeSectionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitFunctionReturnTypeSection(BasaltParser::FunctionReturnTypeSectionContext *context) override;
 
-    virtual antlrcpp::Any visitFunctionCall(BasaltParser::FunctionCallContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitFunctionCall(BasaltParser::FunctionCallContext *context) override;
 
-    virtual antlrcpp::Any visitActualFunctionCallArgumentsSection(BasaltParser::ActualFunctionCallArgumentsSectionContext *context) override { return nullptr; } // TEMPORARY;
-
-
-
-
-    // STATEMENTS ( WORK IN PROGRESS )
-
-    virtual antlrcpp::Any visitAssignment(BasaltParser::AssignmentContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitFunctionCallStatement(BasaltParser::FunctionCallStatementContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitSwitchStatement(BasaltParser::SwitchStatementContext *context) override { return nullptr; } // TEMPORARY;
-
-    virtual antlrcpp::Any visitSwitchCase(BasaltParser::SwitchCaseContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitActualFunctionCallArgumentsSection(BasaltParser::ActualFunctionCallArgumentsSectionContext *context) override;
 
 
 
-    
+
     // STATEMENTS
     
     virtual antlrcpp::Any visitMultilineScopedInstructionBlock(BasaltParser::MultilineScopedInstructionBlockContext *context) override;
@@ -119,6 +106,21 @@ public:
     virtual antlrcpp::Any visitWhileLoop(BasaltParser::WhileLoopContext *context) override;
 
     virtual antlrcpp::Any visitUntilLoop(BasaltParser::UntilLoopContext *context) override;
+
+    virtual antlrcpp::Any visitAssignment(BasaltParser::AssignmentContext *context) override;
+
+    virtual antlrcpp::Any visitFunctionCallStatement(BasaltParser::FunctionCallStatementContext *context) override;
+
+    // TODO
+    virtual antlrcpp::Any visitSwitchStatement(BasaltParser::SwitchStatementContext *context) override {
+        throw std::runtime_error("Not implemented");
+    } 
+
+    // TODO
+    virtual antlrcpp::Any visitSwitchCase(BasaltParser::SwitchCaseContext *context) override { 
+        throw std::runtime_error("Not implemented"); 
+    }
+
 
 
 
