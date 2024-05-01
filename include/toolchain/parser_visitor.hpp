@@ -127,21 +127,23 @@ public:
 
     // TYPES
 
-    virtual antlrcpp::Any visitTypeName(BasaltParser::TypeNameContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitTypeName(BasaltParser::TypeNameContext *context) override;
 
-    virtual antlrcpp::Any visitPrimitiveType(BasaltParser::PrimitiveTypeContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitPrimitiveType(BasaltParser::PrimitiveTypeContext *context) override;
 
-    virtual antlrcpp::Any visitTypeSignature(BasaltParser::TypeSignatureContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitTypeSignature(BasaltParser::TypeSignatureContext *context) override;
 
-    virtual antlrcpp::Any visitPointerType(BasaltParser::PointerTypeContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitCustomType(BasaltParser::CustomTypeContext *context) override;
 
-    virtual antlrcpp::Any visitSliceType(BasaltParser::SliceTypeContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitPointerType(BasaltParser::PointerTypeContext *context) override;
 
-    virtual antlrcpp::Any visitArrayType(BasaltParser::ArrayTypeContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitSliceType(BasaltParser::SliceTypeContext *context) override;
 
-    virtual antlrcpp::Any visitActualTypeParametersSection(BasaltParser::ActualTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitArrayType(BasaltParser::ArrayTypeContext *context) override;
 
-    virtual antlrcpp::Any visitFormalTypeParametersSection(BasaltParser::FormalTypeParametersSectionContext *context) override { return nullptr; } // TEMPORARY;
+    virtual antlrcpp::Any visitActualTypeParametersSection(BasaltParser::ActualTypeParametersSectionContext *context) override;
+
+    virtual antlrcpp::Any visitFormalTypeParametersSection(BasaltParser::FormalTypeParametersSectionContext *context) override;
 
 
     

@@ -22,7 +22,7 @@ BOOL_LITERAL   : 'true'|'false';
 CHAR_LITERAL   : '\''[a-zA-Z_0-9]*'\'';
 STRING_LITERAL : '"'[a-zA-Z_0-9]*'"';
 
-BASETYPE : 'Int | Float | Bool | Char | String';
+BASETYPE : 'Int' | 'Float' | 'Bool' | 'Char' | 'String';
 ID       : [a-z][a-zA-Z_0-9]* ;
 TYPENAME : [A-Z][a-zA-Z_0-9]* ;
 FUNCNAME : [a-z][a-zA-Z_0-9]* ;

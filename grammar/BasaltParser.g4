@@ -185,10 +185,14 @@ actualFunctionCallArgumentsSection
 
 typeSignature
     : primitiveType
-    | typeName actualTypeParametersSection?
+    | customType
     | pointerType
     | sliceType
     | arrayType
+    ;
+
+customType
+    : typeName actualTypeParametersSection?
     ;
 
 pointerType
