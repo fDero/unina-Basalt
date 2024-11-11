@@ -1,0 +1,31 @@
+\subsubsection{Struct generiche}
+É possibile parametrizzare una definizione di una struct con dei parametri formali di tipo, in gergo detti "generics”. Al 
+momento dell’utilizzo di tale definizione, dei parametri attuali di tipo dovranno essere forniti, e una definizione ad-hoc 
+sarà generata da Basalt tramite match-and-replace dei parametri formali all’interno della definizione, 
+performata eventualmente in modo ricorsivo se necessario.\\ 
+
+La sintassi per definire una struct con parametri formali di tipo prevede una lista di identificatori di 
+tipo separati da virgole e racchiusi in parentesi angolari alla destra del nome della struct. Di seguito 
+viene riportata la definizione di una linked list doppiamente puntata e parametrica sul tipo di dato conservato in ogni nodo. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+package listdemo;
+
+struct List<T> {
+    size : Int;
+    head : #Node<T>;
+    tail : #Node<T>;
+}
+
+struct Node<T> { 
+    item : T;
+    next : #Node<T>;
+    prev : #Node<T>;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+L’implementazione interna a Basalt delle definizioni generiche, che consiste nel generare nuove definizioni 
+ad-hoc per ogni possibile scelta dei parametri attuali di tipo forniti al momento 
+dell’utilizzo è detta reificazione a tempo di compilazione. \\

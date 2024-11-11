@@ -1,0 +1,93 @@
+\subsubsection{Stringhe}
+La gestione delle stringhe nei linguaggi di basso livello è da sempre una sfida, in C, C++, Zig e Odin le stringhe non sono altro 
+che puntatori ad aree di memoria contigue dove sono conservati dei caratteri. Tale è anche l’approccio di Basalt, dove le stringhe, 
+indicate con String, sono implementate come puntatori vettoriali a carattere. \\
+
+Per facilitare l’ineroperabilità con C, esiste anche il tipo RawString che è invece implementato come un puntatore scalare a carattere, 
+e che punta al primo carattere della sequenza che compone la stringa. In C infatti, una stringa altro non è che un puntatore al primo 
+carattere che ne fa parte. Non avendo una dimensione, le stringhe in C devono essere marcate al termine da un carattere speciale ‘\textbackslash0’ 
+che ne segnala la terminazione. Al fine di poter convertire agevolmente una String in una RawString, la quale può essere usata per 
+interfacciarsi con C, allora in Basalt è comunque presente il carattere speciale ‘\textbackslash0’ al termine di ogni sequenza di caratteri 
+conservata in ogni oggetto di tipo String anche se superfluo. Si analizzi dunque il seguente codice. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var str : String = "hello world!";
+var cstr : RawString = str;
+\end{lstlisting}
+\vspace{0.5cm}
+
+Nel frammento di codice appena mostrato, si assegna il valore di una variabile di tipo String ad una variabile di tipo RawString. É 
+possibile descrivere graficamente lo stato della memoria al termine dell’esecuzione di questo frammento di codice con un 
+Memory-Layout-Diagram nel seguente modo: \\
+
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        label/.style={font=\footnotesize, minimum height=1cm, minimum width=2cm, anchor=west},
+        box/.style={draw, rectangle, minimum height=1cm, minimum width=2cm, anchor=west},
+        byte/.style={draw, rectangle, minimum height=1cm, minimum width=0.75cm, anchor=west},
+        pointer/.style={draw, rectangle, minimum height=1cm, minimum width=3.5cm, anchor=west, fill=gray!20}
+    ]
+
+    \node[label] (str) at (0, -0.75) {var str : String};
+    \node[label] (str) at (0, -7.25) {var cstr : RawString};
+    \node[pointer] (addr) at (0, -1.5) {indirizzo di memoria del contenuto (8 byte)};
+    \node[pointer] (length) [right=0cm of addr] {length (8 byte)};
+    \node[box] (cstr) at (0, -6.5) {indirizzo di memoria del contenuto (8 byte)};
+    \foreach \i/\char in {0/h, 1/e, 2/l, 3/l, 4/o, 5/ , 6/w, 7/o, 8/r, 9/l, 10/d, 11/!, 12/\textbackslash0} {
+        \node[byte] (char\i) at (\i*0.75, -4) {\texttt{\char}};
+    }
+
+    \draw[->] (addr.south) -- ++(0, -0.75) -| (char0.north);
+    \draw[->] (cstr.north) -- ++(0, +0.75) -| (char0.south);
+
+    \end{tikzpicture}
+    \caption{Memory layout dei tipi String e RawString}
+    \label{fig:string_mem_layout}
+\end{figure}
+\newpage
+
+
+Qualunque string-literal, quindi anche "Hello, World!" nell’esempio di prima, viene implicitamente spostata 
+nello scope globale così che dall’interno di una funzione si possa restituire una string-literal senza temere 
+che alla fine della chiamata lo stack della funzione venga ripulito e che la stringa appena restituita venga 
+sovrascritta o invalidata. \\
+
+Questo meccanismo di gestione delle string-literals viene chiamato string-pooling, e l’area di memoria 
+nello scope globale dedicata a contenere tutte le string-literal dell’intero programma viene detta string-pool. Questo 
+meccansimo consente poi di non dover replicare le string-literal, infatti qualora una stessa string-literal apparisse 
+più volte nel programma in scope diversi, sarebbe comunque utilizzato l’indirizzo della stessa unica string-literal 
+nella pool per inizializzare variabili o per effetturare accessi in lettura. \\
+
+Così come in Go e in Java, le stringhe sono immutabili, questo è un prerequisito essenziale al funzionamento dello string-pooling, dato 
+che stringhe in scope diversi si riferiscono in realtà alle stesse sequenze di caratteri nella pool. \\
+
+Per modificare una stringa, occorrerà dunque allocare una nuova area di memoria (su stack 
+utilizzando un array di caratteri da castare successivamente a puntatore vettoriale o su heap utilizzando una 
+funzione di allocazione e gestendo un puntatore vettoriale direttamente) per ospitare i caratteri della stringa, 
+si procederà alla modifica e si assegnerà il puntatore vettoriale dell’area di memoria contenete la nuova sequenza 
+di caratteri modificata alla stringa che si desiderava modificare. In Go accade qualcosa di sostanzialmente analogo. Segue un 
+conciso esempio concreto di quanto appena detto. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var str : String = "some text";
+var tmp : $Char = memory::malloc<Char>(str);
+
+var i : Int = 0;
+while (i < tmp.length){
+    tmp[i] = uppercase_character(tmp[i]);
+    i += 1;
+}
+
+str = tmp;
+console::println(str);
+memory::free<String>(str);
+\end{lstlisting}
+\vspace{0.5cm}
+
+
+Si noti come in questo caso, dato che la stringa ora conserva un riferimento ad un’area di memoria dinamica, allocata su heap 
+manualmente, si rende dunque necessario effettuare una deallocazione manuale al termine dell’utilizzo con la funzione free. \\

@@ -1,12 +1,12 @@
 \subsubsection{Branch condizionali}
-Un branch condizionale, anche chiamato “if-statement”, è un costrutto che consente di eseguire una porzione di codice solo se una certa conzione booleana è vera. Ad esmpio si consideri 
+Un branch condizionale, anche chiamato "if-statement”, è un costrutto che consente di eseguire una porzione di codice solo se una certa conzione booleana è vera. Ad esmpio si consideri 
 il seguente frammento di codice che illustra l’utilizzo di un if-statement.
 
 
 \vspace{0.5cm}
 
 \begin{lstlisting}[frame=single]
-var x : Int = math::random(0,10);
+var x : Int = math::random<Int>(0,10);
 if (x % 2 == 0) {
     console::println("x is even");
 }
@@ -23,7 +23,7 @@ informi l’utente del fatto che la variabile x contiene un valore dispari.
 \vspace{0.5cm}
 
 \begin{lstlisting}[frame=single]
-var x : Int = math::random(0,10);
+var x : Int = math::random<Int>(0,10);
 if (x % 2 == 0) {
     console::println("x is even");
 }

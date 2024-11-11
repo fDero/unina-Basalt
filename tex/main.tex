@@ -25,7 +25,7 @@
 \hyphenpenalty 10000000
 \setlength{\parindent}{0pt}
 
-\title{Design e Sviluppo del linguaggio di programmazione “Basalt”}
+\title{Design e Sviluppo del linguaggio di programmazione "Basalt”}
 \author{Francesco De Rosa}
 
 \lstset{basicstyle=\bfseries\ttfamily}
@@ -35,10 +35,31 @@
 
 \newcommand{\inroboto}[1]{\fontfamily{Roboto-LF}\selectfont #1\normalfont}
 
+\setlength\cellspacetoplimit{5pt}
+\setlength\cellspacebottomlimit{5pt}
+
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{K}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newcolumntype{b}{>{\raggedright\arraybackslash}X}
+\newcolumntype{s}{>{\hsize=.2\hsize}X}
+\newcolumntype{q}{>{\centering\arraybackslash}s}
+
+
+% Add extra padding between rows
+\renewcommand{\arraystretch}{1.5}
+
+% Add padding for cell contents
+\newcommand{\header}[1]{\textit{\textbf{\inroboto{#1}}}}
+\newcolumntype{P}[1]{>{\centering\arraybackslash\hspace{0.5em}}p{#1}<{\hspace{0.5em}}}
+
+\newcommand{\cheader}[1]{\multicolumn{1}{|K{\dimexpr\columnwidth/2-2\tabcolsep\relax}|}{\header{#1}}}
+
+
 \begin{document}
 
     % external title page %
-    \includepdf[pages=1]{Frontespizio.pdf} \newpage
+    \includepdf[pages=1]{Assets/Frontespizio.pdf} \newpage
 
     % remove page numbering for table of contents and abstract
     \pagenumbering{gobble}
@@ -61,6 +82,5 @@
 
     %sections
     \subfile{Design/Design} \newpage
-    \subfile{Implementazione/Architettura/IntroArchitettura} \newpage
-    \subfile{Implementazione/Architettura/ModelAndTypesystem} \newpage
+    \subfile{Implementazione/Implementazione} \newpage
 \end{document}

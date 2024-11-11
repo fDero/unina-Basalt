@@ -1,0 +1,37 @@
+\subsubsection{Struct ricorsive}
+Le variabili, al momento della creazione sia su stack che su heap, devono avere una dimensione 
+in bytes nota a tempo di compilazione. Tale dimensione, per le variabili il cui tipo è una struct, 
+è ottenuta calcolando la somma delle dimensioni dei field, i cui tipi possono potenzialmente 
+essere anch’essi struct. \\ 
+
+Date queste premesse, è chiaro che definizioni ricorsive come la definizione seguente, 
+sono errate e portano ad un errore a tempo di compilazione. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+struct Recursive {
+    recursive : Recursive;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+ 
+Il compilatore Basalt, non potrebbe calcolare la dimensione in byte di un ipotetico oggetto il cui tipo è 
+Recursive e di conseguenza, causa un errore di compilazione. \\ 
+
+Basalt riesce ad identificare questo errore esplorando il grafo orientato che le definizioni di struct implicitamente 
+descrivono ed implementa un controllo di aciclicità su di esso. \\
+
+Basalt in tale controllo si limita ad esplorare gli archi relativi a tipi semplici e array, 
+e invece non esplora archi relativi a puntatori scalari e vettoriali. Questo perchè un puntatore, 
+vettoriale o scalare, ha sempre dimensione nota. Ne consegue che questa definizione alternativa 
+della struct Recursive è invece corretta e perfettamente valida. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+struct Recursive {
+    recursive_ptr : #Recursive;
+    recursive_slice : $Recursive;
+}
+\end{lstlisting}
+\vspace{0.5cm}

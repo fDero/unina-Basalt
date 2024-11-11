@@ -1,0 +1,41 @@
+\subsubsection{Break e continue}
+La keyword \texttt{break} consente di provocare l’interruzione anticipata do un ciclo. Essa è pensata per essere utilizzata assieme ad un branch condizionale 
+che monitori una qualche condizione eccezionale che richiede l’interruzione immediata del ciclo.
+
+Ad esempio, si analizzi il seguente frammento di codice che illustra un ciclo until:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+while (true) {
+    var x = math.random<Int>(-5,5);
+    if (x % 3 == 0) {
+        break;
+    }
+    console.println(x);
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Tale ciclo presenta una condizione da controllare prima della stampa in console, ovvero la non divisibilità per 3 del valore contenuto nella variabile x. 
+Qualora tale condizione si verificasse si uscirebbe immediatamente dal ciclo, altrimenti si procederebbe con la stampa in console del valore di x. \\
+
+La keyword \texttt{continue}, similmente alla keyword break, consente di alterare il flusso di esecuzione di un ciclo. Anzichè provocarne 
+l’interruzione anticipata, essa consente di saltare l’esecuzione del codice rimanente all’interno del corpo e passare direttamente alla 
+successiva iterazione. Ad esempio, si consideri il seguente frammento di codice:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var x : Int = 0;
+while (x < 10) {
+    if (x % 3 == 0) {
+        continue;
+    }
+    console.println(x);
+    x = x + 1;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+L’esecuzione di questo ciclo avrò come effetto la stampa in console dei numeri da 0 a 9 che non sono divisibili per 3, 
+in quanto ad ogni iterazione dove x avrà valore divisibile per 3,  la stampa in console sarà saltata e si 
+proseguirà all’iterazione seguente.

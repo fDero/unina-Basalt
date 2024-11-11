@@ -1,0 +1,12 @@
+\subsubsection{Union generiche}
+Così come le struct, anche le union possono essere generiche (se non anonime), ovvero possono avere parametri formali di tipo. Anche 
+nel caso delle union la loro implementazione concreta consiste nella reificazione a tempo di compilazione. \\
+
+Un caso particolarmente indicativo dell’utilità di questo costrutto è ad esempio una ipotetica union Collection, generica 
+con parametro di tipo T, definita a partire da una serie di tipi definiti come struct, i quali implementano varie strutture dati. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+union Collection<T> = LinkedList<T> | HashTable<T> | Tree<T>
+\end{lstlisting}
+\vspace{0.5cm}

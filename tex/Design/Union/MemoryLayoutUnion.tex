@@ -1,0 +1,16 @@
+\subsubsection{Memory-layout di una union}
+Come già detto nel paragrafo precedente, è stato detto che la dimensione in Byte occupata da una union, è calcolata in funzione della dimensione del tipo con la dimensione più grande tra quelli a partire dalla quale essa è stata definita. 
+
+Una union è internamente rappresentata come due blocchi di byte adiacenti in memoria, il primo, di 8 byte, è detto header, ed è usato per contenere metadati necessari al corretto funzionamento dell’operatore is, mentre il secondo è detto payload, e contiene la rappresentazione in byte del valore rappresentato a tempo di esecuzione dalla union.
+ 
+
+
+Definiamo dimensione netta di un tipo la dimensione del suo payload, se esso è una union, o la sua dimensione complessiva in byte se esso è un tipo di altra natura.
+
+La dimensione in byte del payload di una union, ovvero la sua dimensione netta, è pari alla dimensione netta del tipo con dimensione netta maggiore tra quelli a partire dai quali la union è stata definita.
+
+Per union definite a partire da altre union dunque, gli overhead dati dagli header non sono cumulativi. Gli 8 byte dedicati all’header sono usati per conservare l’indirizzo in memoria a cui sono conservate le type informations relative al tipo di volta in volta contenuto all’interno della union. In sede di assignment, che è l’unica occasione in cui il tipo contenuto possa cambiare, tale puntatore viene eventualmente aggiornato.
+
+L’assignment ad una union quindi è in realtà una coppia di due operazioni, la prima è la scrittura dei byte all’interno del payload (nel caso in cui il tipo del valore assegnato sia una union, saranno copiati solo i byte del payload), la seconda è la scrittura dei byte relativi all’header con l’indirizzo, staticamente noto, delle type-informations del tipo che si è andati ad assegnare (nel caso in cui tipo del valore assegnato sia una union, saranno copiati i byte del suo header all’interno dell’header della union destinazione).
+
+Qualcosa di funzionalmente analogo a quanto descritto fin ora, sono le std::variant introdotte nella libreria standard C++ a partire dallo standard C++17. Esse non sono parte del core language, e sono invece definite usando la metaprogrammazione C++.

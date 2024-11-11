@@ -1,0 +1,19 @@
+\subsubsection{Tipi primitivi semplici}
+Con "tipi primitivi semplici", in Basalt, si intendono i seguenti tipi di dato:
+
+\vspace{0.5cm}
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|b|} \hline
+            \cheader{IDENTIFICATIVO} & \cheader{DESCRIZIONE}                                                                                                  \\ \hline
+            \texttt{Int}             & tipo di dato preposto alla rappresentazione dei numeri interi, rappresentato a 64 bit                                  \\ \hline
+            \texttt{Float}           & tipo di dato preposto alla rappresentazione dei numeri decimali frazionari, internamente analogo ad un double in C/C++ \\ \hline
+            \texttt{Bool}            & tipo di dato preposto alla rappresentazione di valori logici (booleani) di vero/falso                                  \\ \hline
+            \texttt{Char}            & tipo di dato preposto alla rappresentazione di un singolo carattere ascii 8 bit                                        \\ \hline
+        \end{tabularx}
+    \caption{Tipi primitivi}
+\end{table}
+\vspace{0.5cm}
+
+In Basalt, variabili il cui tipo è un tipo primitivo semplice, vengono allocate su stack. Tutte le volte che si lavora con una variabile così dichiarata, 
+si deve dunque assumere che essa si trovi o sullo stack della funzione corrente (compresi gli argomenti delle funzioni).

@@ -7,42 +7,23 @@ esempio, per la feature "gestione manuale della memoria", si sarebbe potuto cons
 di questa tabella comparativa è dunque non quello di dipingere Basalt come un linguaggio provvisto di ogni feature, ma semplicemente di cosndierare ogni feature di 
 Basalt e verificare in quale dei linguaggi scelti come termine di paragone essa sia presente. \\
 
-
-\setlength\cellspacetoplimit{5pt}
-\setlength\cellspacebottomlimit{5pt}
-\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
-\newcolumntype{K}[1]{>{\centering\arraybackslash}p{#1}}
-
-\newcolumntype{b}{X}
-\newcolumntype{s}{>{\hsize=.2\hsize}X}
-
-% Add extra padding between rows
-\renewcommand{\arraystretch}{1.5}
-
-% Add padding for cell contents
-\newcommand{\header}[1]{\textit{\textbf{\inroboto{#1}}}}
-\newcolumntype{P}[1]{>{\centering\arraybackslash\hspace{0.5em}}p{#1}<{\hspace{0.5em}}}
-
 \begin{table}[h]
     \centering
-    \begin{tabularx}{\textwidth}{|b|s|s|s|s|s|} \hline
-        \header{Features}                                                   & \header{Basalt} & \header{C}   & \header{C++} & \header{Go} & \header{Java} \\ \hline
-        gestione manuale della memoria                                      & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
-        programmazione generica                                             & $\checkmark$    &              & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-        union/variant                                                       & $\checkmark$    & $\checkmark$ & $\checkmark$ &              & $\checkmark$ \\ \hline
-        introspezione e riflessione                                         & $\checkmark$    &              &              & $\checkmark$ &              \\ \hline
-        zero-cost-abstractions                                              & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
-        compilato nativamente in linguaggio macchina                        & $\checkmark$    & $\checkmark$ & $\checkmark$ & $\checkmark$ &              \\ \hline
-        non richiede header-files ed è invece basato su package/moduli      & $\checkmark$    &              &              & $\checkmark$ & $\checkmark$ \\ \hline
-        non richiede che la definizione di un simbolo ne preceda l'utilizzo & $\checkmark$    &              &              & $\checkmark$ & $\checkmark$ \\ \hline
-        overloading di funzioni/metodi                                      & $\checkmark$    &              & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
-        metaprogrammazione con supporto per annotazioni e decorator         & $\checkmark$    &              &              &              & $\checkmark$ \\ \hline
-        assenza di allocazioni di memoria nascoste o implicite              & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
-        framework di unit-testing integrato nel linguaggio                  & $\checkmark$    &              &              & $\checkmark$ &              \\ \hline
-    \end{tabularx}
-    \vspace{0.3cm}
-    \begin{tabularx}{\textwidth}{|b|s|s|s|s|s|} \hline
-        \header{Score:}                                                     & 12/12           & 5/12         & 7/12         & 7/12         & 6/12         \\ \hline
-    \end{tabularx}
+        \begin{tabularx}{\textwidth}{|b|q|q|q|q|q|} \hline
+            \cheader{Features}                                                  & \header{Basalt} & \header{C}   & \header{C++} & \header{Go}  & \header{Java} \\ \hline
+            gestione manuale della memoria                                      & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
+            programmazione generica                                             & $\checkmark$    &              & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
+            union/variant                                                       & $\checkmark$    & $\checkmark$ & $\checkmark$ &              & $\checkmark$ \\ \hline
+            introspezione e riflessione                                         & $\checkmark$    &              &              & $\checkmark$ &              \\ \hline
+            zero-cost-abstractions                                              & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
+            compilato nativamente in linguaggio macchina                        & $\checkmark$    & $\checkmark$ & $\checkmark$ & $\checkmark$ &              \\ \hline
+            non richiede header-files ed è invece basato su package/moduli      & $\checkmark$    &              &              & $\checkmark$ & $\checkmark$ \\ \hline
+            non richiede che la definizione di un simbolo ne preceda l'utilizzo & $\checkmark$    &              &              & $\checkmark$ & $\checkmark$ \\ \hline
+            overloading di funzioni/metodi                                      & $\checkmark$    &              & $\checkmark$ & $\checkmark$ & $\checkmark$ \\ \hline
+            metaprogrammazione con supporto per annotazioni e decorator         & $\checkmark$    &              &              &              & $\checkmark$ \\ \hline
+            assenza di allocazioni di memoria nascoste o implicite              & $\checkmark$    & $\checkmark$ & $\checkmark$ &              &              \\ \hline
+            framework di unit-testing integrato nel linguaggio                  & $\checkmark$    &              &              & $\checkmark$ &              \\ \hline
+            \header{Score:}                                                     & 12/12           & 5/12         & 7/12         & 7/12         & 6/12         \\ \hline
+        \end{tabularx}
     \caption{Confronto tra Basalt e altri linguaggi di programmazione}
 \end{table}

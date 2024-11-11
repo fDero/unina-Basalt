@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.10)  11 NOV 2024 02:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.10)  11 NOV 2024 21:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -847,25 +847,31 @@ Package: beramono 2004/01/31 (WaS)
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (./main.aux)
+)
+
+Package array Warning: Redefining primitive column b on input line 44.
+
+
+Package array Warning: Column P is already defined on input line 54.
+
+(./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
-LaTeX Font Info:    ... okay on input line 38.
-
-(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
+LaTeX Font Info:    ... okay on input line 59.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count360
 \scratchdimen=\dimen295
@@ -964,58 +970,75 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
-LaTeX Info: Redefining \it@ocap on input line 38.
-LaTeX Info: Redefining \it@ccap on input line 38.
+LaTeX Info: Redefining \it@ocap on input line 59.
+LaTeX Info: Redefining \it@ccap on input line 59.
 \c@mv@tabular=\count367
 \c@mv@boldtabular=\count368
-<Frontespizio.pdf, id=29, 614.295pt x 794.97pt>
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf>
-Package pdftex.def Info: Frontespizio.pdf  used on input line 41.
+<Assets/Frontespizio.pdf, id=29, 614.295pt x 794.97pt>
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf>
+Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 62.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf>
-Package pdftex.def Info: Frontespizio.pdf  used on input line 41.
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf>
+Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 62.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<Frontespizio.pdf, id=32, page=1, 614.295pt x 794.97pt>
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf, page 1>
-Package pdftex.def Info: Frontespizio.pdf , page1 used on input line 41.
+<Assets/Frontespizio.pdf, id=32, page=1, 614.295pt x 794.97pt>
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf, page 1>
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf, page 1>
-Package pdftex.def Info: Frontespizio.pdf , page1 used on input line 41.
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf, page 1>
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf, page 1>
-Package pdftex.def Info: Frontespizio.pdf , page1 used on input line 41.
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf, page 1>
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf, page 1>
-Package pdftex.def Info: Frontespizio.pdf , page1 used on input line 41.
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf, page 1>
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
-File: Frontespizio.pdf Graphic file (type pdf)
-<use Frontespizio.pdf, page 1>
-Package pdftex.def Info: Frontespizio.pdf , page1 used on input line 41.
+File: Assets/Frontespizio.pdf Graphic file (type pdf)
+<use Assets/Frontespizio.pdf, page 1>
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
  [1
 
 
- <./Frontespizio.pdf>] (./main.toc
+ <./Assets/Frontespizio.pdf>] (./main.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 4.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 4.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+)
+LaTeX Font Info:    Trying to load font information for T1+fvm on input line 31
+.
+
+(/usr/share/texlive/texmf-dist/tex/latex/bera/t1fvm.fd
+File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
+)
+LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
+(Font)              scaled to size 10.79993pt on input line 31.
+)
 \tf@toc=\write4
 \openout4 = `main.toc'.
 
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/e
-nc/dvips/cm-super/cm-super-t1.enc}] (./Design/Design.tex (./Design/Introduzione
-/Introduzione.tex
+nc/dvips/cm-super/cm-super-t1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvip
+s/base/8r.enc}]
+(./Design/Design.tex (./Design/Introduzione/Introduzione.tex
 Underfull \hbox (badness 1484) in paragraph at lines 2--4
 \T1/cmr/m/n/12 Basalt na-sce con l'in-ten-zio-ne di of-fri-re una al-ter-na-ti-
 va mo-der-na a lin-guag-gi di
@@ -1051,15 +1074,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--9
 
  []
 
-
-Package array Warning: Redefining primitive column b on input line 16.
-
-
-Package array Warning: Column P is already defined on input line 24.
-
 (/usr/share/texlive/texmf-dist/tex/latex/roboto/T1Roboto-LF.fd)
-Underfull \hbox (badness 1142) in paragraph at lines 42--42
-[]|\T1/cmr/m/n/12 assenza di al-lo-ca-zio-ni di me-mo-ria
+Overfull \hbox (0.6591pt too wide) in paragraph at lines 27--27
+ []|\T1/Roboto-LF/bold/it/12 Basalt| 
  []
 
 ) [2{/usr/share/texlive/texmf-dist/fonts/enc/dvips/roboto/rbto_b5rac7.enc}]
@@ -1078,22 +1095,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 9--11
 
  []
 
-LaTeX Font Info:    Trying to load font information for T1+fvm on input line 13
-.
-(/usr/share/texlive/texmf-dist/tex/latex/bera/t1fvm.fd
-File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
-)
 LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
 (Font)              scaled to size 10.79993pt on input line 13.
-LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 10.79993pt on input line 26.
 
 Underfull \hbox (badness 10000) in paragraph at lines 24--28
 
  []
 
-) [3{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}]
-(./Design/Introduzione/IndipendenzaDallOrdineDiDefinizione.tex
+) [3] (./Design/Introduzione/IndipendenzaDallOrdineDiDefinizione.tex
 Underfull \hbox (badness 10000) in paragraph at lines 2--5
 
  []
@@ -1127,8 +1136,367 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--19
 
  []
 
-) [7] (./Design/ControlloDelFlussoDiEsecuzione/CicloUntil.tex) [8]))
-(./Implementazione/Architettura/IntroArchitettura.tex
+) [7] (./Design/ControlloDelFlussoDiEsecuzione/CicloUntil.tex) [8]
+(./Design/ControlloDelFlussoDiEsecuzione/BreakContinue.tex
+Underfull \hbox (badness 10000) in paragraph at lines 19--21
+
+ []
+
+) [9]) (./Design/Typesystem/Typesystem.tex
+(./Design/Typesystem/TipiPrimitivi.tex
+Overfull \hbox (1.59998pt too wide) in alignment at lines 13--13
+[][] 
+ []
+
+) [10] (./Design/Typesystem/Array.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--7
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--26
+
+ []
+
+) [11] (./Design/Typesystem/PuntatoriScalari.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--10
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--14
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--33
+
+ []
+
+) [12] (./Design/Typesystem/PuntatoriVettoriali.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--16
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 17--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 40--44
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 52--56
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 57--61
+
+ []
+
+) [14] (./Design/Typesystem/Stringhe.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--12
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--23
+
+ []
+
+[15]
+Underfull \hbox (badness 10000) in paragraph at lines 53--57
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--63
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 64--66
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 67--73
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 92--12
+
+ []
+
+[16]) (./Design/Struct/Struct.tex
+Underfull \hbox (badness 2318) in paragraph at lines 2--5
+\T1/cmr/m/n/12 un ti-po de-fi-ni-to dal-l'u-ten-te, pre-po-sto al-la rap-pr-sen
+-ta-zio-ne di en-ti-tà com-ples-se,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--7
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--10
+
+ []
+
+[17] (./Design/Struct/PuntatoriStruct.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--9
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--13
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--29
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--35
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 36--42
+
+ []
+
+[18] (./Design/Struct/StructRicorsive.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--6
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--9
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 19--21
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--29
+
+ []
+
+) [19] (./Design/Struct/StructGeneriche.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--6
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--10
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 29--44
+
+ []
+
+[20]) (./Design/Union/Union.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--7
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--20
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 21--24
+
+ []
+
+(./Design/Union/UnionGeneriche.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--7
+
+ []
+
+) [21] (./Design/Union/AssignmentTraUnion.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--6
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7--9
+
+ []
+
+) (./Design/Union/AssignmentTraPuntatoriUnion.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--8
+
+ []
+
+) (./Design/Union/UnionComeParametriAttualiDiTipo.tex
+Underfull \hbox (badness 10000) in paragraph at lines 9--1
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+) [22{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
+(./Design/Union/Operatoreis.tex
+LaTeX Font Info:    Font shape `T1/fvm/b/n' will be
+(Font)              scaled to size 12.9599pt on input line 1.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--22
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--28
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 29--32
+
+ []
+
+) [23] (./Design/Union/Operatoreas.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--11
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+
+ []
+
+) [24] (./Design/Union/UnionRicorsive.tex) [25]
+(./Design/Union/MemoryLayoutUnion.tex) [26]))
+(./Implementazione/Implementazione.tex
+(./Implementazione/Architettura/Architettura.tex
 Underfull \hbox (badness 6364) in paragraph at lines 2--7
 \T1/cmr/m/n/12 In que-sto ca-pi-to-lo, sa-rà do-cu-men-ta-ta l'ar-chi-tet-tu-ra
  in-ter-na del com-pi-la-to-re.
@@ -1145,12 +1513,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--7
 
  []
 
-)
-Underfull \hbox (badness 10000) in paragraph at lines 8--64
+
+Underfull \hbox (badness 10000) in paragraph at lines 8--12
 
  []
 
-[9] (./Implementazione/Architettura/ModelAndTypesystem.tex
+(./Implementazione/Architettura/ModelAndTypeSystem.tex
 Missing character: There is no m in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no d in font nullfont!
@@ -1183,20 +1551,20 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no m in font nullfont!
-) [10] (./main.aux)
+[27])) [28]) (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 26830 strings out of 474222
- 570319 string characters out of 5748732
+ 27189 strings out of 474222
+ 579822 string characters out of 5748732
  1957975 words of memory out of 5000000
- 48535 multiletter control sequences out of 15000+600000
- 579902 words of font info for 78 fonts, out of 8000000 for 9000
+ 48815 multiletter control sequences out of 15000+600000
+ 581622 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,17n,121p,502b,1326s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,17n,121p,686b,1465s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/google/roboto/Roboto-BoldItalic.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/bera/fvmb8a.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/share/texlive/texm
@@ -1205,11 +1573,12 @@ ype1/public/cm-super/sfbx1095.pfb></usr/share/texmf/fonts/type1/public/cm-super
 /sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb></usr/
 share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/
-sfrm1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (12 pages, 255808 bytes).
+sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/s
+hare/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on main.pdf (30 pages, 318196 bytes).
 PDF statistics:
- 146 PDF objects out of 1000 (max. 8388607)
- 83 compressed objects within 1 object stream
+ 213 PDF objects out of 1000 (max. 8388607)
+ 128 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  129 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,84 @@
+\subsubsection{Puntatori vettoriali}
+Contrapponendosi ai puntatori scalari, vi sono poi i puntatori vettoriali. Un puntatore vettoriale è un puntatore ad una sequenza 
+di oggetti contigui in memoria il cui tipo è noto a tempo di compilazione, ma la cui lunghezza è nota a tempo di esecuzione. Per 
+semplicità è possibile chiamarli "slice” così come si fa in molti altri linguaggi. \\
+
+I puntatori vettoriali sono internamente implementati come una coppia di un puntatore ed una dimensione.  Dato un tipo T allora il tipo \$T ne denoterà 
+il puntatore vettoriale. \\
+
+Un puntatore vettoriale in una macchina a 64bit occupa internamente 16 byte, di cui 8 sono dedicati a conservare un 
+indirizzo di memoria ed altri 8 sono dedicati a conservare la lunghezza, ovvero il numero di celle contigue allocate a partire da tale indirizzo. \\
+
+A differenza dei puntatori scalari, un puntatore vettoriale non può essere null, però può avere dimensione zero, che è infatti il comportamento 
+standard per un puntatore vettoriale non ancora inizializzato. Questo consente di poter scrivere codice che lavora con puntatori vettoriali senza 
+doversi assicurare ogni volta che il puntatore sia non nullo, ma semplicemente controllando di accedere sempre ad esso con indici 
+strettamente minori della sua dimensione come è del resto naturale fare anche per gli array. \\
+
+La sintassi per accedere all’i-esimo elemento di un puntatore vettoriale è del tutto uguale a quanto già 
+visto per gli array, ovvero si pone alla destra del puntatore vettoriale da cui si desidera leggere, un espressione di tipo intero il 
+cui valore numerico sarà interpretato come indice racchiuso fra parentesi quadre. \\
+
+Il seguente frammento di codice illustra come si può istanziare un blocco di memoria dinamica su heap e come lo 
+si può gestire mediante un puntatore vettoriale a tale blocco. In particolare il seguente codice stampa il contenuto di ogni cella del 
+blocco. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var i : Int = 0;
+var slice : $Int = malloc<$Int>([5]Int{0, 1, 2, 3, 4});
+
+while (i < slice.size){
+
+    println(slice[i]);
+    i = i + 1;
+}
+memory::free<$Int>(slice);
+\end{lstlisting}
+\vspace{0.5cm}
+
+
+É possibile assegnare ad una variabile di tipo "puntatore vettoriale a T”, un’espressione di tipo "array di oggetti di tipo T” 
+di qualsiasi dimensione. Ciò consente l'utilizzo del puntatore vettoriale come supertipo di tutti gli array. Tale assegnazione 
+comporta un effetto simile a quello osservato quando si assegna l'indirizzo di un oggetto già istanziato a un puntatore utilizzando 
+l'operatore di indirizzo \texttt{\&}. In tal modo, entrambi i riferimenti puntano alla stessa area di memoria. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var array : [10]Int = [10]Int{0,1,2,3,4,5,6,7,8,9};
+var slice : $Int = array;
+\end{lstlisting}
+\vspace{0.5cm}
+
+Dato che un puntatore vettoriale, così come un puntatore scalare, non conserva informazioni sufficenti a determinare se 
+l’oggetto puntato si trovi su stack o su heap, e dato che Basalt si prefige come obbiettivo quello di non 
+effettuare allocazioni nascoste e invece di essere sempre trasparente riguardo alla gestione della memoria, ne consegue che non 
+è posibile inserire nuovi elementi in un puntatore vettoriale o ridimensionarlo in qualsiasi altro modo. \\
+
+Un’ipotetica implementazione di un array dinamico propriamente detto con possibilità di 
+inserire e rimuovere elementi da esso potrebbe essere quella mostrata nel seguente frammento di codice. 
+Si tenga a mente che tale frammento usa struct e generics, entrambi argomenti che saranno trattati in 
+dettaglio nelle loro sezioni apposite. \\
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+package slicedemo;
+
+struct Slice<T> {
+    storage : $T;
+    size : Int;
+}
+
+func append<T>(slice : Slice<T>, value : T){
+    if (slice.size + 1 > slice.storage.length){
+        var old : $T = slice.storage; 
+        var new_length = 2 * slice.storage.length;
+        slice.storage = memory::malloc<$T>(new_length);
+        memory::copy<T>(old, slice.storage);
+        memory::free<$T>(old);
+    }
+    slice.storage[slice.size] = value;
+    slice.size += 1;
+}
+\end{lstlisting}
+\vspace{0.5cm}

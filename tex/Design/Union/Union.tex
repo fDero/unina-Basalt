@@ -1,0 +1,43 @@
+\subsection{Union}
+Le union sono un costrutto che consente al programmatore di definire un tipo di dato la cui rappresentazione 
+interna può variare nell’ambito di un numero finito di opzioni mutuamente esclusive e note a priori. \\ 
+
+Le union in Basalt non sono implementate come in C, e sono invece più simili ad i "sum-types” presenti in molti 
+linguaggi funzionali come Haskell, Idris o ML. \\
+
+In Basalt, la definizione di una union avviene utilizzando la parola chiave "union" seguita dal nome della union, 
+che deve iniziare per maiuscola come ogni altro tipo nel linguaggio, dal simbolo uguale, 
+e da una serie di tipi separati da "|” (pipe). \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+union Number = Int | Float
+\end{lstlisting}
+\vspace{0.5cm}
+
+Non è necessario definire una union dandole un nome, è infatti possibile utilizzare union anonime, 
+ovvero union definite su una singola riga direttamente al momento dell’utilizzo. \\
+
+La sintassi per fare ciò, prevede semplicemente di utilizzare  una serie di tipi separati da "|”
+in tutti i contesti in cui il type-system richiede l’utilizzo di un tipo. In automatico 
+tale entità verrà interpetata come union-anonima. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var named_union_example : Number = 3.14;     
+var inline_union_example : Int | Float = 7;
+\end{lstlisting}
+\vspace{0.5cm}
+
+\subfile{UnionGeneriche} \newpage
+
+\subfile{AssignmentTraUnion} 
+\subfile{AssignmentTraPuntatoriUnion}
+\subfile{UnionComeParametriAttualiDiTipo} 
+\newpage
+
+
+\subfile{Operatoreis} \newpage
+\subfile{Operatoreas} \newpage
+\subfile{UnionRicorsive} \newpage
+\subfile{MemoryLayoutUnion} \newpage

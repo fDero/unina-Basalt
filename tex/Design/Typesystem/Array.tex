@@ -1,0 +1,29 @@
+\subsubsection{Array}
+In Basalt, gli array sono dei blocchi di memoria contigua, capaci di contenere un numero noto a tempo di compilazione di oggetti dello stesso tipo. \\
+
+Dato un tipo Type ed una lunghezza N allora il tipo [N]Type denoterà il tipo di un array contente esattamente  N oggetti di tipo Type. Basalt 
+conserva la lunghezza come parte del tipo, ciò implica che è possibile definire una funzione che prenda come parametro di input un array di cui 
+sia specificata la lunghezza, a differenza del C dove invece si è obbligati a passare la lunghezza tramite l’utilizzo di un parametro ausiliario.  \\
+
+Basalt supporta array-literals sottoforma di tipo esplicito dell’array, seguito da una lista di valori separati 
+da virgole e racchiusi tra parentesi graffe. Tale sintassi può essere usata per inizializzare un array in 
+sede di dichiarazione come illustrato di seguito. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var array : [10]Int = [10]Int{0,1,2,3,4,5,6,7,8,9}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Così come in quasi tutti i linguaggi imperativi ad oggi usati, dato un array, si può accedere in lettura (e in scrittura qualora non sia costante) 
+al suo ennesimo elemento usando la canonica sintassi storicamente introdotta dal C, che prevede 
+di postporre all’espressione costituente l’array e racchiusa tra parentesi quadre, una espressione il cui valore sia intero e che 
+corrisponda alla posizione dell’elemento all’interno dell’array, assumendo un’indicizzazione che parte da zero. \\
+
+In generale, un array occupa in memoria un numero di byte pari al prodotto della dimensione 
+in byte di un singolo oggetto in esso conservato, moltiplicato per la lunghezza, ed è dunque privo di qualunque overhead 
+dato che la dimensione è nota a tempo di compilazione e pertanto non viene conservata in memoria. \\
+
+Un assignment tra array è possibile solo se hanno la stessa dimensione e se i tipi 
+degli oggetti in essi conservati sono tali da consentire un ipotetico assegnamento cella a cella. Qualora tali 
+requisiti siano soddisfatti allora l’assignment performerà una copia di tutti gli elementi dell’array sorgente nell’array destinazione.

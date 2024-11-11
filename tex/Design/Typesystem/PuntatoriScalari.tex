@@ -1,0 +1,40 @@
+\subsubsection{Puntatori scalari}
+In Basalt, i puntatori scalari, più semplicemente detti puntatori, sono dei riferimenti ad un oggetto allocato in memoria, 
+avente un certo tipo noto a tempo di compilazione. \\
+
+Dato un qualunque tipo \texttt{T}, allora con \texttt{\#T}, indichiamo il tipo dei puntatori a oggetti di tipo \texttt{T}. In Go, C e C++ il simbolo preposto a 
+questo scopo è l’asterisco ("\texttt{*}”), mentre in Jai il simbolo preposto a questo scopo è il carot ("\texttt{\^}”). Il motivo per cui 
+Basalt si discosta dagli altri linguaggi per quanto riguarda il simbolo usato per indicare un puntatore è che Basalt vuole cercare di non usare lo stesso 
+simbolo in contesti troppo diversi fra loro. In particolare, dato che l’asterisco e il carot sono simboli già in uso in qualità di operatori binari, 
+è sembrato più saggio scegliere un altro simbolo da dedicare allo scopo di indicare i puntatori. \\  
+
+In maniera conforme a quanto visto in C, C++, Go e molti altri linguaggi, dato un qualunque oggetto di tipo Type, l’operatore unario prefisso \texttt{\&} 
+consente di estrarre l’indirizzo di memoria di tale valore. Tale indirizzo avrà tipo \texttt{\#T} e sarà per tanto assegnabile ad un puntatore 
+a Type come mostrato nel seguente esempio. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var number : Int = 6;
+var ptr : #Int = &number;
+\end{lstlisting}
+\vspace{0.5cm}
+
+Ad un puntatore, è possibile assegnare un valore fittizio detto null per rappresentare il fatto che in quel momento il puntatore non sta puntando a 
+un’area di memoria valida. \\
+
+I puntatori possono riferirsi sia ad aree di memoria su stack sia su heap, ma per allocare memoria su 
+heap sarà necessario chiamare manualmente funzioni di allocazione. Una volta allocata memoria, essa dovrà essere 
+deallocata manualmente in quanto Basalt non possiede un garbage collector a differenza di Go e Java, e invece consente 
+all’utente di gestire la memoria manualmente così come C, C++, Zig, Odin e Jai. \\
+
+Nel package memory è possibile trovare una funzione malloc e una funzione free, preposte all’allocazione e alla deallocazione di memoria dinamica su heap, 
+di seguito è riportato un esempio d’uso. Si tenga a mente che la sintassi con le parentesi angolari sarà analizzata con maggior 
+dettaglio in seguito nella sezione dedicata ai generics. \\
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var ptr : #Int = memory::malloc<Int>(6);
+memory::free<Int>(ptr);\vspace{0.5cm}
+\end{lstlisting}
+\vspace{0.5cm}

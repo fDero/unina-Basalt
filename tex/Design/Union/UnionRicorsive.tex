@@ -1,0 +1,18 @@
+
+
+\subsubsection{Union ricorsive}
+Una union, così come una struct, deve avere una dimensione in byte nota a tempo di compilazione, e tale dimensione è funzione delle dimensioni dei tipi a partire dai quali essa è definita. Analogamente a quanto visto per le struct dunque, la seguente definizione non è valida in quanto Basalt non è in grado di calcolare la dimensione di una ipotetica variabile di tipo Recursive. 
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+union Recursive = Int | Recursive
+\end{lstlisting}
+\vspace{0.5cm}
+ 
+Per gli stessi motivi per cui ciò era valido per le struct, è però possibile definire union ricorsive con la ricorsione indiretta, ovvero usando puntatori (vettoriali e scalari).
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+union Recursive = #Recursive | $Recursive
+\end{lstlisting}
+\vspace{0.5cm}

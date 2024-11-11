@@ -12,5 +12,26 @@
 \contentsline {subsubsection}{\numberline {1.3.1}Branch condizionali}{6}{}%
 \contentsline {subsubsection}{\numberline {1.3.2}Ciclo while}{7}{}%
 \contentsline {subsubsection}{\numberline {1.3.3}Ciclo until}{8}{}%
-\contentsline {section}{\numberline {2}Architettura}{9}{}%
-\contentsline {subsection}{\numberline {2.1}Model/Typesystem}{10}{}%
+\contentsline {subsubsection}{\numberline {1.3.4}Break e continue}{9}{}%
+\contentsline {subsection}{\numberline {1.4}Tipi primitivi}{10}{}%
+\contentsline {subsubsection}{\numberline {1.4.1}Tipi primitivi semplici}{10}{}%
+\contentsline {subsubsection}{\numberline {1.4.2}Array}{11}{}%
+\contentsline {subsubsection}{\numberline {1.4.3}Puntatori scalari}{12}{}%
+\contentsline {subsubsection}{\numberline {1.4.4}Puntatori vettoriali}{13}{}%
+\contentsline {subsubsection}{\numberline {1.4.5}Stringhe}{15}{}%
+\contentsline {subsection}{\numberline {1.5}Struct}{17}{}%
+\contentsline {subsubsection}{\numberline {1.5.1}Puntatori a struct}{18}{}%
+\contentsline {subsubsection}{\numberline {1.5.2}Struct ricorsive}{19}{}%
+\contentsline {subsubsection}{\numberline {1.5.3}Struct generiche}{20}{}%
+\contentsline {subsection}{\numberline {1.6}Union}{21}{}%
+\contentsline {subsubsection}{\numberline {1.6.1}Union generiche}{21}{}%
+\contentsline {subsubsection}{\numberline {1.6.2}Assignment tra union}{22}{}%
+\contentsline {subsubsection}{\numberline {1.6.3}Assignment tra puntatori a union}{22}{}%
+\contentsline {subsubsection}{\numberline {1.6.4}Union come parametri attuali di tipo}{22}{}%
+\contentsline {subsubsection}{\numberline {1.6.5}Operatore \texttt {is}}{23}{}%
+\contentsline {subsubsection}{\numberline {1.6.6}Operatore \texttt {as}}{24}{}%
+\contentsline {subsubsection}{\numberline {1.6.7}Union ricorsive}{25}{}%
+\contentsline {subsubsection}{\numberline {1.6.8}Memory-layout di una union}{26}{}%
+\contentsline {section}{\numberline {2}Implementazione}{27}{}%
+\contentsline {subsection}{\numberline {2.1}Architettura}{27}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Model/Typesystem}{28}{}%

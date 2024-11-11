@@ -1,0 +1,17 @@
+\subsubsection{Assignment tra union}
+Mentre per le struct, si applica name-equivalence, ovvero è possibile assegnare un valore ad una variabile 
+il cui tipo è una struct solo se il valore è dello stesso identico tipo, per le union si applica una politica 
+di structural-compatibility, ovvero è possibile assegnare alle variabili 
+il cui tipo è una union ogni valore che quella union può rappresentare. \\ 
+
+Se è possibile assegnare a variabili il cui tipo è una union, un valore il cui tipo 
+è un’altra union, allora quest’ultima si dice strutturalmente compatibile con la prima. \\
+
+É possibile dunque assegnare ad una variabile il cui tipo è una union:
+\begin{itemize}
+    \item valori del suo stesso tipo
+    \item valori il cui tipo compare esplicitamente nel suo elenco dei tipi
+    \item valori il cui tipo è assegnabile ad un tipo elencato nel suo elenco dei tipi
+    \item valori il cui tipo è un’altra union, definita a partire da tipi a loro volta assegnabili
+\end{itemize}
+\vspace{0.4cm}

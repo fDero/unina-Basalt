@@ -1,0 +1,7 @@
+\subsubsection{Union come parametri attuali di tipo}
+Due tipi, i quali sono istanze della stessa struct con parametri attuali di tipo diversi, sono considerati lo stesso 
+tipo ai fini della name-equivalence e quindi della validazione degli assignment, qualora i parametri di tipo siano in 
+relazione di structural-equivalence a due a due fra loro. \\ 
+
+Ad esempio \texttt{List<Int|Float>} è assegnabile a \texttt{List<Number>} e viceversa, in quanto la union \texttt{Number} è 
+in relazione di structural-equivalence con \texttt{Int|Float}.
