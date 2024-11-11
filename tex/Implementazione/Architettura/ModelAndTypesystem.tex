@@ -1,0 +1,95 @@
+\subsection{Model/Typesystem}
+
+\begin{adjustwidth}{-2cm}{-2cm} % Adjust left and right margins
+\begin{center}
+\begin{tikzpicture}[shift={(current page.west)}]
+\begin{umlpackage}{model/typesystem}
+
+\umlclass[x=4,y=0, scale=0.7]{ProjectFileStructure}{
+    ...
+}{
+    +store\_file\_representation(FileRepresentation) : void \\
+    +get\_package\_name\_by\_file\_name(String) : String \\
+    +get\_files\_by\_package\_name(String) : List<FileRepresentation> \\
+    +get\_imports\_by\_file\_name(String) : List<String>
+}
+
+\umlclass[x=0,y=-4,scale=0.7]{TypeDefinitionsRegister}{
+    ...
+}{
+    +store\_type\_definition(TypeDefinition) : void \\
+    +verify\_that\_type\_exists(TypeSignature) : void \\ 
+    +get\_fully\_qualified\_typesignature\_name(TypeSignature) : String \\
+    +retrieve\_type\_definition(CustomType) : TypeDefinition \\
+    +unalias\_type(TypeSignature) : TypeSignature 
+}
+
+\umlclass[x=0,y=-8,scale=0.7]{GenericsInstantiationEngine}{
+    ...
+}{
+    +instantiate\_generic\_typesignature(TypeSignature) : TypeSignature \\
+    +instantiate\_generic\_statement(Statement) : Statement \\
+    +instantiate\_generic\_expression(Expression) : Expression \\
+    +instantiate\_generic\_typedefinition(TypeDefinition) : TypeDefinition
+}
+
+\umlclass[x=0,y=-11,scale=0.7]{AssignmentTypeChecker}{
+}{}
+
+\umlclass[x=9,y=-4,scale=0.7]{FunctionOverloadsRegister}{
+   ...
+}{
+    +store\_function\_definition(FunctionDefinition) : void \\
+    +foreach\_function\_definition(LambdaFunction) : void \\
+    +retrieve\_overload\_sets\_ids(FunctionCall) : List<String> \\
+    +retrieve\_specific\_overload\_set(String) : List<FunctionDefintion>
+}
+
+\umlclass[x=8,y=-8,scale=0.7]{OverloadingResolutionEngine}{
+}{}
+
+\umlclass[x=8,y=-11,scale=0.7]{CFAPlanGenerationEngine}{
+}{}
+
+\umldep
+{TypeDefinitionsRegister}
+{ProjectFileStructure}
+
+\umldep
+{FunctionOverloadsRegister}
+{ProjectFileStructure}
+
+\umldep
+{GenericsInstantiationEngine}
+{TypeDefinitionsRegister}
+
+\umldep
+{OverloadingResolutionEngine}
+{GenericsInstantiationEngine}
+
+\umldep
+{OverloadingResolutionEngine}
+{AssignmentTypeChecker}
+
+\umldep
+{OverloadingResolutionEngine}
+{TypeDefinitionsRegister}
+
+\umldep
+{OverloadingResolutionEngine}
+{FunctionOverloadsRegister}
+
+\umldep
+{AssignmentTypeChecker}
+{GenericsInstantiationEngine}
+
+\umldep
+{CFAPlanGenerationEngine}
+{OverloadingResolutionEngine}
+
+
+\end{umlpackage}
+
+\end{tikzpicture}
+\end{center}
+\end{adjustwidth}

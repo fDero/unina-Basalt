@@ -1,0 +1,46 @@
+\subsubsection{Ciclo while}
+Il ciclo while è un costrutto utilizzato per ripetere una certa porzione di codice finchè una certa condizione booleana rimane vera. Il corpo del ciclo viene eseguito solo 
+dopo aver controllato la condizione booleana. Si consideri ad esempio il seguente frammento di codice dove è presentato un ciclo while a scopo esemplificativo:
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var i : Int = 0;
+while (i < 10) {
+    console.println(x);
+    i = i + 1;
+}
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+L’esecuzione di tale ciclo comporta la stampa in console dei numeri da 0 a 9. Più in generale, si può dire che un ciclo while è composto da condizione e 
+corpo, e che la sua esecuzione avviene secondo il seguente diagramma di flusso (flow-chart). \\
+
+\vspace{0.5cm}
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[ 
+        auto,
+        decision/.style={diamond, draw=black, thick, text width=2cm, text centered, inner sep=1pt},
+        block/.style={rectangle, draw=black, thick, text width=3cm, text centered, minimum height=2em},
+        line/.style={draw, thick, -latex'},
+        node distance=2cm
+    ]
+
+    % Place nodes
+    \node [block] (init) {ingresso};
+    \node [decision, below=of init] (cond) {la\\condizione\\è vera?};
+    \node [block, below left=2cm and 1cm of cond] (exec) {esecuzione del\\corpo del ciclo};
+    \node [block, below right=2cm and 1cm of cond] (end) {uscita};
+
+    % Draw paths
+    \path [line] (init) -- (cond);
+    \path [line] (cond.west)  -| node[left, yshift=-1.5cm] {Si} (exec.north);
+    \path [line] (cond.east) -- ++(1.8,0) -- node[right] {No} (end.north);
+    \path [line] (exec) -- ++(0,-2) -| ++(3.5,0) -- (cond.south);
+
+    \end{tikzpicture}
+    \caption{Diagramma di flusso del ciclo while}
+    \label{fig:flowchart_while_loop}
+\end{figure}

@@ -1,0 +1,36 @@
+\subsubsection{Struttura di un programma Basalt}
+Come precedentemente menzionato, Basalt si discosta dall'utilizzo di header files tipico di C e C++, optando invece per un sistema di gestione dei pacchetti simile a quello adottato da Java. In particolare, 
+il sistema dei pacchetti di basalt prevede che all’intero di un file apparenente ad un dato pacchetto, sia visibile il contenuto pubblico e non di tutti gli altri file dello stesso pacchetto, e il contenuto 
+pubblico dei package importati. \\
+
+Ogni file sorgente contenente codice Basalt deve possedere una intestazione composta dalla dichiarazione del package corrente, ovvero il package a cui il file appartiene, e 
+da una lista di package importati dal file, necessari al suo funzionamento. \\
+ 
+Così come C, C++, Zig, Rust, Go, Jai, Odin e molti altri, il flusso di esecuzione parte da una chiamata fittizia ad una funzione speciale detta entry-point del programma. Così 
+come da convenzione, tale funzione prende il nome di “main”. Tale funzione deve necessariamente essere in un package di nome “main”. \\
+
+
+\begin{lstlisting}[frame=single]
+package main;
+import console;
+
+func main() {
+    println("Hello, World!");
+}
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+In maniera analoga a quanto è possibile vedere in Java, in Basalt importare un package non 
+è una precondizione necessaria per l'utilizzo delle funzioni di tale package. É infatti possibile
+utilizzare la funzione \texttt{println} anche senza importare il package \texttt{console}, semplicemente riferendosi
+a tale funzione con il suo nome completo: \\
+
+\begin{lstlisting}[frame=single]
+package main;
+
+func main() {
+    console::println("Hello, World!");
+}
+\end{lstlisting}
+    

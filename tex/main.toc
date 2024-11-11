@@ -1,0 +1,16 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}Design del linguaggio}{1}{}%
+\contentsline {subsection}{\numberline {1.1}Introduzione}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.1}Confronto con altri linguaggi}{2}{}%
+\contentsline {subsubsection}{\numberline {1.1.2}Struttura di un programma Basalt}{3}{}%
+\contentsline {subsubsection}{\numberline {1.1.3}Indipendenza dall’ordine di definizione}{4}{}%
+\contentsline {subsection}{\numberline {1.2}Variabili e costanti}{5}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Dichiarazione di variabili}{5}{}%
+\contentsline {subsubsection}{\numberline {1.2.2}Dichiarazione di costanti}{5}{}%
+\contentsline {subsection}{\numberline {1.3}Controllo del flusso di esecuzione}{6}{}%
+\contentsline {subsubsection}{\numberline {1.3.1}Branch condizionali}{6}{}%
+\contentsline {subsubsection}{\numberline {1.3.2}Ciclo while}{7}{}%
+\contentsline {subsubsection}{\numberline {1.3.3}Ciclo until}{8}{}%
+\contentsline {section}{\numberline {2}Architettura}{9}{}%
+\contentsline {subsection}{\numberline {2.1}Model/Typesystem}{10}{}%

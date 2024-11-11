@@ -1,0 +1,29 @@
+\subsubsection{Indipendenza dall’ordine di definizione}
+Così come in Java, Rust e Go, e a differenza di C e C++, Basalt prevede che ogni definizione possa essere spostata in qualunque punto di un file sorgente o addirittura migrata in 
+un altro file sorgente dello stesso package senza compromettere la correttezza del programma. In altri termini, in Basalt ogni definizione è accessibile non solo dalle definzioni che 
+la succedono ma anche da quelle che la precedono. \\
+
+L'indipendenza dall'ordine di definizione in un linguaggio di programmazione semplifica notevolmente il refactoring e l'utilizzo del codice. Il programmatore può riorganizzare e ottimizzare 
+il codice senza dover preoccuparsi di errori di compilazione dovuti a riferimenti non ancora definiti. Questo favorisce una maggiore modularità e facilita il mantenimento del codice, poiché 
+le modifiche possono essere apportate in modo più flessibile e incrementale. Inoltre, consente di migliorare la leggibilità del codice, organizzandolo in modo logico piuttosto che cronologico. \\
+
+In un contesto di sviluppo collaborativo, questa caratteristica è particolarmente vantaggiosa, poiché diversi sviluppatori possono lavorare su parti diverse del codice senza doversi coordinare 
+strettamente sull'ordine delle definizioni. Ciò riduce i conflitti di merge e accelera il processo di sviluppo. Anche l'aggiunta di nuove funzionalità o la correzione di bug risulta più semplice, 
+in quanto le nuove definizioni possono essere inserite esattamente dove hanno più senso logico, senza dover riscrivere o spostare altre parti del codice esistente. \\
+
+Ciò significa che il seguente codice è valido. Il compilatore è capace di risolvere correttamente il riferimento alla 
+funzione \texttt{sum} anche se essa è definita dopo il suo primo utilizzo (ovvero la chiamata avvenuta nella funzione \texttt{main}). \\
+
+\begin{lstlisting}[frame=single]
+package main;
+
+func main() {
+    var result : Int = sum(3, 5);
+    console::print("The sum of 3 and 5 is: ");
+    console::println(result);
+}
+
+func sum(a: Int, b: Int) -> Int {
+    return a + b;
+}
+\end{lstlisting}

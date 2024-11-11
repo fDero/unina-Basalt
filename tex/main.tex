@@ -1,0 +1,66 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{subfiles}
+\usepackage{fullpage}
+\usepackage{tikz-uml}
+\usepackage[margin=1in]{geometry}
+\usepackage{changepage}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\usepackage{lipsum}
+\usepackage{pdfpages}
+\usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{cellspace}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage[italian]{babel}
+\usepackage{roboto}
+\usepackage{tabularx}
+\usepackage{amssymb}
+
+\usetikzlibrary{shapes.geometric, arrows, positioning}
+
+\sloppy
+\hyphenpenalty 10000000
+\setlength{\parindent}{0pt}
+
+\title{Design e Sviluppo del linguaggio di programmazione “Basalt”}
+\author{Francesco De Rosa}
+
+\lstset{basicstyle=\bfseries\ttfamily}
+
+\usepackage[scaled]{beramono}
+\usepackage[T1]{fontenc}
+
+\newcommand{\inroboto}[1]{\fontfamily{Roboto-LF}\selectfont #1\normalfont}
+
+\begin{document}
+
+    % external title page %
+    \includepdf[pages=1]{Frontespizio.pdf} \newpage
+
+    % remove page numbering for table of contents and abstract
+    \pagenumbering{gobble}
+
+    % table of contents 
+    \renewcommand{\contentsname}{\huge{Indice}}
+    \tableofcontents    
+    \newpage
+
+    % reset page numbering for chapters
+    \pagenumbering{arabic}
+    \setcounter{page}{1}
+
+    % make chapter-titles bigger
+    \titleformat*{\section}{\Huge\bfseries}
+    \titleformat*{\subsection}{\Large\bfseries}
+    \titleformat*{\subsubsection}{\large\bfseries}
+    \titleformat*{\paragraph}{\large\bfseries}
+    \titleformat*{\subparagraph}{\large\bfseries}
+
+    %sections
+    \subfile{Design/Design} \newpage
+    \subfile{Implementazione/Architettura/IntroArchitettura} \newpage
+    \subfile{Implementazione/Architettura/ModelAndTypesystem} \newpage
+\end{document}

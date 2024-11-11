@@ -1,0 +1,39 @@
+\subsubsection{Branch condizionali}
+Un branch condizionale, anche chiamato “if-statement”, è un costrutto che consente di eseguire una porzione di codice solo se una certa conzione booleana è vera. Ad esmpio si consideri 
+il seguente frammento di codice che illustra l’utilizzo di un if-statement.
+
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var x : Int = math::random(0,10);
+if (x % 2 == 0) {
+    console::println("x is even");
+}
+\end{lstlisting}
+
+
+\vspace{0.5cm}
+
+In questo codice, l’istruzione \texttt{console::println("x is even")} sarà eseguita solo nel caso in cui il valore numerico intero attualmente contenuto nella variabile x sarà pari. 
+
+É possibile aggiungere un blocco di codice da eseguire nel caso in cui la condizione sia falsa utilizzando la keyword else. Ad esempio è possibile stampare del testo che 
+informi l’utente del fatto che la variabile x contiene un valore dispari.
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var x : Int = math::random(0,10);
+if (x % 2 == 0) {
+    console::println("x is even");
+}
+else {
+    console::println("x is odd");
+}    
+\end{lstlisting}
+
+
+\vspace{0.5cm}
+
+In Basalt l’indentazione non è rilevante, per cui, se lo si preferisce, è accettato (anche se sconsigliato) disporre la keyword else sulla stessa riga della 
+chiusura della parentesi graffa relativa al blocco di codice da eseguire nel caso in cui la condizione sia vera.

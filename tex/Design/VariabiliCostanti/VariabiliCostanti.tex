@@ -1,0 +1,42 @@
+\subsection{Variabili e costanti}
+Variabili e costanti sono dei contenitori logici capaci di contenere dei valori decisi a tempo di esecuzione. Ci si potrà riferire 
+al valore contenuto in un dato istante di tempo da una variabile o da una costante utilizzando il suo nome. Tramite un apposito 
+costrutto detto assegnazione, è possibile riassegnare il valore di una variabile, ciò non è però possibile per una costante, la quale 
+una volta dichiarata non potrà mai cambiare valore. L’utilizzo delle costanti in Basalt è infatti concesso solo nei contesti dove il loro 
+valore non viene modificato (accesso in sola lettura). 
+
+\subsubsection{Dichiarazione di variabili}
+La dichiarazione di una variabile può avvenire con inizializzazione o senza, laddove un valore di inizializzazione sia mancante il valore 
+di tale variabile sarà casuale. Ci si aspetta che in tale scenario un valore venga poi assegnato in un secondo momento. Qualunque sia la 
+tipologia di dichiarazione scelta, essa deve essere introdotta dalla keyword var, seguida dal nome della variabile, dai due punti e dal tipo 
+di tale variabile.
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var x : Int = 6;
+var y : Int;
+\end{lstlisting}
+
+
+\vspace{0.5cm}
+
+\subsubsection{Dichiarazione di costanti}
+In maniera del tutto analoga a quanto detto per le variabili, la dichiarazione delle costanti deve essere introdotta dalla keyword const, 
+seguita dal nome della costante, dai due punti e dal tipo, solo che a differenza di una variabile, una costante deve necessariamente essere 
+inizializzata in sede di dichiarazione.
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+const pi : Float = 3.14;    
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+Le costanti possono eventualmente essere rimpiazzate dal loro valore in tutte le loro occorrenze qualora tale valore sia noto a tempo di 
+compilazione, e qualora l’indirizzo di memoria della costante non sia utilizzato all’interno del codice sorgente in alcun modo.
+
+É comunque possibile assegnare ad una costante (in sede di dichiarazione) un valore noto a tempo di esecuzione, in tal caso 
+l’ottimizzazione appena descritta sarà impossibile, anche se potrebbe comunuqe essere rimpiazzato il suo utilizzo con l’espressione 
+in sè qualora tale utilizzo sia unico, e qualora ciò non comporti un cambiamento osservabile del programma ipotizzando un’esecuzione single thread.

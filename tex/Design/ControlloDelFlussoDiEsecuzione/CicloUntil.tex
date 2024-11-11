@@ -1,0 +1,48 @@
+\subsubsection{Ciclo until}
+Il ciclo until è un costrutto utilizzato per ripetere una certa porzione di codice finchè una certa condizione booleana rimane falsa. Il corpo del 
+ciclo viene eseguito prima di aver controllato la condizione booleana. Si consideri ad esempio il seguente frammento di codice dove è presentato un ciclo 
+while a scopo esemplificativo:
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var i : Int = 0;
+until (i > 10) {
+    console.println(x);
+    i = i + 1;
+}
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+L’esecuzione di tale ciclo comporta la stampa in console dei numeri da 0 a 10. Così come per il ciclo while, si può dire che un ciclo until è 
+composto da condizione e corpo, e che la sua esecuzione avviene secondo il seguente diagramma di flusso (flow-chart).
+
+\vspace{0.5cm}
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[ 
+        auto,
+        decision/.style={diamond, draw=black, thick, text width=2cm, text centered, inner sep=1pt},
+        block/.style={rectangle, draw=black, thick, text width=3cm, text centered, minimum height=2em},
+        line/.style={draw, thick, -latex'},
+        node distance=2cm
+    ]
+
+    % Place nodes
+    \node [block] (init) {ingresso};
+    \node [block, below=of init] (exec) {esecuzione del\\corpo del ciclo};
+    \node [decision, below=of exec] (cond) {la\\condizione\\è vera?};
+    \node [block, below=of cond] (end) {uscita};
+
+    % Draw paths
+    \path [line] (init) -- (exec);
+    \path [line] (exec) -- (cond);
+    \path [line] (cond.east) -- ++(1,0) |- node[near start, right] {Si} (end.east);
+    \path [line] (cond.west) -- ++(-1,0) |- node[near start, left] {No} (exec);
+
+    \end{tikzpicture}
+    \caption{Diagramma del ciclo until}
+    \label{fig:flowchart2}
+\end{figure}
