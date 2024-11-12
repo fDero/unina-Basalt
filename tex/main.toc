@@ -30,8 +30,8 @@
 \contentsline {subsubsection}{\numberline {1.6.4}Union come parametri attuali di tipo}{22}{}%
 \contentsline {subsubsection}{\numberline {1.6.5}Operatore \texttt {is}}{23}{}%
 \contentsline {subsubsection}{\numberline {1.6.6}Operatore \texttt {as}}{24}{}%
-\contentsline {subsubsection}{\numberline {1.6.7}Union ricorsive}{25}{}%
-\contentsline {subsubsection}{\numberline {1.6.8}Memory-layout di una union}{26}{}%
-\contentsline {section}{\numberline {2}Implementazione}{27}{}%
-\contentsline {subsection}{\numberline {2.1}Architettura}{27}{}%
-\contentsline {subsubsection}{\numberline {2.1.1}Model/Typesystem}{28}{}%
+\contentsline {subsubsection}{\numberline {1.6.7}Union ricorsive}{24}{}%
+\contentsline {subsubsection}{\numberline {1.6.8}Memory-layout di una union}{25}{}%
+\contentsline {section}{\numberline {2}Implementazione}{26}{}%
+\contentsline {subsection}{\numberline {2.1}Architettura}{26}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Model/Typesystem}{27}{}%

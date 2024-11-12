@@ -1,0 +1,61 @@
+Per quanto riguarda in particolare il sistema di generazione degli overload tramite CFA, esso modella gli overload auto-generati 
+grazie alla classe \texttt{CommonFeatureAdoptionPlanDescriptor}. Essa è implementata tramite un variant, un'approccio tipico in C++
+il quale non è facilmente rappresentabile in UML. Per rappresentare tale classe quindi, si è scelto di diagrammare una gerarchia 
+di classi funzionalmente analoga a quanto implementato. Si tenga a mente dunque che il seguente diagramma è solo a scopo illustrativo,
+ma non riflette fedelmente la struttura interna.
+
+\begin{figure}[h]
+\vspace{0.5cm}
+\begin{adjustwidth}{-2cm}{-2cm} % Adjust left and right margins
+\begin{center}
+\begin{tikzpicture}[shift={(current page.west)}]
+\begin{umlpackage}{model/typesystem}
+
+\umlclass[x=4,y=0, scale=0.6]{CommonFeatureAdoptionPlanDescriptor}{
+    ...
+}{
+    +store\_file\_representation(FileRepresentation) : void \\
+    +get\_package\_name\_by\_file\_name(String) : String \\
+    +get\_files\_by\_package\_name(String) : List<FileRepresentation> \\
+    +get\_imports\_by\_file\_name(String) : List<String>
+}
+
+\umlclass[x=0,y=-4,scale=0.6]{RecursiveAdoptionPlan}{
+    -argument\_index : Int \\
+    -alternatives : List<TypeSignature> \\
+    -nested\_plans : List<CommonFeatureAdoptionPlanDescriptor>
+}{
+    ... 
+}
+
+\umlclass[x=9,y=-4,scale=0.6]{DirectAdoptionPlan}{
+   -function\_defintion : FunctionDefinition
+}{
+    ...
+}
+
+\umlinherit[geometry=|-]
+{DirectAdoptionPlan}
+{CommonFeatureAdoptionPlanDescriptor}
+
+
+\umlinherit[geometry=|-]
+{RecursiveAdoptionPlan}
+{CommonFeatureAdoptionPlanDescriptor}
+
+
+\umlaggreg[geometry=-|]
+{RecursiveAdoptionPlan}
+{CommonFeatureAdoptionPlanDescriptor}
+
+\end{umlpackage}
+\end{tikzpicture}
+\end{center}
+\end{adjustwidth}
+\caption{UML-Class-Diagram CommonFeatureAdoptionPlanDescriptor}
+\end{figure}
+\vspace{0.5cm}
+
+Tale struttura è atta a rappresentare un albero in memoria, dove ogni nodo foglia è una definizione di funzione, 
+e ogni nodo non-foglia è un dispatch per un certo argomento di una funzione basato sul suo tipo. Per costruzione tale albero è N-ario, con N corrispondente
+al numero di casi coperti dalla union (anonima o non) che rappresenta il tipo dell'argomento in questione. \\

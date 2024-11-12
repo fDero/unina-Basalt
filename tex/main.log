@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.10)  11 NOV 2024 21:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.11.10)  11 NOV 2024 23:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -854,23 +854,27 @@ Package array Warning: Redefining primitive column b on input line 44.
 
 Package array Warning: Column P is already defined on input line 54.
 
-(./main.aux)
+(./main.aux
+
+LaTeX Warning: Label `fig:string_mem_layout' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 59.
-LaTeX Font Info:    ... okay on input line 59.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 62.
+LaTeX Font Info:    ... okay on input line 62.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count360
@@ -970,43 +974,43 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
-LaTeX Info: Redefining \it@ocap on input line 59.
-LaTeX Info: Redefining \it@ccap on input line 59.
+LaTeX Info: Redefining \it@ocap on input line 62.
+LaTeX Info: Redefining \it@ccap on input line 62.
 \c@mv@tabular=\count367
 \c@mv@boldtabular=\count368
 <Assets/Frontespizio.pdf, id=29, 614.295pt x 794.97pt>
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf>
-Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 65.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf>
-Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf  used on input line 65.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 <Assets/Frontespizio.pdf, id=32, page=1, 614.295pt x 794.97pt>
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf, page 1>
-Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 65.
 
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf, page 1>
-Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 65.
 
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf, page 1>
-Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 65.
 
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf, page 1>
-Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 65.
 
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
 File: Assets/Frontespizio.pdf Graphic file (type pdf)
 <use Assets/Frontespizio.pdf, page 1>
-Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 62.
+Package pdftex.def Info: Assets/Frontespizio.pdf , page1 used on input line 65.
 
 (pdftex.def)             Requested size: 597.78697pt x 773.60669pt.
  [1
@@ -1493,9 +1497,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 12--14
 
  []
 
-) [24] (./Design/Union/UnionRicorsive.tex) [25]
-(./Design/Union/MemoryLayoutUnion.tex) [26]))
-(./Implementazione/Implementazione.tex
+) (./Design/Union/UnionRicorsive.tex) [24]
+(./Design/Union/MemoryLayoutUnion.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--4
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5--8
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 22--24
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 25--27
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--32
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 33--39
+
+ []
+
+)
+Underfull \hbox (badness 10000) in paragraph at lines 40--47
+
+ []
+
+[25])) (./Implementazione/Implementazione.tex
 (./Implementazione/Architettura/Architettura.tex
 Underfull \hbox (badness 6364) in paragraph at lines 2--7
 \T1/cmr/m/n/12 In que-sto ca-pi-to-lo, sa-rà do-cu-men-ta-ta l'ar-chi-tet-tu-ra
@@ -1518,7 +1556,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 8--12
 
  []
 
-(./Implementazione/Architettura/ModelAndTypeSystem.tex
+[26] (./Implementazione/Architettura/ModelAndTypeSystem_1.tex
+Underfull \hbox (badness 10000) in paragraph at lines 2--3
+
+ []
+
+
+Underfull \hbox (badness 1509) in paragraph at lines 4--6
+[]\T1/cmr/m/n/12 Esse so-no sta-te pro-get-ta-te per rap-pre-sen-ta-re le strut
+-tu-re da-ti fon-da-men-ta-li del
+ []
+
 Missing character: There is no m in font nullfont!
 Missing character: There is no o in font nullfont!
 Missing character: There is no d in font nullfont!
@@ -1551,20 +1599,73 @@ Missing character: There is no s in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no m in font nullfont!
-[27])) [28]) (./main.aux)
+) [27] (./Implementazione/Architettura/ModelAndTypeSystem_2.tex
+Underfull \hbox (badness 5147) in paragraph at lines 1--6
+[]\T1/cmr/m/n/12 Per quan-to ri-guar-da in par-ti-co-la-re il si-ste-ma di ge-n
+e-ra-zio-ne de-gli over-load
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1--6
+\T1/cmr/m/n/12 tra-mi-te CFA, es-so mo-del-la gli over-load auto-generati gra-z
+ie al-la clas-se
+ []
+
+Missing character: There is no m in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no p in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no y in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no m in font nullfont!
+)
+Underfull \hbox (badness 10000) in paragraph at lines 59--16
+
+ []
+
+[28])) (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 27189 strings out of 474222
- 579822 string characters out of 5748732
- 1957975 words of memory out of 5000000
- 48815 multiletter control sequences out of 15000+600000
+ 27320 strings out of 474222
+ 583523 string characters out of 5748732
+ 1960975 words of memory out of 5000000
+ 48943 multiletter control sequences out of 15000+600000
  581622 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 117i,17n,121p,686b,1465s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 117i,17n,121p,508b,1539s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/google/roboto/Roboto-BoldItalic.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/bera/fvmb8a.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/bera/fvmr8a.pfb></usr/share/texlive/texm
@@ -1575,7 +1676,7 @@ share/texmf/fonts/type1/public/cm-super/sfbx1728.pfb></usr/share/texmf/fonts/ty
 pe1/public/cm-super/sfbx2488.pfb></usr/share/texmf/fonts/type1/public/cm-super/
 sfrm1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb></usr/s
 hare/texmf/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (30 pages, 318196 bytes).
+Output written on main.pdf (30 pages, 323507 bytes).
 PDF statistics:
  213 PDF objects out of 1000 (max. 8388607)
  128 compressed objects within 2 object streams

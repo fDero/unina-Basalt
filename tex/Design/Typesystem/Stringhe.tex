@@ -40,8 +40,8 @@ Memory-Layout-Diagram nel seguente modo: \\
         \node[byte] (char\i) at (\i*0.75, -4) {\texttt{\char}};
     }
 
-    \draw[->] (addr.south) -- ++(0, -0.75) -| (char0.north);
-    \draw[->] (cstr.north) -- ++(0, +0.75) -| (char0.south);
+    \draw[->, line width=0.3mm] (addr.south) -- ++(0, -0.75) -| (char0.north);
+    \draw[->, line width=0.3mm] (cstr.north) -- ++(0, +0.75) -| (char0.south);
 
     \end{tikzpicture}
     \caption{Memory layout dei tipi String e RawString}

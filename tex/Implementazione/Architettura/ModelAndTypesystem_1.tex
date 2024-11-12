@@ -1,5 +1,11 @@
 \subsubsection{Model/Typesystem}
+Le classi più importanti del package \texttt{model} e del package \texttt{typesystem} sono rappresentate nel seguente diagramma UML-Class-Diagram. \\
 
+Esse sono state progettate per rappresentare le strutture dati fondamentali del compilatore Basalt, quali le varie tabelle atte a conservare in memoria le 
+definizioni di tipi e funzioni, le classi di utilità che si occupano di risolvere gli overload e di generarli tramite CFA.
+
+\vspace{0.5cm}
+\begin{figure}[h]
 \begin{adjustwidth}{-2cm}{-2cm} % Adjust left and right margins
 \begin{center}
 \begin{tikzpicture}[shift={(current page.west)}]
@@ -33,8 +39,12 @@
     +instantiate\_generic\_typedefinition(TypeDefinition) : TypeDefinition
 }
 
-\umlclass[x=0,y=-11,scale=0.6]{AssignmentTypeChecker}{
-}{}
+\umlclass[x=0,y=-12,scale=0.6]{AssignmentTypeChecker}{
+    ...
+}{
+    +validate\_assignment(TypeSignature, TypeSignature) : boolean \\
+    +get\_generic\_substitutions\_via\_typeinference() : List<FunctionDefintion>
+}
 
 \umlclass[x=9,y=-4,scale=0.6]{FunctionOverloadsRegister}{
    ...
@@ -45,11 +55,18 @@
     +retrieve\_specific\_overload\_set(String) : List<FunctionDefintion>
 }
 
-\umlclass[x=8,y=-8,scale=0.6]{OverloadingResolutionEngine}{
-}{}
+\umlclass[x=9,y=-8,scale=0.6]{OverloadingResolutionEngine}{
+    ...
+}{
+    +retrieve\_function\_definition(...) : Optional<FunctionDefinition> \\
+    +check\_function\_compatibility(...) : List<GenericsSubstitutionRule>
+}
 
-\umlclass[x=8,y=-11,scale=0.6]{CFAPlanGenerationEngine}{
-}{}
+\umlclass[x=9,y=-12,scale=0.6]{CFAPlanGenerationEngine}{
+    ...
+}{
+    +generate\_cfa\_plan(FunctionCall, Context) : CFAPlan
+}
 
 \umldep
 {TypeDefinitionsRegister}
@@ -93,3 +110,5 @@
 \end{tikzpicture}
 \end{center}
 \end{adjustwidth}
+\caption{UML-Class-Diagram Model/Typesystem}
+\end{figure}
