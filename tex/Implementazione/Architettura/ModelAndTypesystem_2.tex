@@ -56,6 +56,73 @@ ma non riflette fedelmente la struttura interna.
 \end{figure}
 \vspace{0.5cm}
 
-Tale struttura è atta a rappresentare un albero in memoria, dove ogni nodo foglia è una definizione di funzione, 
-e ogni nodo non-foglia è un dispatch per un certo argomento di una funzione basato sul suo tipo. Per costruzione tale albero è N-ario, con N corrispondente
-al numero di casi coperti dalla union (anonima o non) che rappresenta il tipo dell'argomento in questione. \\
+In sede di chiamata di funzione, se il sistema non trova un overload specifico, esso genera un albero che rappresenta tutte le 
+possibili combinazioni di tipi attuali per gli argomenti passati in chiamata il cui tipo è una union (anonima e non). \\
+
+Tale albero è costruito tramite nodi di tipo \texttt{CommonFeatureAdoptionPlanDescriptor}, i quali, qualora foglie, rappresentano
+una definizione di funzione corrispondente a quella chiamata. Se invece un nodo è di tipo \texttt{RecursiveAdoptionPlan}, esso rappresenta
+un dispatch basato sul tipo dell'argomento corrente, e contiene l'indice di tale argomento.
+
+\newpage
+
+Si considerino ad esempio le seguenti definizioni di funzioni:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func add(x : Int, y : Int) -> Int {
+    return x + y;
+}
+
+func add(x : Float, y : Int) -> Float {
+    return x + cast<Float>(y);
+}
+
+func add(x : Int, y : Float) -> Float {
+    return cast<Float>(x) + y;
+}
+
+func add(x : Float, y : Float) -> Float {
+    return x + y;
+}
+
+\end{lstlisting}
+\vspace{0.5cm}
+
+Se si effettuasse una chiamata alla funzione \texttt{add}, con due argomenti di tipo \texttt{Int|Float}, il sistema non troverebbe un overload
+specifico. Esso genererebbe quindi un albero CFA che rappresenta l'overload generato schematizzabile come segue:
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}[
+        box/.style={
+            rectangle,
+            draw,
+            minimum width=4cm,
+            minimum height=1cm
+        },
+        >=stealth
+    ]
+    
+    % Main boxes
+    \node[box] (A) at (0,0) {\texttt{add(Int$|$Float,Int$|$Float)}};
+    \node[box] (B) at (3,-1.5) {\texttt{add(Int,Int$|$Float)}};
+    \node[box] (B1) at (6,-3) {\texttt{add(Int,Int)}};
+    \node[box] (B2) at (6,-4.5) {\texttt{add(Int,Float)}};
+    \node[box] (C) at (3,-6) {\texttt{add(Float,Int$|$Float)}};
+    \node[box] (C1) at (6,-7.5) {\texttt{add(Float,Int)}};
+    \node[box] (C2) at (6,-9) {\texttt{add(Float,Float)}};
+    
+    % Connections
+    \draw[->] (A.south) |- (B.west);
+    \draw[->] (A.south) |- (C.west);
+
+    \draw[->] (B.south) |- (B1.west);
+    \draw[->] (B.south) |- (B2.west);
+
+    \draw[->] (C.south) |- (C1.west);
+    \draw[->] (C.south) |- (C2.west);
+    
+    \end{tikzpicture}
+    \caption{Albero CFA per la funzione \texttt{add}}
+    \label{fig:overload_tree}
+\end{figure}
