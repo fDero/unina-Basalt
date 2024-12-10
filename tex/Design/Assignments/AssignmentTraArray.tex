@@ -1,0 +1,10 @@
+\subsubsection{Assignment Tra Array}
+Gli assignment a target di tipo array sono possibili solo se il tipo del valore da assegnare 
+è anch'esso un array della medesima dimensione. \\
+
+Essendo possibile vedere degli assignment tra array (e non slice), come una sequenza 
+di assignment membro a membro, valgono le stesse regole che sono state discusse fin ora. \\
+
+L'assegnazione di un array ad un altro array è un'operazione che potrebbe essere effettuata in 
+tempo lineare qualora tali array contengano valori di tipo union e/o qualora l'architettura per 
+cui si desidera compilare non supporti istruzioni SIMD (Single Instruction Multiple Data).

@@ -1,0 +1,23 @@
+\subsubsection{Assignment tra puntatori}
+Quando il target di un'assignment è un puntatore scalare, è possibile assegnarvi solo 
+valori che siano anch'essi puntatori scalari. Inoltre, è richiesto che i tipi dei valori puntati
+da entrambi coincidano strutturalmente, ovvero che essi siano identici al netto dell'utilizzo di alias 
+oppure che essi siano union mutuamente assegnabili fra loro. \\  
+
+Ciò significa che anche se fosse possibile assegnare
+valori di tipo \texttt{V} a target di tipo \texttt{T}, qualora il viceversa non fosse vero, 
+allora non sarebbe possibile assegnare valori di tipo \texttt{\#V} a target di tipo \texttt{\#T}. \\
+
+Per quanto riguarda i puntatori vettoriali invece, vale quanto detto per i puntatori scalari 
+ma con una dovuta precisazione, ovvero che è possibile assegnare ad un puntatore scalare 
+\texttt{\$T} un valore di tipo \texttt{[N]T}. Ciò è ovviamente vero in quanto in caso contrario 
+verrebbe a mancare il senso stesso dei puntatori vettoriali, ovvero essere uno strumento per la 
+gestione deglia array la cui dimensione è ignora a tempo di compilazione. \\
+
+Per capire il motivo di tali restrizioni, è utile considerare il seguente esempio: si considerino
+due puntatori scalari \texttt{ptr : \#Int} e \texttt{ptr2 : \#(Int|Float)}, e si immagini cosa 
+accadrebbe se fosse possibile assegnare \texttt{ptr} a \texttt{ptr2}. In tal caso, ci si ritroverebbe
+con un puntatore che punta ad un'area di memoria della dimensione sbagliata, il che potrebbe portare
+a comportamenti imprevedibili e a crash del programma, specialmente se si considera che tramite  un 
+riferimento a \texttt{ptr2} si potrebbe tentare di scrivere un valore di tipo \texttt{Float} in un'area
+di memoria che può contenere solo valori di tipo \texttt{Int}. \\

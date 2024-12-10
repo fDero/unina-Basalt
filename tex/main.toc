@@ -22,16 +22,27 @@
 \contentsline {subsection}{\numberline {1.5}Struct}{17}{}%
 \contentsline {subsubsection}{\numberline {1.5.1}Puntatori a struct}{18}{}%
 \contentsline {subsubsection}{\numberline {1.5.2}Struct ricorsive}{19}{}%
-\contentsline {subsubsection}{\numberline {1.5.3}Struct generiche}{20}{}%
-\contentsline {subsection}{\numberline {1.6}Union}{21}{}%
-\contentsline {subsubsection}{\numberline {1.6.1}Union generiche}{21}{}%
-\contentsline {subsubsection}{\numberline {1.6.2}Assignment tra union}{22}{}%
-\contentsline {subsubsection}{\numberline {1.6.3}Assignment tra puntatori a union}{22}{}%
-\contentsline {subsubsection}{\numberline {1.6.4}Union come parametri attuali di tipo}{22}{}%
-\contentsline {subsubsection}{\numberline {1.6.5}Operatore \texttt {is}}{23}{}%
-\contentsline {subsubsection}{\numberline {1.6.6}Operatore \texttt {as}}{24}{}%
-\contentsline {subsubsection}{\numberline {1.6.7}Union ricorsive}{24}{}%
-\contentsline {subsubsection}{\numberline {1.6.8}Memory-layout di una union}{25}{}%
-\contentsline {section}{\numberline {2}Implementazione}{26}{}%
-\contentsline {subsection}{\numberline {2.1}Architettura}{26}{}%
-\contentsline {subsubsection}{\numberline {2.1.1}Model/Typesystem}{27}{}%
+\contentsline {subsection}{\numberline {1.6}Union}{20}{}%
+\contentsline {subsubsection}{\numberline {1.6.1}Operatore \texttt {is}}{21}{}%
+\contentsline {subsubsection}{\numberline {1.6.2}Operatore \texttt {as}}{22}{}%
+\contentsline {subsubsection}{\numberline {1.6.3}Union ricorsive}{22}{}%
+\contentsline {subsubsection}{\numberline {1.6.4}Memory-layout di una union}{23}{}%
+\contentsline {subsection}{\numberline {1.7}Generics}{24}{}%
+\contentsline {subsubsection}{\numberline {1.7.1}Struct generiche}{24}{}%
+\contentsline {subsubsection}{\numberline {1.7.2}Union generiche}{25}{}%
+\contentsline {subsubsection}{\numberline {1.7.3}Funzioni generiche}{25}{}%
+\contentsline {subsubsection}{\numberline {1.7.4}Algoritmo di type-inferece}{26}{}%
+\contentsline {subsection}{\numberline {1.8}Funzioni}{27}{}%
+\contentsline {subsubsection}{\numberline {1.8.1}Overloading}{28}{}%
+\contentsline {subsection}{\numberline {1.9}Assignments}{31}{}%
+\contentsline {subsubsection}{\numberline {1.9.1}Assignment semplici}{31}{}%
+\contentsline {subsubsection}{\numberline {1.9.2}Assignment tra union}{31}{}%
+\contentsline {subsubsection}{\numberline {1.9.3}Assignment tra puntatori}{32}{}%
+\contentsline {subsubsection}{\numberline {1.9.4}Assignment tra tipi generici}{32}{}%
+\contentsline {subsubsection}{\numberline {1.9.5}Assignment Tra Array}{32}{}%
+\contentsline {subsubsection}{\numberline {1.9.6}Assignment verso target immutabili}{33}{}%
+\contentsline {subsubsection}{\numberline {1.9.7}Assignment di valori immutabili}{33}{}%
+\contentsline {subsubsection}{\numberline {1.9.8}Assignment verso valori di sola lettura}{33}{}%
+\contentsline {section}{\numberline {2}Implementazione}{34}{}%
+\contentsline {subsection}{\numberline {2.1}Architettura}{34}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Model/Typesystem}{35}{}%

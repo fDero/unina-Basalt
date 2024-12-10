@@ -1,0 +1,148 @@
+\subsubsection{Overloading}
+Con overloading delle funzioni, si intende la possibilità di fornire all’interno 
+di un programma, eventualmente anche all’interno dello stesso package, multiple 
+definizioni di funzioni aventi lo stesso nome, a patto gli argomenti differiscano 
+per quantità o per il tipo di almeno uno di essi. Due definzioni di funzioni 
+aventi lo stesso nome si dicono una overload dell’altra, l’insieme di tutti 
+gli overload di una certa funzione viene chiamato overload-set. \\
+
+Analizziamo per esempio questi due overload per la funzione \texttt{max}, esse sono 
+validi overload in quanto pur avendo lo stesso numero di argomenti, tali 
+argomenti hanno tipo distinto, e dunque in sede di chiamata il compilatore 
+analizzando i tipi degli argomenti concreti della chiamata sarà in grado, 
+partendo da essi, di selezionare l’overload adatto. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func max(first : Int, second : Int) -> Int { 
+    if (first > second) {
+
+        return first; 
+    }
+    else {
+        return second;
+    }
+}
+
+func max(first : Float, second : Float) -> Float {
+    if (first > second) {
+
+        return first; 
+    }
+    else {
+        return second;
+    }
+}
+
+func max(first : Number, second : Number) -> Number {
+    if (first > second) {
+
+        return first; 
+    }
+    else {
+        return second;
+    }
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
+
+nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload rienuto 
+più specifico, applicando queste politiche di selezione e filtraggio tra gli overload trovati.
+
+\begin{itemize}
+    \item{
+        un overload non generico viene sempre preferito rispetto ad un overload generico, il 
+        numero di parametri di tipo non è rilevante.
+    }
+    \item{
+        un overload viene preferito ad un altro se i suoi parametri di tipo compaiono 
+        meno volte nei tipi dei suoi argomenti
+    }
+    \item{
+        un overload viene preferito ad un altro se i suoi argomenti hanno tipi più complicati, 
+        ovvero hanno più parametri di tipo, oppure tali parametri di tipo sono a loro volta, 
+        ricorsivamente, più complicati. 
+    }
+    \item{
+        un overload viene preferito ad un altro se tra i tipi dei suoi argomenti 
+        compaiono meno volte tipi definiti come union e/o union anonime.
+    }
+    \item{
+        un overload viene preferito ad un altro se il numero totale di casi comperti dalle 
+        union che compaiono tra i suoi argomenti è minore.
+    }
+    \item{
+        un overload viene preferito ad un altro se tra i tipi dei suoi argomenti e/o tra i 
+        parametri di tipo di questi ultimi vi sono meno conversioni di tipo
+    }
+\end{itemize}
+
+É possibile analizzare tutti gli aspetti appena elencati durante una fase apposita 
+di preprocessing. Le funzioni quindi vengono valutate per la loro specificità 
+prima che la ricerca dell’overload più appropriato abbia inizio. Tale ricerca, 
+nota come overload-resolution è sostanzialmente un’operazione di scarto degli 
+overload non compatibili con i tipi della chiamata, procedendo in ordine di specificità, 
+il cui ordine è stato già stabilito a priori. \\
+
+Qualora, alla fine della fase di scarto 
+degli overload incompatibili, siano state trovate due definizioni ugualmente specifiche 
+allora la chiamata viene definita ambigua e ciò porta ad un errore a tempo di compilazione. \\
+
+in particolare, applicando la regola numero 3, si è in grado di affermare 
+che tra i seguenti due overload di seguito riportati, vi è uno più specifico 
+dell’altro ed esso è, come è lecito aspettarsi, l’overload che 
+accetta un argomento di tipo \texttt{List<List<T>\>>}
+
+\vspace{0.5cm}
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|h|} \hline
+            \cheader{IDENTIFICATIVO}                  & \cheader{SPECIFICITÀ}  \\ \hline
+            \texttt{func f<T>(x : List<List<T>\>>)}   & \#1 \\ \hline
+            \texttt{func f<T>(x : List<T>)}           & \#2 \\ \hline
+            \texttt{func f<T>(x : T)}                 & \#3 \\ \hline
+        \end{tabularx}
+    \caption{Comparazione specificità di overload per la funzione \texttt{f}}
+\end{table}
+\vspace{0.5cm}
+
+\newpage
+
+Di seguito è stata riportata una tabella dove sono state riportate alcuni overload 
+della funzione \texttt{max}, raggruppate per specificità ed elencate dalla più 
+alla meno specifica. 
+
+\vspace{0.5cm}
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|X|c|} \hline
+            \cheader{IDENTIFICATIVO}                                      & \header{SPECIFICITÀ}  \\ \hline
+            \texttt{func max(first : Int, second : Int) -> Int}           & \#1 \\ \hline
+            \texttt{func max(first : Float, second : Float) -> Float}     & \#1 \\ \hline
+            \texttt{func max(first : Number, second : Int) -> Number}     & \#2 \\ \hline
+            \texttt{func max(first : Int, second : Number) -> Number}     & \#2 \\ \hline
+            \texttt{func max(first : Number, second : Float) -> Number}   & \#2 \\ \hline
+            \texttt{func max(first : Float, second : Number) -> Number}   & \#2 \\ \hline
+            \texttt{func max(first : Number, second : Number) -> Number}  & \#3 \\ \hline
+            \texttt{func max<T>(first : Number, second : T) -> Number}    & \#4 \\ \hline
+            \texttt{func max<T>(first : T, second : Number) -> Number}    & \#4 \\ \hline
+            \texttt{func max<T>(first : T, second : T) -> T}              & \#5 \\ \hline
+        \end{tabularx}
+    \caption{Comparazione specificità di overload per la funzione \texttt{max}}
+\end{table}
+\vspace{0.5cm}
+
+Durante la fase di overload-resolution per una ipotetica chiamata alla funzione \texttt{max}
+con argomenti \texttt{Int} e \texttt{Float}, allora vi sarebbero più overload compatibili, 
+ma nell’ambito dei soli overload compatibili, solo uno di essi è nettamente più specifico 
+di tutti gli altri, ovvero l'overload corrisponente alla seguente firma:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func max(first : Number, second : Number) -> Number
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage

@@ -1,0 +1,51 @@
+\subsection{Funzioni}
+Una funzione è un blocco di codice riutilizzabile molteplici volte la cui esecuzione può venire 
+influenzata dal valore di eventuali parametri, qual’ora presenti, detti argomenti. Ogni argomento 
+ha un nome con il quale è possibile riferirsi ad esso e da un tipo. \\
+
+Una funzione può “restituire” un valore al chiamante, ed il tipo di tale valore di ritorno 
+è noto a tempo di compilazione qualora presente. È anche possibile che una funzione 
+non restituisca nulla al chiamante, in tal caso si parla di procedura o di routine. \\
+
+La definizione di una funzione in Basalt avviene utilizzando la parola chiave func, seguita 
+dal nome della funzione, da un eventuale elenco non vuoto di parametri 
+formali di tipo separati da virgole e racchiusi tra parentesi angolari, 
+da un elenco eventualmente anche vuoto di argomenti, separati da virgole e 
+racchiusi in parentesi tonde, da un eventuale tipo di ritorno preceduto 
+dal simbolo “->” e infine da un blocco di codice delimitato da parentesi graffe 
+chiamato corpo della funzione. \\ 
+
+Di seguito è riportato un esempio di definizione di una funzione “max” che accetta 
+due argomenti di tipo Int e restituisce un Int corrispondente al valore maggiore tra loro.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func max(first : Int, second : Int) -> Int {
+    if (first > second) {
+        return first; 
+    }
+    
+    else {
+        return second;
+    }
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+È possibile invocare questa funzione passando una qualunque coppia di valori interi, 
+e più in generale è possibile invocare una funzione con una lista di valori i cui tipi 
+siano compatibili per assegnazione ai tipi degli argomenti di tale funzione. La sintassi 
+della chiamata a funzione in Basalt è equivalente a quanto si può vedere in linguaggi 
+come C, C++ e Go e consta del nome della funzione, seguito da una eventuale lista di 
+parametri attuali di tipo racchiusa in parentesi angolari e separati da virgole e 
+da una lista di valori, da assegnare agli argomeni, racchiusi tra parentesi tonde 
+e separati da virgole.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var n : Int = max(5,6);
+\end{lstlisting}
+\vspace{0.5cm}
+\newpage
+
+\subfile{Overloading}

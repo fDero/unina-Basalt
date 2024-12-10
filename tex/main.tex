@@ -44,6 +44,8 @@
 \newcolumntype{b}{>{\raggedright\arraybackslash}X}
 \newcolumntype{s}{>{\hsize=.2\hsize}X}
 \newcolumntype{q}{>{\centering\arraybackslash}s}
+\newcolumntype{h}{>{\centering\arraybackslash}b}
+
 
 
 % Add extra padding between rows
@@ -53,7 +55,7 @@
 \newcommand{\header}[1]{\textit{\textbf{\inroboto{#1}}}}
 \newcolumntype{P}[1]{>{\centering\arraybackslash\hspace{0.5em}}p{#1}<{\hspace{0.5em}}}
 
-\newcommand{\cheader}[1]{\multicolumn{1}{|K{\dimexpr\columnwidth/2-2\tabcolsep\relax}|}{\header{#1}}}
+\newcommand{\cheader}[1]{\multicolumn{1}{|c|}{\header{#1}}}
 
 %UML colors
 \tikzumlset{fill class=white}

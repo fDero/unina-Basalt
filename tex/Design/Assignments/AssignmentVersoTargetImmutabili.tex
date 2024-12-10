@@ -1,0 +1,12 @@
+\subsubsection{Assignment verso target immutabili}
+Assegnare un valore ad un target immutabile, ovvero ad un target costante o letterale 
+(e.g. stringhe, numeri, ecc.), è proibito, e porta ad errori a tempo di compilazione. \\
+
+É opportuno sottolineare che, in generale, un target è costante e dunque immutabile anche se esso
+è un membro di una costante di tipo struct, l'oggetto puntato da un puntatore costante, una cella 
+di una slice costante o un elemento di un array costante \\
+
+Il risultato di un'operazione binaria è sempre immutabile (ad esempio la somma di due numeri è immutabile)
+mentre il risultato di un'operazione unaria è immutabile solo se l'operando è immutabile in tutti i casi
+eccetto per l'operatore di deferenziazione di un puntatore, il quale restituisce un valore mutabile per 
+puntatori non costanti. \\

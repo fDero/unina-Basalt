@@ -1,0 +1,13 @@
+\subsubsection{Assignment di valori immutabili}
+Assegnare valori immutabili a target immutabili è sempre permesso 
+(ciò per costruzione può solo avvenire in sede di dichiarazione di una costante), 
+assegnarli a target mutabili invece, è permesso solo se tale assegnamento non implica un legame
+del valore immutabile con un target mutabile. \\
+
+Un legame di un valore immutabile con un target mutabile si ha ad esempio provando ad assegnare
+a tale target l'indirizzo di memoria del valore immutabile in formato di puntatore scalare 
+o vettoriale. \\
+
+Tale legame consentirebbe infatti di modificare il valore immutabile deferenziando il puntatore 
+mutabile così ottenuto, il che è chiaramente in contrasto con la natura stessa del concetto di 
+immutabilità. \\

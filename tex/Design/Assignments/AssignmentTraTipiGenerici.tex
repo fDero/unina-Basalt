@@ -1,0 +1,7 @@
+\subsubsection{Assignment tra tipi generici}
+Considerando un qualunque tipo generico \texttt{Example}, qualora il target di un assignment fosse un 
+tipo generico \texttt{Example<T$_1$, T$_2$, ...>}, vale la pena sottolineare che è possibile assegnare 
+ad esso valori il cui tipo è \texttt{Example<U$_1$, U$_2$, ...>}, se e solo se i tipi \texttt{T$_i$} e 
+\texttt{U$_i$} coincidono strutturalmente, ovvero se e solo se i tipi \texttt{T$_i$} e 
+\texttt{U$_i$} sono identici al netto dell'utilizzo di alias oppure se sono union 
+mutuamente assegnabili fra loro. \\
