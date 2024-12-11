@@ -1,0 +1,84 @@
+\subsubsection{Common features adoption (CFA)}
+Con \textit{Common Features Adoption}, abbreviato come CFA, ci si riferisce all’abilità del compilatore di generare un'overload di 
+una funzione, basandosi sugli overload già esistenti, direttamente in sede di chiamata. In particolare, gli overload auto-generati 
+implicitamente tramite CFA sono costruiti in modo tale da effettuare un dispatch a tempo di esecuzione sui tipi concreti degli argomenti
+di una chiamata a funzione, in modo da poter chiamare il corretto overload già esistente. \\
+
+Si considerino ad esempio le seguenti definizioni di funzioni:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func half(x : Int) -> Int {
+    return x / 2;
+}
+
+func half(x : Float) -> Float {
+    return x * 0.5;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Se si effettuasse una chiamata alla funzione \texttt{half}, con un argomento di tipo 
+\texttt{Int|Float}, il sistema non troverebbe un overload specifico. Esso però sarebbe in grado 
+di generare un overload ad-hoc dietro le quinte simile a quanto riportato di seguito:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func half(x : Int | Float) -> Int | Float {
+    if (x is Int) {
+        return half(x as Int);
+    } else {
+        return half(x as Float);
+    }
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Tutto ciò che il programmatore dovrà fare sarà effettuare una chiamata a funzione. Qualora non esistesse 
+un overload specifico per i tipi degli argomenti passati, il compilatore proverà a generare un overload 
+definito per casi analizzando uno per uno tutti gli argomenti passati in chiamata da sinistra a destra.
+
+Si considerino infatti i seguenti overload per la funzione \texttt{add}:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func add(x : Int, y : Int) -> Int {
+    return x + y;
+}
+
+func add(x : Float, y : Int) -> Float {
+    return x + utils::convert_to<Float>(y);
+}
+
+func add(x : Int, y : Float) -> Float {
+    return utils::convert_to<Float>(x) + y;
+}
+
+func add(x : Float, y : Float) -> Float {
+    return x + y;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+In questo contesto, sarebbe possibile effettuare le seguenti chiamate a funzione:
+
+\vspace{0.5cm}
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|h|} \hline
+            \cheader{CHIAMATA A FUNZIONE}             & \cheader{DEFINIZIONE CORRISPONDENTE}  \\ \hline
+            \texttt{add(Int, Int)}                    & overload definito dall'utente         \\ \hline
+            \texttt{add(Int, Float)}                  & overload definito dall'utente         \\ \hline
+            \texttt{add(Float, Int)}                  & overload definito dall'utente         \\ \hline
+            \texttt{add(Float, Float)}                & overload definito dall'utente         \\ \hline
+            \texttt{add(Int|Float, Int)}              & overload generato tramite CFA         \\ \hline
+            \texttt{add(Int|Float, Float)}            & overload generato tramite CFA         \\ \hline
+            \texttt{add(Int, Int|Float)}              & overload generato tramite CFA         \\ \hline
+            \texttt{add(Float, Int|Float)}            & overload generato tramite CFA         \\ \hline
+            \texttt{add(Int|Float, Int|Float)}        & overload generato tramite CFA         \\ \hline
+        \end{tabularx}
+    \caption{Comparazione specificità di overload per la funzione \texttt{f}}
+\end{table}
+\vspace{0.5cm}
+
+\newpage

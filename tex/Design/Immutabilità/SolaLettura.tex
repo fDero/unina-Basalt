@@ -1,0 +1,6 @@
+\subsubsection{Espressioni di sola lettura}
+Una espressioni di sola lettura, è una espressione che restituisce un valore temporaneo preso per copia. Questo 
+significa che anche qualora essa fosse mutabile, la modifica non sarebbe osservabile in alcun modo. Un esempio di 
+espressione di sola lettura è la chiamata ad una funzione che restituisce un semplice numero intero. La modifica ad una variabile 
+che conserva il risultato di tale chiamata è lecita, ma una modifica al valore restituito dalla chiamata stessa non avrebbe senso 
+in quanto non sarebbe osservabile.

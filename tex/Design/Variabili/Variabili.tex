@@ -1,0 +1,34 @@
+\subsection{Variabili}
+Le variabili sono dei contenitori logici capaci di contenere dei valori decisi a tempo di esecuzione. Ci si potrà riferire 
+al valore contenuto in un dato istante di tempo da una variabile o da una costante utilizzando il suo nome. Tramite un apposito 
+costrutto detto assegnazione, è possibile riassegnare il valore di una variabile, ciò non è però possibile per una costante, la quale 
+una volta dichiarata non potrà mai cambiare valore. 
+
+\subsubsection{Dichiarazione di variabili}
+La dichiarazione di una variabile può avvenire con inizializzazione o senza, laddove un valore di inizializzazione sia mancante il valore 
+di tale variabile sarà casuale. Ci si aspetta che in tale scenario un valore venga poi assegnato in un secondo momento. Qualunque sia la 
+tipologia di dichiarazione scelta, essa deve essere introdotta dalla keyword var, seguida dal nome della variabile, dai due punti e dal tipo 
+di tale variabile.
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[frame=single]
+var x : Int = 6;
+var y : Int;
+\end{lstlisting}
+
+\subsubsection{Scoping di una variabile}
+Una variabile in basalt esiste nello scope della funzione, del ciclo o più in generale del blocco di codice in cui è stata dichiarata. Ciò 
+significa che una variabile dichiarata all’interno di un blocco di codice non sarà accessibile al di fuori di esso.
+
+\subsubsection{Shadowing}
+Con showowing, si intende la possibilità di, all'interno di un blocco di codice innestato, dichiarare una variabile con un nome già usato
+in un blocco esterno. In tal caso, la variabile dichiarata all'interno del blocco innestato avrà precedenza su quella dichiarata nel blocco e 
+sarà impossibile riferirsi alla variabile dichiarata nel blocco esterno con il suo nome.
+
+\subsubsection{Lifetime di una variabile}
+Al termine dell'esecuzione del blocco di codice corrente, la variabile verrà deallocata e il suo valore non sarà più accessibile. Questo comportamento
+è ben distinto da quanto accade in Java, Kotlin ed altri linguaggi garbage collected, dove invece la variabile viene deallocata solo quando il garbage
+collector la riconosce come non più utilizzata.
+
+\vspace{0.5cm}

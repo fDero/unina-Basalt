@@ -1,0 +1,18 @@
+\subsection{Pseduo-polimorfismo}
+Con il termine polimorfismo in informatica, ci si riferisce alla capacità di un linguaggio 
+di poter astrarre dal tipo concreto di un oggetto, permettendo di scrivere codice che 
+possa essere applicato a tipi diversi, i quali condividono la stessa API. \\
+
+Questo concetto viene spesso legato a doppio filo con quello di ereditarietà nei contesti
+di programmazione ad oggetti, in quanto l'API condivisa a tutti i tipi concreti su cui 
+si desidera operare viene codificata nella forma della loro classe base (parent-class). \\
+
+In Basalt, così come in Go, Rust e altri linguaggi moderni, è possibile ottenere gli stessi 
+effetti del polimorfismo object-oriented senza dover ricorrere all'ereditarietà. In particolare
+Basalt utilizza un approccio unico nel panorama dei linguaggi di programmazione di basso livello,
+che sfrutta una feature chiamata \textit{Common Features Adoption (CFA)} per implementare così una forma di 
+pseudo-polimorfismo. \\
+
+\subfile{CommonFeaturesAdoption}
+\subfile{ImplicazioniDellaCFA}
+\subfile{Considerazioni}

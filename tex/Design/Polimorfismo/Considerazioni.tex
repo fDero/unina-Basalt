@@ -1,0 +1,21 @@
+\subsubsection{Considerazioni e compromessi riguardanti la CFA}
+Risulta evidente come la CFA possa risultare peggiore dell'ereditarietà in termini 
+di performance, in quanto ogni singola chiamata a funzione potrebbe comportare un controllo 
+in tempo lineare sul numero di tipi concreti che è possibile assegnare ai vari tipi base degli argomenti. \\
+
+Ciò nonostante, la CFA consente di scrivere codice estremamente flessibile e modulare, senza 
+costringere il sistema a dover tener traccia di v-tables e/o object-headers di sorta, i quali
+sono invece necessari per implementare il polimorfismo tramite ereditarietà come ad esempio accade 
+in Java, Kotlin, C\#, i quali sono costi di overhead che impattano l'intera codebase, e non solo le sezioni
+che necessitano di usare il polimorfismo. \\
+
+Basalt è ottimizzato per le situazioni dove non è necessario polimorfismo dinamico, in quanto ci si aspetta
+che solo una minima parte della codebase necessiti di tale feature, e pertanto, si ritiene che sia più giusto
+pagare un costo anche considerevole in termini di performance in situazioni mediamente rare pur di ottenere
+codice meglio performante in tutti gli altri scenari. \\
+
+Si tenga poi a mente che per scenari dove il numero totale di tipi concreti da considerare 
+per la generazione di overload CFA è molto contenuto (non più di 5 tipi), la CFA potrebbe 
+risultare competitiva in termini di performance dato che il numero totale di istruzioni macchina
+corrispondenti a risolvere un riferimento a metodo in una v-table non è troppo dissimile dal numero 
+di istruzioni necessarie per risolvere tale overload CFA. \\

@@ -1,12 +1,12 @@
 \subsubsection{Assignment tra puntatori}
 Quando il target di un'assignment è un puntatore scalare, è possibile assegnarvi solo 
-valori che siano anch'essi puntatori scalari. Inoltre, è richiesto che i tipi dei valori puntati
-da entrambi coincidano strutturalmente, ovvero che essi siano identici al netto dell'utilizzo di alias 
+espressioni che siano anch'essi puntatori scalari. Inoltre, è richiesto che i tipi degli oggetti puntati
+da entrambi coincidano strutturalmente, ovvero che essi siano identici 
 oppure che essi siano union mutuamente assegnabili fra loro. \\  
 
 Ciò significa che anche se fosse possibile assegnare
-valori di tipo \texttt{V} a target di tipo \texttt{T}, qualora il viceversa non fosse vero, 
-allora non sarebbe possibile assegnare valori di tipo \texttt{\#V} a target di tipo \texttt{\#T}. \\
+espressioni di tipo \texttt{V} a target di tipo \texttt{T}, qualora il viceversa non fosse vero, 
+allora non sarebbe possibile assegnare espressioni di tipo \texttt{\#V} a target di tipo \texttt{\#T}. \\
 
 Per quanto riguarda i puntatori vettoriali invece, vale quanto detto per i puntatori scalari 
 ma con una dovuta precisazione, ovvero che è possibile assegnare ad un puntatore scalare 

@@ -1,0 +1,15 @@
+\subsubsection{Implicazioni della CFA}
+Considerato quanto detto fin ora, è possibile trarre alcune conclusioni riguardo i benefici
+e le limitazioni che derivano dall'utilizzo della CFA in Basalt. \\
+
+É necessario sottolineare come la CFA consenta di esporre al programmatore un'API basata 
+sulle funzionalità comuni a tutti i tipi concreti che è possibile assegnare a un tipo 
+base. Nel caso di Basalt, tale tipo base è una union. Questo significa che il programmatore
+può scrivere codice che opera su un tipo base, senza dover conoscere il tipo concreto,
+usando le funzionalità comuni a tutti i tipi concreti proprio come se tale tipo base fosse un'interfaccia
+di un linguaggio ad oggetti (e.g. Java, Kotlin, C\#). \\
+
+Ad esempio, sarà possibile chiamare la funzione \texttt{size} su una union dei tipi 
+\texttt{List<T>}, \texttt{Tree<T>}, \texttt{HashSet<T>} come se tale union fosse un'interfaccia
+che esponesse tale funzionalità. Affinchè ciò avvenga, sarà necessario che esista un
+overload definito dall'utente della funzione \texttt{size} per tutti i tipi citati.
