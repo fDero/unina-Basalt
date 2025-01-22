@@ -2,7 +2,7 @@
 Con overloading delle funzioni, si intende la possibilità di fornire all’interno 
 di un programma, eventualmente anche all’interno dello stesso package, multiple 
 definizioni di funzioni aventi lo stesso nome, a patto gli argomenti differiscano 
-per numero o per il tipo di almeno uno di essi. Due definzioni di funzioni 
+per quantità o per il tipo di almeno uno di essi. Due definzioni di funzioni 
 aventi lo stesso nome si dicono una overload dell’altra, l’insieme di tutti 
 gli overload di una certa funzione viene chiamato overload-set. \\
 
@@ -16,6 +16,7 @@ partendo da essi, di selezionare l’overload adatto. \\
 \begin{lstlisting}[frame=single]
 func max(first : Int, second : Int) -> Int { 
     if (first > second) {
+
         return first; 
     }
     else {
@@ -25,6 +26,7 @@ func max(first : Int, second : Int) -> Int {
 
 func max(first : Float, second : Float) -> Float {
     if (first > second) {
+
         return first; 
     }
     else {
@@ -34,6 +36,7 @@ func max(first : Float, second : Float) -> Float {
 
 func max(first : Number, second : Number) -> Number {
     if (first > second) {
+
         return first; 
     }
     else {
@@ -64,7 +67,7 @@ più specifico, applicando queste politiche di selezione e filtraggio tra gli ov
     }
     \item{
         un overload viene preferito ad un altro se tra i tipi dei suoi argomenti 
-        compaiono meno volte union (anonime e non).
+        compaiono meno volte tipi definiti come union e/o union anonime.
     }
     \item{
         un overload viene preferito ad un altro se il numero totale di casi comperti dalle 

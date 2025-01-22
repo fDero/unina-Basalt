@@ -1,10 +1,10 @@
 \subsection{Funzioni}
 Una funzione è un blocco di codice riutilizzabile molteplici volte la cui esecuzione può venire 
-influenzata dal valore di eventuali parametri, qual’ora presenti, detti argomenti. Gli argomenti sono trattati all'interno 
-del corpo della funzione come variabili, pertanto essi hanno un nome, con cui riferirsti ad essi, ed un tipo.\\
+influenzata dal valore di eventuali parametri, qual’ora presenti, detti argomenti. Ogni argomento 
+ha un nome con il quale è possibile riferirsi ad esso e da un tipo. \\
 
 Una funzione può “restituire” un valore al chiamante, ed il tipo di tale valore di ritorno 
-è noto a tempo di compilazione. È anche possibile che una funzione 
+è noto a tempo di compilazione qualora presente. È anche possibile che una funzione 
 non restituisca nulla al chiamante, in tal caso si parla di procedura o di routine. \\
 
 La definizione di una funzione in Basalt avviene utilizzando la parola chiave func, seguita 
@@ -24,6 +24,7 @@ func max(first : Int, second : Int) -> Int {
     if (first > second) {
         return first; 
     }
+    
     else {
         return second;
     }

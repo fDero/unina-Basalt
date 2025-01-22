@@ -8,7 +8,6 @@ e avviene in accordo alla seguente sintassi: \texttt{const <nome> : <tipo> = <va
 \begin{lstlisting}[frame=single]
 const pi : Float = 3.14;
 \end{lstlisting}
-\vspace{0.5cm}
 
 Ci si potrebbe chiedere quale sia l'utilità di un puntatore costante, dato che il puntatore stesso non può essere modificato così come il valore a cui punta.
 In effetti, l'utilità di un puntatore costante è limitata, specialmente se paragonata con quanto accade in C e C++, però la semantica della keyword \texttt{const}
@@ -33,8 +32,9 @@ const job : #Job = &person.job;
 \end{lstlisting}
 \vspace{0.5cm}
 
-In questo caso il puntatore \texttt{job} è costante, e non è possibile modificare il puntatore direttamente, così come non è possibile modificare l'oggetto puntato 
-accedendo ad esso tramite dereferenziazione del puntatore. É però ancora possibile modificare l'oggetto puntato accedendo ad esso mediante la variabile \texttt{person}. \\
+In questo caso il puntatore \texttt{job} è costante, ma il valore a cui punta no. Questo significa che non è possibile modificare il puntatore 
+\texttt{job} in nessun modo, ovvero non si può ne cambiare il valore a cui punta, ne assegnare un nuovo valore all'oggetto puntato, ma può invece essere 
+usato come alias immutabile per l'oggetto puntato. \\
 
 In linguaggi come Java e Kotlin, le costanti (o \texttt{final} in Java) offrono garanzie di immutabilità solo per il riferimento, 
 ma non per l'oggetto puntato. Questo significa che se si dichiara una costante di tipo \texttt{List}, è possibile modificare la lista
