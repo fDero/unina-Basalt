@@ -10,6 +10,8 @@ sono errate e portano ad un errore a tempo di compilazione. \\
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
 struct Recursive {
+
+    // Ricorsione diretta -> Errore
     recursive : Recursive;
 }
 \end{lstlisting}
@@ -30,6 +32,8 @@ della struct Recursive è invece corretta e perfettamente valida. \\
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
 struct Recursive {
+
+    // Ricorsione indiretta -> Corretto
     recursive_ptr : #Recursive;
     recursive_slice : $Recursive;
 }
