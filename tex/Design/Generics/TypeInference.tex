@@ -1,0 +1,48 @@
+\subsubsection{Algoritmo di type-inferece}
+Per funzioni generiche, è possibile non specificare espressamente dei parametri 
+attuali di tipo e lasciare che sia Basalt a dedurli dal contesto. 
+L’operazione di deduzione dei parametri attuali di tipo a partire dal 
+contesto è detta type-inference. \\
+
+Supponiamo ad esempio di voler chiamare la funzione max, ma 
+senza specificare un parametro attuale di tipo tra parentesi angolari. 
+Per usare la type-inference, 
+è possibile omettere interamente la sezione dei parametri attuali di 
+tipo ed utilizzare max in maniera sintatticamente analoga a come 
+lo si farebbe per una funzione non generica. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var x : Int = max(3, 5);
+var y : Float = max(3.14, 5.17);
+\end{lstlisting}
+\vspace{0.5cm}
+
+Consideriamo poi le due seguenti chiamate, dove in entrambi i casi, 
+i tipi degli argomenti forniti in chiamata sono distinti. Dato che nella definizione della 
+funzione \texttt{max} compare un unico parametro formale di tipo \texttt{T} che risulta essere 
+il tipo di entrambi gli argomenti, l'algoritmo di typeinference si troverà a risolvere due vincoli
+per un solo tipo.\\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+var int_value : Int = 3;
+var float_value : Float = 3.14;
+var number_value : Number = 5;
+
+var z1 : Number = max(int_value, number_value);
+var z2 : Number = max(int_value, float_value);
+\end{lstlisting}
+\vspace{0.5cm}
+ 
+La risoluzione dei vincoli di tipo è affrontata secondo il seguente algoritmo:
+\begin{itemize}
+      \item Se uno dei tipi degli argomenti è tale da essere utilizzato come parametro attuale di tipo, 
+      esso sarà scelto: è il caso di \texttt{max(int\_value, number\_value)} che porta alla scelta di 
+      \texttt{Number} come parametro attuale di tipo tramite type-inference. 
+
+      \item Se nessuno dei tipi degli argomenti è tale da essere utilizzato come parametro attuale di tipo,
+      Basalt risolverà i vincoli considerando la union anonima di tutti i tipi degli argomenti concreti
+      forniti in chiamata. È il caso di \texttt{max(int\_value, float\_value)} che porta alla scelta di
+      \texttt{Int | Float} come parametro attuale di tipo tramite type-inference.
+\end{itemize}
