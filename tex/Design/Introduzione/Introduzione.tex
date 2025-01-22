@@ -1,21 +1,32 @@
 \subsection{Introduzione}
-Basalt nasce con l'intenzione di offrire una alternativa moderna a linguaggi di programmazione consolidati come C e C++. Nonostante 
-questi linguaggi siano ancora ben lontani dall'essere considerati obsoleti, è innegabile che comincino a mostrare i segni del tempo. \\
+Basalt nasce con l'intenzione di offrire un'alternativa moderna a linguaggi di programmazione 
+consolidati come C e C++. Nonostante questi ultimi siano ancora ben lontani dall'essere considerati 
+obsoleti, è innegabile che comincino a mostrare i segni del tempo se
+paragonati con linguaggi moderni quali Go, Rust, Zig, Odin o Carbon. \\
 
-L'obiettivo di Basalt è quello di superare alcune delle rigidità e mancanze del linguaggio C, proponendosi come un linguaggio più flessibile, 
-espressivo ed ergonomico, mirando ad equipaggiare i programmatori con strumenti di programmazione all'avanguardia, tipici dei linguaggi di più alto livello. Basalt 
-offre infatti strumenti avanzati quali riflessione ed introspezione a tempo di compilazione, supporto alla programmazione generica e un framework di unit-testing 
-integrato direttamente nel linguaggio. \\
+L’obiettivo di Basalt è quello di essere semplice e minimale, faile da imparare, rimanendo 
+al tempo stesso un linguaggio di basso livello e pertanto con gestione manuale della memoria. 
+Basalt pone l'ergonomia al centro di ogni scelta di design, cercando di ridurre al minimo il tempo
+speso dal programmatore a correggere errori banali o scrivere codice banale e ripetitivo. \\
 
-Basalt, così come Go, Rust, Zig, Odin e molti altri linguaggi di basso livello di nuova concezione, non è un linguaggio orientato agli oggetti. La mancata adozione del
-paradigma della programmazione orientata agli oggetti in tutti questi linguaggi, e in particolare in Basalt, non comporta una riduzione dell’espressività e della modularità
-del codice. Anzi, ha consentito scelte innovative di language design che hanno portato a soluzioni più moderne ed eleganti. Queste scelte hanno introdotto costrutti che
-risolvono gli stessi problemi della programmazione orientata agli oggetti, ma in modo più efficiente, mantenendo sia l’astrazione che il controllo a basso livello,
-migliorando così la flessibilità e la performance complessiva del codice. \\
+Basalt, così come i sopra citati Go, Rust, Zig, Odin o Carbon, i quali saranno usati come 
+termini di paragone per tutto il resto del capitolo, non adotta il paradigma ad oggetti. La 
+nuova tendenza nei linguaggi di programmazione sembra essere di abbandonare il paradigma ad 
+oggetti puro, offrendone una versione fortemente rivisitata o addirittura eliminandolo del tutto. Nel 
+caso di Basalt, il ruolo operativamente ricoperto dalle interfacce è stato preso dalle union (sum-types),
+le quali possono essere usate per offrire funzionalità simil-polimorfiche mediante sostanziali integrazioni
+con le altre features del linguaggio. \\
 
-Basalt si distingue come l'unico linguaggio che offre un supporto alla riflessione paragonabile in termini di completezza e funzionalità a linguaggi come Java, 
-pur mantenendo un ruolo funzionalmente analogo a quello del C o del C++. Al contempo, Basalt adotta un'estetica minimale e orientata alla semplicità, in linea con 
-l'approccio stilistico di Go. Pertanto, questi quattro linguaggi costituiranno i principali riferimenti per il confronto nel prosieguo della discussione. \\
+Basalt, a differenza del C, è provvisto di un sistema di tipi più avanzato, che permette di
+passare array statici o dinamici alle funzioni senza perdere informazioni riguardanti la dimensione di 
+questi ultimi. \\
+
+Basalt offre oltretutto pieno supporto alla programmazione generica, implementata mediante reificazione
+a tempo di compilazione (così come C++), e non mediante erasure, come ad esempio Java o Kotlin. Il supporto alla 
+programmazione generica è stata una tra le prime features ad essere state implementate, ed ha guidato
+molte delle scelte di design del linguaggio. \\ 
+
+
 
 \newpage
 \subfile{ConfrontoConAltriLinguaggi} \newpage

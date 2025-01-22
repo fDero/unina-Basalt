@@ -18,17 +18,18 @@ var y : Int;
 \end{lstlisting}
 
 \subsubsection{Scoping di una variabile}
-Una variabile in basalt esiste nello scope della funzione, del ciclo o più in generale del blocco di codice in cui è stata dichiarata. Ciò 
+Una variabile in Basalt esiste nello scope della funzione, del ciclo o più in generale del blocco di codice in cui è stata dichiarata. Ciò 
 significa che una variabile dichiarata all’interno di un blocco di codice non sarà accessibile al di fuori di esso.
 
 \subsubsection{Shadowing}
 Con showowing, si intende la possibilità di, all'interno di un blocco di codice innestato, dichiarare una variabile con un nome già usato
-in un blocco esterno. In tal caso, la variabile dichiarata all'interno del blocco innestato avrà precedenza su quella dichiarata nel blocco e 
-sarà impossibile riferirsi alla variabile dichiarata nel blocco esterno con il suo nome.
+in un blocco esterno, oscurandola. Numerosi linguaggi supportano lo shadowing delle variabili, ma Basalt non è tra questi. Si è ritenuto 
+che tale funzionalità potesse portare a confusione e a codice di difficile comprensione, pertanto tentare di oscurare una variabile già definita
+in un blocco esterno causerà un errore a tempo di compilazione.
 
-\subsubsection{Lifetime di una variabile}
-Al termine dell'esecuzione del blocco di codice corrente, la variabile verrà deallocata e il suo valore non sarà più accessibile. Questo comportamento
-è ben distinto da quanto accade in Java, Kotlin ed altri linguaggi garbage collected, dove invece la variabile viene deallocata solo quando il garbage
-collector la riconosce come non più utilizzata.
+\subsubsection{Deallocazione delle variabili}
+Al termine dell'esecuzione del blocco di codice corrente, l'area di memoria occupata dalle variabili dichiarate in esso verrà automaticamente
+deallocata. Nel caso in cui tali variabili abbiano per valore un indirizzo di memoria dinamica allocato in precedenza, la deallocazione di tale blocco 
+\textbf{non} è automatica, e spetterà al programmatore deallocare tale blocco di memoria manualmente.
 
 \vspace{0.5cm}

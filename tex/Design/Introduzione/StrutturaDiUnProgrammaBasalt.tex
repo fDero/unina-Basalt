@@ -1,7 +1,7 @@
 \subsubsection{Struttura di un programma Basalt}
 Come precedentemente menzionato, Basalt si discosta dall'utilizzo di header files tipico di C e C++, optando invece per un sistema di gestione dei pacchetti simile a quello adottato da Java. In particolare, 
-il sistema dei pacchetti di basalt prevede che all’intero di un file apparenente ad un dato pacchetto, sia visibile il contenuto pubblico e non di tutti gli altri file dello stesso pacchetto, e il contenuto 
-pubblico dei package importati. \\
+il sistema dei pacchetti di Basalt prevede che all’intero di un file apparenente ad un dato pacchetto, sia visibile il contenuto di tutti gli altri file dello stesso pacchetto, assieme al contenuto 
+dei package importati. \\
 
 Ogni file sorgente contenente codice Basalt deve possedere una intestazione composta dalla dichiarazione del package corrente, ovvero il package a cui il file appartiene, e 
 da una lista di package importati dal file, necessari al suo funzionamento. \\
@@ -12,6 +12,7 @@ come da convenzione, tale funzione prende il nome di "main”. Tale funzione dev
 
 \begin{lstlisting}[frame=single]
 package main;
+
 import console;
 
 func main() {
