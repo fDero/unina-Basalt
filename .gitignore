@@ -8,11 +8,12 @@ hidden
 *.basalt
 grammar/.antlr
 .antlr
-generated
-.generated
 .antlr-generated
 antlr-generated
 .log
 .aux
 .toc
 *-old
+*.interp
+*.tokens
+generated/*.g4
