@@ -8,3 +8,5 @@ per utilizzare [ANTLR4](https://www.antlr.org) ed il documento di tesi di laurea
 La modifica ha costretto il downgrade da C++20 a C++17 rendendo non più utilizzabile lo script di build. Si sarà dunque 
 costretti a procedere per compilazione manuale. Si tenga presente che il codice generato da ANTLR4 genera dei warning e ha problemi
 di compatibiltà con la maggior parte delle configurazioni di compilazione provate.
+
+*il documento di tesi* è visualizzabile [qui](https://github.com/fDero/unina-Basalt/blob/master/tex/main.pdf)
