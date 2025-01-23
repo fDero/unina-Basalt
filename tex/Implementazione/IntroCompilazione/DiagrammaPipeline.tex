@@ -1,0 +1,74 @@
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[
+            node distance=1.5cm,
+            block/.style={
+                rectangle, 
+                draw=black, 
+                thick, 
+                text centered, 
+                minimum height=1cm,
+                minimum width=3cm
+            },
+            files/.style={
+                draw, 
+                minimum height=4em, 
+                minimum width=3em, 
+                fill=white, 
+                double copy shadow={
+                    shadow xshift=4pt, 
+                    shadow yshift=4pt, 
+                    fill=white, 
+                    draw
+                }
+            },
+            arrow/.style={
+                ->, 
+                thick
+            }
+        ]
+
+        \node[inner sep=4pt] (src) {\includesvg[height=1cm]{../../Assets/file.svg}};
+
+        \node[block, below=of src] (tokenizer) {Tokenizer};
+
+        \node[inner sep=4pt, below=of tokenizer] (toks) {\includesvg[height=1cm]{../../Assets/toks.svg}};
+
+        \node[block, below=of toks] (parser) {Parser};
+
+        \node[inner sep=4pt, below=of parser] (ast) {\includesvg[height=1cm]{../../Assets/AST.svg}};
+
+        \node[block, below=of ast] (symbtab) {Symbol Tables};
+
+        \node[block, right=of src, xshift=0.45cm, yshift=-0.45cm] (validator) {Validator};
+
+        \node[block, below=of validator] (irgen) {IR-Generator};
+
+        \node[inner sep=4pt, below=of irgen] (ir) {\includesvg[height=1.25cm]{../../Assets/IR.svg}};
+
+        \node[block, below=of ir] (opt) {IR-Optimizer};
+
+        \node[block, below=of opt] (codegen) {CodeGen};
+
+        \node[inner sep=4pt, below=of codegen] (target) {\includesvg[height=1cm]{../../Assets/binary.svg}};
+
+        \draw[arrow] (src) to (tokenizer);
+        \draw[arrow] (tokenizer) to (toks);
+        \draw[arrow] (toks) to (parser);
+        \draw[arrow] (parser) to (ast);
+        \draw[arrow] (ast) to (symbtab);
+        \draw[arrow] 
+            (symbtab.south) -- ++(0,-0.5)
+            -- ++(2,0)
+            -- ++(0,15)
+            -- ++(2,0)
+            -- (validator.north);
+        \draw[arrow] (validator) to (irgen);
+        \draw[arrow] (irgen) to (ir);
+        \draw[arrow] (ir) to (opt);
+        \draw[arrow] (opt) to (codegen);
+        \draw[arrow] (codegen) to (target);
+
+        \end{tikzpicture}
+    \caption{Pipeline del processo di compilazione}
+\end{figure}
