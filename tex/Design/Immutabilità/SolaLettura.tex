@@ -1,6 +1,21 @@
 \subsubsection{Espressioni di sola lettura}
 Una espressioni di sola lettura, è una espressione che restituisce un valore temporaneo preso per copia. Questo 
 significa che anche qualora essa fosse mutabile, la modifica non sarebbe osservabile in alcun modo. Un esempio di 
-espressione di sola lettura è la chiamata ad una funzione che restituisce un semplice numero intero. La modifica ad una variabile 
-che conserva il risultato di tale chiamata è lecita, ma una modifica al valore restituito dalla chiamata stessa non avrebbe senso 
-in quanto non sarebbe osservabile.
+espressione di sola lettura è la chiamata ad una funzione che restituisce un puntatore. Il valore restituito dalla 
+funzione è un valore temporaneo, preso per copia, esso si dice essere in sola lettura e non può essere modificato.
+Tuttavia non è corretto parlare di immutabilità in quanto ciò che si trova all'area di memoria indirizzata dal 
+puntatore potrebbe essere modificato.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func get_ptr() -> #Int { return memory::alloc<Int>(); }
+var number : Int = 7;
+
+// Errore di compilazione -> modifica di espressione di sola lettura
+get_ptr() = &number;
+
+// Ok -> modifica del valore puntato (non immutabile)
+#get_ptr() = number;
+
+\end{lstlisting}
+\vspace{0.5cm}

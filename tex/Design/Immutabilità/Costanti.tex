@@ -8,6 +8,7 @@ e avviene in accordo alla seguente sintassi: \texttt{const <nome> : <tipo> = <va
 \begin{lstlisting}[frame=single]
 const pi : Float = 3.14;
 \end{lstlisting}
+\vspace{0.5cm}
 
 Ci si potrebbe chiedere quale sia l'utilità di un puntatore costante, dato che il puntatore stesso non può essere modificato così come il valore a cui punta.
 In effetti, l'utilità di un puntatore costante è limitata, specialmente se paragonata con quanto accade in C e C++, però la semantica della keyword \texttt{const}
@@ -32,19 +33,12 @@ const job : #Job = &person.job;
 \end{lstlisting}
 \vspace{0.5cm}
 
-In questo caso il puntatore \texttt{job} è costante, ma il valore a cui punta no. Questo significa che non è possibile modificare il puntatore 
-\texttt{job} in nessun modo, ovvero non si può ne cambiare il valore a cui punta, ne assegnare un nuovo valore all'oggetto puntato, ma può invece essere 
-usato come alias immutabile per l'oggetto puntato. \\
+In questo caso il puntatore \texttt{job} è costante, ciò implica che esso è immutabile e che non è possibile modificare ne 
+il puntatore stesso ne ciò a cui punta utilizzando su di esso con operatore di dereferenziazione. Ciò non significa che ciò a cui il 
+puntatore \texttt{job} punta sia destinato a non subire mai cambiamenti, in quanto accedendo in scrittura al campo \texttt{.job} della 
+variabile \texttt{person}, la quale è mutabile, è possibile modificare il valore puntato da \texttt{job}. \\
 
 In linguaggi come Java e Kotlin, le costanti (o \texttt{final} in Java) offrono garanzie di immutabilità solo per il riferimento, 
 ma non per l'oggetto puntato. Questo significa che se si dichiara una costante di tipo \texttt{List}, è possibile modificare la lista
 aggiungendo o rimuovendo elementi, ma non è possibile assegnare un nuovo oggetto alla variabile costante. In Basalt, invece, una costante
 di tipo \texttt{List} non può essere modificata in nessun modo, ne aggiungendo o rimuovendo elementi. \\
-
-L'approccio di Basalt è pertanto più simile a quello di Go, dove le costanti sono immutabili in tutto e per tutto, e non solo per il riferimento. \\
-
-In C++ il cocetto più simile a quello di costante in Basalt è quello di \texttt{constexpr}, che però nel caso di C++ è ristretto alle sole espressioni
-valutabili a tempo di compilazione. \\
-
-Quando possibile, il compilatore cercherà di effettuare delle ottimizzazioni sulle costanti, ad esempio sostituendo le loro occorrenze
-all'interno del codice con il loro valore, quando noto a tempo di compilazione.

@@ -40,7 +40,7 @@
 \contentsline {subsubsection}{\numberline {1.9.1}Valori Letterali}{31}{}%
 \contentsline {subsubsection}{\numberline {1.9.2}Espressioni elementari}{31}{}%
 \contentsline {subsubsection}{\numberline {1.9.3}Espressioni di sola lettura}{31}{}%
-\contentsline {subsubsection}{\numberline {1.9.4}Costanti}{31}{}%
+\contentsline {subsubsection}{\numberline {1.9.4}Costanti}{32}{}%
 \contentsline {subsection}{\numberline {1.10}Assignments}{33}{}%
 \contentsline {subsubsection}{\numberline {1.10.1}Assignment semplici}{33}{}%
 \contentsline {subsubsection}{\numberline {1.10.2}Assignment tra union}{33}{}%
