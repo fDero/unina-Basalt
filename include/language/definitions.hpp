@@ -1,21 +1,32 @@
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+// AUTHOR: Francesco De Rosa (https://github.com/fDero)                    //
+// LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #pragma once
-#include "toolchain/tokenizer.hpp"
-#include "language/typesystem.hpp"
-#include "language/statements.hpp"
-#include "language/expressions.hpp"
-#include "language/syntax.hpp"
+
 #include <vector>
 #include <string>
-#include <iostream>
-#include <variant>
 
-struct FunctionDefinition {
+#include "frontend/tokenizer.hpp"
+#include "language/typesignatures.hpp"
+#include "language/statements.hpp"
+#include "language/expressions.hpp"
+#include "frontend/syntax.hpp"
+#include "misc/debug_informations_aware_entity.hpp"
+#include "misc/smart_variant.hpp"
+
+struct FunctionDefinition : public DebugInformationsAwareEntity {
     
-    std::string filename;
-    unsigned long line_number;
-    unsigned int tok_num;
-    unsigned int char_pos;
+    using Ref = std::shared_ptr<FunctionDefinition>;
+    using OverloadSet = std::vector<Ref>;
+
+    FunctionDefinition(const Token& func_token);
+    
+    FunctionDefinition(
+        const std::string& function_name, 
+        const DebugInformationsAwareEntity& debug_info
+    );
 
     struct Argument {
         std::string arg_name;
@@ -27,101 +38,80 @@ struct FunctionDefinition {
     std::vector<std::string> template_generics_names;
     std::vector<Argument> arguments;
     std::vector<Statement> code;
-
-    FunctionDefinition(const Token& func_token){
-        filename = func_token.getTokenSource()->getSourceName();
-        line_number = func_token.getLine();
-        tok_num = func_token.getTokenIndex();
-        char_pos = func_token.getCharPositionInLine();
-        function_name = func_token.getText();
-    }
-
-    FunctionDefinition(const std::string& name){
-        filename = "unknown";
-        line_number = 0;
-        tok_num = 0;
-        char_pos = 0;
-        function_name = name;
-    }
 };
 
+struct StructDefinition : public DebugInformationsAwareEntity  {
 
-struct StructDefinition {
+    StructDefinition(const Token& struct_token);
 
-    std::string filename;
-    unsigned long line_number;
-    unsigned int tok_num;
-    unsigned int char_pos;
+    StructDefinition(
+        const std::string& struct_name, 
+        const DebugInformationsAwareEntity& debug_info
+    );
 
     struct Field {
         std::string field_name;
         TypeSignature field_type;
     };
 
-    std::string struct_name;
+    std::string def_name;
     std::vector<Field> fields;
     std::vector<std::string> template_generics_names;
 
-    StructDefinition(const Token& struct_token){
-        filename = struct_token.getTokenSource()->getSourceName();
-        line_number = struct_token.getLine();
-        tok_num = struct_token.getTokenIndex();
-        char_pos = struct_token.getCharPositionInLine();
-        struct_name = struct_token.getText();
-    }
-
-    StructDefinition(const std::string& name){
-        filename = "unknown";
-        line_number = 0;
-        tok_num = 0;
-        char_pos = 0;
-        struct_name = name;
-    }
-
     [[nodiscard]] std::string generate_struct_id() const;
-    [[nodiscard]] std::string generate_match_pattern() const;
-    void instanciate_generics(const CustomType& concrete_type);
 };
 
-struct UnionDefinition {
+struct UnionDefinition : public DebugInformationsAwareEntity  {
 
-    std::string filename;
-    unsigned long line_number;
-    unsigned int tok_num;
-    unsigned int char_pos;
+    UnionDefinition(const Token& union_token);
 
+    UnionDefinition(
+        const std::string& union_name, 
+        const DebugInformationsAwareEntity& debug_info
+    );
 
-    std::string union_name;
+    std::string def_name;
     std::vector<TypeSignature> types;
     std::vector<std::string> template_generics_names;
 
-    UnionDefinition(const Token& union_token){
-        filename = union_token.getTokenSource()->getSourceName();
-        line_number = union_token.getLine();
-        tok_num = union_token.getTokenIndex();
-        char_pos = union_token.getCharPositionInLine();
-        union_name = union_token.getText();
-    }
-
     [[nodiscard]] std::string generate_union_id() const;
-    [[nodiscard]] std::string generate_match_pattern() const;
-    void instanciate_generics(const CustomType& concrete_type);
 };
 
-struct TypeDefinition : public std::variant<StructDefinition, UnionDefinition> {
-    using std::variant<StructDefinition, UnionDefinition>::variant;
-    using std::variant<StructDefinition, UnionDefinition>::operator=;
-    using std::variant<StructDefinition, UnionDefinition>::index;
+struct TypeAlias : public DebugInformationsAwareEntity {
+
+    TypeAlias(
+        const Token& alias_token, 
+        const std::vector<std::string>& template_generics_names, 
+        const TypeSignature& aliased_type
+    );
+
+    TypeAlias(
+        const std::string& alias_name, 
+        DebugInformationsAwareEntity debug_info,
+        const TypeSignature& aliased_type
+    );
+
+    std::string def_name;
+    std::vector<std::string> template_generics_names;
+    TypeSignature aliased_type;
+
+    [[nodiscard]] std::string generate_alias_id() const;
+};
+
+struct TypeDefinition 
+    : public SmartVariant<StructDefinition,UnionDefinition,TypeAlias> 
+{
+    using SmartVariant::SmartVariant;
+    using SmartVariant::operator=;
+    using SmartVariant::index;
     
-    template <typename T> [[nodiscard]] bool is() const {
-        return std::holds_alternative<T>(*this);
-    }
+    using SmartVariant::get;
+    using SmartVariant::is;
 
-    template <typename T> [[nodiscard]] const T& get() const {
-        return std::get<T>(*this);
-    }
+    [[nodiscard]] std::string get_simple_name() const;
+    [[nodiscard]] size_t get_number_of_generics() const;
+    [[nodiscard]] const std::string& get_filename() const;
 
-    template <typename T> [[nodiscard]] T& get() {
-        return std::get<T>(*this);
-    }
+    [[nodiscard]] const std::vector<std::string>& get_template_generics() const;
+    void set_name(const std::string& name);
 };

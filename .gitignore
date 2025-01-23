@@ -12,3 +12,7 @@ generated
 .generated
 .antlr-generated
 antlr-generated
+.log
+.aux
+.toc
+*-old

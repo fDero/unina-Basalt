@@ -1,6 +1,12 @@
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+// AUTHOR: Francesco De Rosa (https://github.com/fDero)                    //
+// LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #pragma once
-#include "toolchain/tokenizer.hpp"
+
+#include "frontend/tokenizer.hpp"
+
 #include <string>
 #include <exception>
 
@@ -9,9 +15,9 @@ struct CommandLineError : public std::exception {
     std::string error_message;
     
     CommandLineError(const std::string& message) 
-        : error_message(message){ }
+        : error_message(message) { }
     
-    const char* what() const noexcept override {
+    [[nodiscard]] const char* what() const noexcept override {
         return error_message.c_str();
     }
 };
@@ -20,24 +26,24 @@ struct TokenizationError : public std::exception {
     std::string error_message;
     std::string sourcetext;
     std::string filename;
-    unsigned long line_number;
-    unsigned int tok_number;
-    unsigned int char_pos;
+    size_t line_number;
+    size_t tok_number;
+    size_t char_pos;
 
     TokenizationError(
         const std::string& message,
         const std::string& source,
         const std::string& file,
-        unsigned long line,
-        unsigned int token,
-        unsigned int position
+        size_t in_line_number,
+        size_t in_token_number,
+        size_t in_char_pos
     )
         : error_message(message), sourcetext(source)
-        , filename(file), line_number(line)
-        , tok_number(token), char_pos(position) 
+        , filename(file), line_number(in_line_number)
+        , tok_number(in_token_number), char_pos(in_char_pos)
     {}
 
-    const char* what() const noexcept override {
+    [[nodiscard]] const char* what() const noexcept override {
         return error_message.c_str();
     }
 };
@@ -46,30 +52,43 @@ struct ParsingError : public std::exception {
     std::string error_message;
     std::string sourcetext;
     std::string filename;
-    unsigned long line_number;
-    unsigned int tok_number;
-    unsigned int char_pos;
+    size_t line_number;
+    size_t tok_number;
+    size_t char_pos;
 
     ParsingError(
         const std::string& message,
         const std::string& source,
         const std::string& file,
-        unsigned long line,
-        unsigned int token,
-        unsigned int position
+        size_t in_line_number,
+        size_t in_token_number,
+        size_t in_char_pos
     )
         : error_message(message), sourcetext(source)
-        , filename(file), line_number(line)
-        , tok_number(token), char_pos(position) 
+        , filename(file), line_number(in_line_number)
+        , tok_number(in_token_number), char_pos(in_char_pos)
     {}
 
     ParsingError(const std::string& message, const Token& token)
-        : error_message(message), sourcetext(token.getText())
-        , filename(token.getTokenSource()->getSourceName()), line_number(token.getLine())
-        , tok_number(token.getTokenIndex()), char_pos(token.getCharPositionInLine()) 
+        : error_message(message), sourcetext(token.sourcetext)
+        , filename(token.filename), line_number(token.line_number)
+        , tok_number(token.tok_number), char_pos(token.char_pos) 
     {}
+
+    ParsingError(const std::string& message, const std::optional<Token>& token_opt)
+        : error_message(message) 
+    {
+        if (token_opt.has_value()) {
+            const Token& token = token_opt.value();
+            sourcetext = token.sourcetext;
+            filename = token.filename; 
+            line_number = token.line_number;
+            tok_number = token.tok_number;
+            char_pos = token.char_pos;
+        } 
+    }
     
-    const char* what() const noexcept override {
+    [[nodiscard]] const char* what() const noexcept override {
         return error_message.c_str();
     }
 };
@@ -81,7 +100,7 @@ struct InternalError : public std::exception {
     InternalError(const std::string& message)
         : error_message(message) {}
 
-    const char* what() const noexcept override {
+    [[nodiscard]] const char* what() const noexcept override {
         return error_message.c_str();
     }
 };

@@ -1,62 +1,57 @@
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+// AUTHOR: Francesco De Rosa (https://github.com/fDero)                    //
+// LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #include "errors/commandline_errors.hpp"
-#include <fstream>
 
-void ensure_lack_of_input_files(const std::vector<std::string>& input_files) {
-    if (!input_files.empty()){
+void avoid_lack_of_input_files(const std::vector<std::string>& input_files) {
+    if (input_files.empty()) {
         throw CommandLineError {
-            "input files were given but they wheren't needed, \n"
-            "(please keep in mind that if you use version or help flag \n"
-            "you are not expected to give any input file what so ever)"
+            "no input files specified, don't know what to do \n"
+            "(input files are supposed to be specified right after the -i flag \n"
+            "and should have one of these extensions: .basalt .bt)"
         };
     }
 }
 
-void ensure_lack_of_output_files(const std::vector<std::string>& output_files) {
-    if (!output_files.empty()) {
+void avoid_lack_of_output_files(const std::vector<std::string>& output_files) {
+    if (output_files.empty()) {
         throw CommandLineError {
-           "output files were given but they wheren't needed, \n"
-            "(please keep in mind that you will get an output only \n"
-            "when compiling, wich means you only need to specify \n"
-            "output files if you use the compilation flag)"
+            "no output files specified, don't know what to do \n"
+            "(output files are supposed to be specified right after the -o flag \n"
+            "and should have one of these extensions: .ll .llvm .asm .s .obj .o)"
         };
     }
 }
 
-void ensure_source_file_is_open(const std::fstream& input_file, const std::string& file_name){
-    if (!input_file.is_open()) {
+void avoid_duplicate_input_files(std::vector<std::string>& input_files) {
+    std::sort(input_files.begin(), input_files.end());
+    if (std::unique(input_files.begin(), input_files.end()) != input_files.end()) {
         throw CommandLineError {
-            "file " + file_name + " either is missing or is inaccessible \n"
-            "(please double-check the name of the file and make sure the \n"
-            "path to that file is fully and correctly specified)"
+            "duplicate input files detected! \n"
+            "(input files must be specified only one single time)"
         };
     }
 }
 
-void ensure_version_flag_is_the_only_one(
-    int current_flag_index, int arg_counter, const std::vector<std::string>& input_files, 
-    const std::vector<std::string>& output_files, const CommandLineController::Mode mode
-){
-    if (
-        !input_files.empty()  || !output_files.empty() || 
-        current_flag_index + 1 < arg_counter || 
-        mode != CommandLineController::Mode::unspecified
-    ) 
-    throw CommandLineError { 
-        "if you use the version flag (-v / --version) that's supposed to be the only one" 
-    };
+void avoid_duplicate_output_file_extensions(
+    std::vector<FileExtension> file_extensions
+) {
+    std::sort(file_extensions.begin(), file_extensions.end());
+    if (std::unique(file_extensions.begin(), file_extensions.end()) != file_extensions.end()) {
+        throw CommandLineError {
+            "duplicate output file extension detected! \n"
+            "(no pair output files should have the same file extension)"
+        };
+    }
 }
 
-void ensure_help_flag_is_the_only_one(
-    int current_flag_index, int arg_counter, const std::vector<std::string>& input_files, 
-    const std::vector<std::string>& output_files, const CommandLineController::Mode mode
-){
-    if (
-        !input_files.empty()  || !output_files.empty() || 
-        current_flag_index + 1 < arg_counter || 
-        mode != CommandLineController::Mode::unspecified
-    ) 
-    throw CommandLineError { 
-        "if you use the help flag (-h / --help) that's supposed to be the only one" 
-    };
+void avoid_lack_of_target_triple(const std::optional<std::string>& target_triple) {
+    if (!target_triple.has_value()) {
+        throw CommandLineError {
+            "no target triple specified, don't know what to do \n"
+            "(target triple is supposed to be specified right after the -t flag)"
+        };
+    }
 }

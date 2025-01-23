@@ -1,7 +1,13 @@
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+// AUTHOR: Francesco De Rosa (https://github.com/fDero)                    //
+// LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 #include "errors/display_utilities.hpp"
-#include "toolchain/commandline.hpp"
+#include "cli/commandline.hpp"
+
 #include <exception>
+#include <cstdlib>
 
 int main(int argc, char** argv) {
     try {
