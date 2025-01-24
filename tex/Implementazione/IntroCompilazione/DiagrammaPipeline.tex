@@ -28,15 +28,21 @@
             }
         ]
 
-        \node[inner sep=4pt] (src) {\includesvg[height=1cm]{../../Assets/file.svg}};
+        \node[inner sep=4pt, label={[left]left:Source code}] (src) {
+            \includesvg[height=1cm]{../../Assets/file.svg}
+        };
 
         \node[block, below=of src] (tokenizer) {Tokenizer};
 
-        \node[inner sep=4pt, below=of tokenizer] (toks) {\includesvg[height=1cm]{../../Assets/toks.svg}};
+        \node[inner sep=4pt, below=of tokenizer, label={[left]left:Tokens}] (toks) {
+            \includesvg[height=1cm]{../../Assets/toks.svg}
+        };
 
         \node[block, below=of toks] (parser) {Parser};
 
-        \node[inner sep=4pt, below=of parser] (ast) {\includesvg[height=1cm]{../../Assets/AST.svg}};
+        \node[inner sep=4pt, below=of parser, label={[left]left:AST}] (ast) {
+            \includesvg[height=1cm]{../../Assets/AST.svg}
+        };
 
         \node[block, below=of ast] (symbtab) {Symbol Tables};
 
@@ -44,13 +50,17 @@
 
         \node[block, below=of validator] (irgen) {IR-Generator};
 
-        \node[inner sep=4pt, below=of irgen] (ir) {\includesvg[height=1.25cm]{../../Assets/IR.svg}};
+        \node[inner sep=4pt, below=of irgen, label={[right]right:Codice IR}] (ir) {
+            \includesvg[height=1.25cm]{../../Assets/IR.svg}
+        };
 
         \node[block, below=of ir] (opt) {IR-Optimizer};
 
         \node[block, below=of opt] (codegen) {CodeGen};
 
-        \node[inner sep=4pt, below=of codegen] (target) {\includesvg[height=1cm]{../../Assets/binary.svg}};
+        \node[inner sep=4pt, below=of codegen, label={[right]right:Binary}] (target) {
+            \includesvg[height=1cm]{../../Assets/binary.svg}
+        };
 
         \draw[arrow] (src) to (tokenizer);
         \draw[arrow] (tokenizer) to (toks);
