@@ -1,1 +1,15 @@
 \subsubsection{Tokenizzazione}
+Con tokenizzazione, si intende il processo di suddivisione del codice sorgente in \textit{token}, ovvero in unità 
+atomiche che rappresentano i componenti del linguaggio. Queste unità atomiche possono essere rappresentate come 
+semplici stringhe, oppure come entità più ricche di informazioni, come ad esempio il nome del file sorgente dal quale
+sono stati estratti, la posizione all'interno del file (riga, colonna) e così via.\\
+
+Il processo di tokenizzazione è il primo passo del processo di compilazione, ed è possibile implementare un tokenizzatore
+in diversi modi. In generale, è utile immaginare un tokenizzatore come un algoritmo iterativo che dato un input testuale
+continua a leggere caratteri finchè essi non formano un token valido. Una volta che un token è stato riconosciuto, 
+esso viene conservato in una opportuna collezione. \\
+
+Commenti, spazi e alcuni caratteri speciali sono generalmente ignorati dal tokenizzatore, nel senso che essi 
+vengono correttamente riconosciuti ma non vengono conservati nella collezione. \\
+
+Un token che non viene riconosciuto porta ad un errore a tempo di compilazione. 
