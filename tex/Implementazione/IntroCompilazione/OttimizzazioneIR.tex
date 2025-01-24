@@ -1,1 +1,31 @@
 \subsubsection{Ottimizzazione dell'IR}
+Una volta che l'IR è stato generato, esso si assume semanticamente corretto, e si può finalmente perdere traccia 
+dell'AST, delle symbol-table e di tutte le altre strutture dati intermedie, comprese tutte le informazioni relative 
+alle coordinate dei vari elementi del programma all'interno del sorgente. \\
+
+
+La fase di ottimizzazione dell'IR consiste nel migliorare il codice IR mediante l'applicazione di trasformazioni
+che ne riducano la complessità e ne migliorino le prestazioni ma che ne lasciano invariati gli effetti osservabili. \\
+
+Le ottimizzazioni possono essere di vario tipo, alcune delle più comuni sono:
+
+\begin{itemize}
+    \item \textbf{Constant folding}: Calcolo di espressioni costanti in fase di compilazione.
+    
+    \item \textbf{Common subexpression elimination}: Rimozione di espressioni comuni.
+    
+    \item \textbf{Loop minimization}: Estrazione di codice dal corpo dei cicli iterativi.
+    
+    \item \textbf{Inlining}: Sostituzione di chiamate a funzione con il corpo della funzione stessa.
+    
+    \item \textbf{Register optimization}: Utilizzo più efficiente dei registri del processore.
+
+    \item \textbf{Code Reordering}: Riordinamento di istruzioni non dipendenti fra loro per
+    poter raggruppare istruzioni che possono essere eseguite in parallelo in un'unica sezione.
+    
+    \item \textbf{SIMD}: Utilizzo di istruzioni SIMD (Single Instruction Multiple Data) al 
+    posto di sequenze di istruzioni normali ripetute (Possibile solo per alcune architetture). 
+\end{itemize}
+
+Una trattazione dettagliata dell'argomento è fuori dallo scopo di questo documento, in quanto è un 
+ambito estremamente ampio ed in continua espansione. \\

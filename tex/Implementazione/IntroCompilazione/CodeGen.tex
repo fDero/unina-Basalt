@@ -1,1 +1,11 @@
 \subsubsection{Conversione dell'IR in codice macchina}
+Il codice IR, una volta ottimizzato, viene convertito in codice macchina mediante un processo chiamato 
+\textit{code-generation}. Il codice IR per sua natura è estremamente simile al codice macchina in struttura e 
+semantica, e quindi la conversione è un processo relativamente semplice. \\
+
+Ogni istruzione IR è direttamente rimpiazzabile con una o più istruzioni macchina che eseguono la stessa operazione. A 
+differenza del codice IR, che è cross-platform, il codice macchina è specifico per l'architettura del processore su cui
+si intende eseguire il programma. \\
+
+Le istruzioni macchina sono codificate in linguaggio binario, e sono scritte su file in modo incrementale man mano 
+che vengono generate. Il file risultante è un file oggetto che è possibile linkare ed eseguire. \\
