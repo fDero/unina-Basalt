@@ -1,1 +1,25 @@
 \subsubsection{Validazione ed analisi statica}
+La fase di validazione è una delle fasi più importanti del processo di compilazione. Essa consiste 
+nel navigare con uno o più visitor l'AST generato dalla fase di parsing e verificare che esso sia
+corretto rispetto a determinate regole semantiche. \\
+
+Basalt, effettua i seguenti controlli di validità sul codice sorgente:
+\begin{itemize}
+    \item Aciclicità delle dipendenze dirette tra tipi: (Non esistenza di struct o union definite per ricorsione diretta)
+    
+    \item Non ambiguità dei tipi (Non esistenza di tipi con lo stesso nome e con lo stesso numero di parametri 
+    formali di tipo nello stesso package, o in package diversi ma importati in uno stesso file)
+
+    \item Address sanitizing (Verifica che non si stia provando a calcolare l'indirizzo di un entità non allocata)
+
+    \item Typechecking (Verifica che tutti i tipi usati esistano e siano coerenti con il contesto, controllo degli 
+    assignments per correttezza di tipo, risoluzione delle chiamate a funzione e controllo sui tipi dei parametri, sui 
+    generics e sul tipo di ritorno)
+
+    \item Immutability-checking (ispezione degli assignments e delle chiamate a funzioni ia fini di impedire
+    modifiche a entità immutabili quali costanti e/o espressioni di sola lettura)
+
+    \item Exit-path-checking (ispezione dei flussi di esecuzione delle funzioni, ai fini di garantire l'assenza di 
+    codice irraggiungibile e la presenza di un return statement in tutti i possibili flussi di esecuzione per funzioni 
+    non void)
+\end{itemize}

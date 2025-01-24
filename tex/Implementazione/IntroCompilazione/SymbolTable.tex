@@ -1,1 +1,12 @@
 \subsubsection{Costruzione delle symbol-table}
+Le symbol-table (tabelle dei simboli), sono strutture dati che memorizzano le varie definizioni 
+di funzioni e tipi presenti all'interno del programma in un formato che ne facilita il recupero. \\ 
+
+Sostanzialmente si tratta di strutture dati chiave-valore in cui ad ogni chiave, che spesso è un AST, ad esempio
+relativo ad una chiamata a funzione o ad una type-signature, viene associata una definizione, anch'essa nella forma di 
+AST, relativo alla definizione corrispondente. \\
+
+Tipicamente esse sono costruite come wrapper su strutture dati più semplici, come ad esempio delle hash-map, 
+ed implementano internamente una traduzione da AST (chiave per la symbol table) a stringa (chiave per la hash-map),
+con eventuali meccanismi di caching più o meno sofisticati per evitare di dover ricalcolare la chiave dell'hash-map 
+ad ogni accesso. \\

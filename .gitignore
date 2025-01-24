@@ -10,10 +10,11 @@ grammar/.antlr
 .antlr
 .antlr-generated
 antlr-generated
-.log
-.aux
-.toc
+*.log
+*.aux
+*.toc
 *-old
 *.interp
 *.tokens
 generated/*.g4
+svg-inkscape
