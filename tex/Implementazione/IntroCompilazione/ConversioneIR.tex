@@ -1,1 +1,121 @@
 \subsubsection{Conversione dell'AST in IR}
+Una volta che tutte le definizioni, in forma di AST, sono state validate, esse vengono convertite in IR 
+(Intermediate Representation). Questa nuova forma di rappresentazione del codice sorgente, permette di
+eseguire operazioni di ottimizzazione e di generazione del codice macchina in modo più efficiente. \\
+
+Il codice macchina infatti, è per sua natura lineare, ovvero è una sequenza ordinata di istruzioni. Il processore 
+possiede un registro chiamato Program-Counter (PC) il quale tiene traccia dell'indirizzo dell'istruzione corrente, 
+al termine di ogni istruzione il PC viene incrementato o decrementato in modo da puntare all'istruzione successiva. \\
+
+La sfida della fase di traduzione dell'AST in IR, consiste nel trasformare una struttura ad albero in una sequenziale,
+utilizzando le istruzioni di salto per rispecchiare fedelmente il flusso di esecuzione atteso. \\
+
+Si consideri ad esempio il seguente frammento di codice, rappresentabile in forma di AST 
+come mostrato in Figura \ref{fig:ast_doppio_if} (si propone una rappresentazione semplificata):
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+if (cond1) {
+    if (cond2) {
+        console::println("cond1 && cond2");
+    }
+    else {
+        console::println("cond1 && !cond2");
+    }
+}
+else {
+    console::println("!cond1");
+}    
+\end{lstlisting}
+\vspace{0.5cm}
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[
+            node distance=1.5cm,
+            elem/.style={
+                rectangle, 
+                draw=black, 
+                thick, 
+                text centered, 
+                minimum height=1cm,
+                minimum width=1cm
+            },
+            arrow/.style={
+                ->, 
+                thick
+            }
+        ]
+
+            \node[elem] (cond1) {if(cond1)};
+            \node[elem, below left=of cond1] (then1) {if(cond2)};
+            \node[elem, below right=of cond1] (else1) {println("!cond1")};
+
+            \node[elem, below left=of then1] (then2) {if(cond1 \&\& cond2)};
+            \node[elem, below right=of then1] (else2) {println("cond1 \&\& !cond2")};
+            
+            \draw[arrow] (cond1) -> (then1);
+            \draw[arrow] (cond1) -> (else1);
+            \draw[arrow] (then1) -> (then2);
+            \draw[arrow] (then1) -> (else2);
+        \end{tikzpicture}
+    \caption{Esempio di AST \textbf{semplificato} per un doppio if-else annidato} 
+    \label{fig:ast_doppio_if}
+\end{figure}
+\newpage
+
+L'AST in Figura \ref{fig:ast_doppio_if} rappresenta un doppio if-else annidato. La conversione in IR di tale AST
+richiede l'utilizzo di istruzioni di salto condizionato per gestire correttamente il flusso di esecuzione. (anch'esso 
+semplificato per motivi di chiarezza e leggibilità)\\
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}[
+            node distance=1.5cm,
+            elem/.style={
+                rectangle, 
+                draw=black, 
+                thick, 
+                text centered, 
+                minimum height=1cm,
+                minimum width=10cm
+            },
+            arrow/.style={
+                ->, 
+                thick
+            }
+        ]
+
+            \node[elem] (cond1) {\texttt{conditional-jump \$cond1, \#then1, \#else1}};
+            \node[elem, yshift=1cm, below=of cond1] (then1) {\texttt{label \#then1}};
+            \node[elem, yshift=1cm, below=of then1] (cond2) {\texttt{conditional-jump \$cond2, \#then2, \#else2}};
+            \node[elem, yshift=1cm, below=of cond2] (then2) {\texttt{label \#then2}};
+            \node[elem, yshift=1cm, below=of then2] (tehn2print) {\texttt{call @print "cond1 \&\& cond2"}};
+            \node[elem, yshift=1cm, below=of tehn2print] (then2exit) {\texttt{jump \#end}};
+            \node[elem, yshift=1cm, below=of then2exit] (else2) {\texttt{label \#else2}};
+            \node[elem, yshift=1cm, below=of else2] (else2print) {\texttt{call @print "cond1 \&\& !cond2"}};
+            \node[elem, yshift=1cm, below=of else2print] (else2exit) {\texttt{jump \#end}};
+            \node[elem, yshift=1cm, below=of else2exit] (else1) {\texttt{label \#else1}};
+            \node[elem, yshift=1cm, below=of else1] (else1print) {\texttt{call @print "!cond1"}};
+            \node[elem, yshift=1cm, below=of else1print] (else1exit) {\texttt{jump \#end}};
+            \node[elem, yshift=1cm, below=of else1exit] (end) {\texttt{label \#end}};
+            
+            \draw[arrow] (cond1) -> (then1);
+            \draw[arrow] (then1) -> (cond2);
+            \draw[arrow] (cond2) -> (then2);
+            \draw[arrow] (then2) -> (tehn2print);
+            \draw[arrow] (tehn2print) -> (then2exit);
+            \draw[arrow] (then2exit) -> (else2);
+            \draw[arrow] (else2) -> (else2print);
+            \draw[arrow] (else2print) -> (else2exit);
+            \draw[arrow] (else2exit) -> (else1);
+            \draw[arrow] (else1) -> (else1print);
+            \draw[arrow] (else1print) -> (else1exit);
+            \draw[arrow] (else1exit) -> (end);
+            
+            
+
+        \end{tikzpicture}
+    \caption{Esempio di IR \textbf{semplificato} per un doppio if-else annidato} 
+    \label{fig:ast_doppio_if}
+\end{figure}
