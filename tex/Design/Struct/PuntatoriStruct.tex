@@ -1,6 +1,6 @@
 \subsubsection{Puntatori a struct}
-In C e in C++, per accedere ai campi di un oggetto dato un puntatore a tale oggetto, occorre o deferenziare il 
-puntatore, per poi utilizzare l’operatore ".” sull’oggetto così ottenuto, oppure è stato introdotto un operatore 
+In C e in C++, per accedere ai campi di un oggetto dato un puntatore a tale oggetto, occorre o dereferenziare il 
+puntatore, per poi utilizzare l’operatore ".” sull’oggetto così ottenuto, oppure usare l'operatore 
 apposito "->” funzionalmente analogo. \\ 
 
 In Basalt, così come in Go, è possibile usare l’operatore ".” direttamente sul puntatore per accedere ai campi 
@@ -19,7 +19,7 @@ var person_ptr_ptr : ##Person = &person_ptr;
 \end{lstlisting}
 \vspace{0.5cm}
  
-Allora si potrà accedere al campo "name” della variabile "person” postponendo 
+Allora si potrà accedere al campo "name” della variabile "person” posponendo 
 ".name” a una qualunque di queste tre variabili. \\ 
 
 Go è stato il primo linguaggio ad introdurre un meccanismo del genere, seppur in una forma 
@@ -38,6 +38,6 @@ in lettura e scrittura ai campi di un oggetto e ci si accorge in un secondo mome
 ha bisogno di eventualmente riassegnare un nuovo valore all’oggetto stesso. In tal caso, l’unica modifica 
 da apportare alla funzione sarà cambiare il tipo dell’argomento in questione e rendendolo un puntatore 
 a puntatore, mantenendo il resto del codice intatto. Chiunque abbia programmato C abbastanza a 
-lungo questo si potrà facilmente rendere conto che tale scenario è molto comune e pertanto facilitare 
+lungo si potrà facilmente rendere conto che tale scenario è molto comune e pertanto facilitare 
 la risoluzione di un problema del genere è qualcosa di cui il programmatore 
-medio può beneficiare in modo cocnreto e tangibile. \\
+medio può beneficiare in modo concreto e tangibile. \\

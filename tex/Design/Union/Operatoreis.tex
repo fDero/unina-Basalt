@@ -15,22 +15,3 @@ else {
 }
 \end{lstlisting}
 \vspace{0.5cm}
-
-
-Così come le struct, anche le union devono avere una dimensione in byte nota a tempo di compilazione, e dunque analogamente a 
-quanto visto per le struct, Basalt reputa non corrette tutte le definizioni di union aventi dipendenze cicliche dirette. \\ 
-
-Una union occupa in memoria dimensione pari al massimo tra le dimensioni dei tipi non-union a partire dai quali è stata definita, 
-con un overhead aggiuntivo di otto bytes utilizzati per contenere l’indirizzo in memoria di un oggetto di tipo Type il quale rappresenta 
-il tipo effettivo rappresentato da un certo oggetto di tipo union in un dato momento dell’esecuzione del programma. Il tipo Type è un 
-tipo speciale in Basalt, esso è la spina dorsale su cui è stato costruito il meccanismo di reflection, 
-e ad esso è stata dedicata una sezione apposita di questo documento. \\
-
-Alla luce di quanto detto, ogni oggetto di tipo PrimitiveType dunque occuperà in memoria sedici bytes, otto dedicati a rappresentare 
-il valore da esso incapsulato, che può essere di tipo Int, Float, Char, Bool o Byte, ed otto per rappresentare 
-l’indirizzo di un oggetto tipo Type, che descrive il tipo di tale valore incapsulato. \\
-
-Si noti come in altri linguaggi, come Java, Kotlin e C\#, ogni oggetto possiede un "object-header”, ovvero un’area del proprio memory 
-layout atta a contenere varie informazioni, tra le quali il tipo effettivo dell’oggetto. La differenza principale tra 
-tali linguaggi e Basalt è che quest’ultimo limita l’overhead alle sole union, che infatti sono il solo costrutto che consentono 
-il disallineamento tra tipo dichiarato e tipo effettivo.
