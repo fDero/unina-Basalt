@@ -1,13 +1,12 @@
 \subsection{Variabili}
 Le variabili sono dei contenitori logici capaci di contenere dei valori decisi a tempo di esecuzione. Ci si potrà riferire 
 al valore contenuto in un dato istante di tempo da una variabile o da una costante utilizzando il suo nome. Tramite un apposito 
-costrutto detto assegnazione, è possibile riassegnare il valore di una variabile, ciò non è però possibile per una costante, la quale 
-una volta dichiarata non potrà mai cambiare valore. 
+costrutto detto assegnazione, è possibile riassegnare il valore di una variabile.
 
 \subsubsection{Dichiarazione di variabili}
 La dichiarazione di una variabile può avvenire con inizializzazione o senza, laddove un valore di inizializzazione sia mancante il valore 
 di tale variabile sarà casuale. Ci si aspetta che in tale scenario un valore venga poi assegnato in un secondo momento. Qualunque sia la 
-tipologia di dichiarazione scelta, essa deve essere introdotta dalla keyword var, seguida dal nome della variabile, dai due punti e dal tipo 
+tipologia di dichiarazione scelta, essa deve essere introdotta dalla keyword var, seguita dal nome della variabile, dai due punti e dal tipo 
 di tale variabile.
 
 \vspace{0.5cm}
@@ -22,7 +21,7 @@ Una variabile in Basalt esiste nello scope della funzione, del ciclo o più in g
 significa che una variabile dichiarata all’interno di un blocco di codice non sarà accessibile al di fuori di esso.
 
 \subsubsection{Shadowing}
-Con showowing, si intende la possibilità di, all'interno di un blocco di codice innestato, dichiarare una variabile con un nome già usato
+Con shadowing, si intende la possibilità di, all'interno di un blocco di codice innestato, dichiarare una variabile con un nome già usato
 in un blocco esterno, oscurandola. Numerosi linguaggi supportano lo shadowing delle variabili, ma Basalt non è tra questi. Si è ritenuto 
 che tale funzionalità potesse portare a confusione e a codice di difficile comprensione, pertanto tentare di oscurare una variabile già definita
 in un blocco esterno causerà un errore a tempo di compilazione.
@@ -30,6 +29,6 @@ in un blocco esterno causerà un errore a tempo di compilazione.
 \subsubsection{Deallocazione delle variabili}
 Al termine dell'esecuzione del blocco di codice corrente, l'area di memoria occupata dalle variabili dichiarate in esso verrà automaticamente
 deallocata. Nel caso in cui tali variabili abbiano per valore un indirizzo di memoria dinamica allocato in precedenza, la deallocazione di tale blocco 
-\textbf{non} è automatica, e spetterà al programmatore deallocare tale blocco di memoria manualmente.
+\textbf{non} è automatica, e spetterà dunque al programmatore deallocare tale blocco di memoria manualmente.
 
 \vspace{0.5cm}
