@@ -1,9 +1,9 @@
 \subsubsection{Struttura di un programma Basalt}
 Come precedentemente menzionato, Basalt si discosta dall'utilizzo di header files tipico di C e C++, optando invece per un sistema di gestione dei pacchetti simile a quello adottato da Java. In particolare, 
-il sistema dei pacchetti di Basalt prevede che all’intero di un file apparenente ad un dato pacchetto, sia visibile il contenuto di tutti gli altri file dello stesso pacchetto, assieme al contenuto 
+il sistema dei pacchetti di Basalt prevede che all’interno di un file appartenente ad un dato pacchetto, sia visibile il contenuto di tutti gli altri file dello stesso pacchetto, assieme al contenuto 
 dei package importati. \\
 
-Ogni file sorgente contenente codice Basalt deve possedere una intestazione composta dalla dichiarazione del package corrente, ovvero il package a cui il file appartiene, e 
+Ogni file sorgente contenente codice Basalt deve possedere un'intestazione composta dalla dichiarazione del package corrente, ovvero il package a cui il file appartiene, e 
 da una lista di package importati dal file, necessari al suo funzionamento. \\
  
 Così come C, C++, Zig, Rust, Go, Jai, Odin e molti altri, il flusso di esecuzione parte da una chiamata fittizia ad una funzione speciale detta entry-point del programma. Così 
