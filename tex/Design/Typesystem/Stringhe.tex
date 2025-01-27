@@ -1,10 +1,10 @@
 \subsubsection{Stringhe}
-La gestione delle stringhe nei linguaggi di basso livello è da sempre una sfida, in C, C++, Zig e Odin le stringhe non sono altro 
+La gestione delle stringhe nei linguaggi di basso livello è da sempre una sfida. In C, C++, Zig e Odin le stringhe non sono altro 
 che puntatori ad aree di memoria contigue dove sono conservati dei caratteri. Tale è anche l’approccio di Basalt, dove le stringhe, 
 indicate con String, sono implementate come puntatori vettoriali a carattere. \\
 
-Per facilitare l’ineroperabilità con C, esiste anche il tipo RawString che è invece implementato come un puntatore scalare a carattere, 
-e che punta al primo carattere della sequenza che compone la stringa. In C infatti, una stringa altro non è che un puntatore al primo 
+Per facilitare l’interoperabilità con C, esiste anche il tipo RawString che è invece implementato come un puntatore scalare a carattere, 
+il quale, punta al primo carattere della sequenza che compone la stringa. In C infatti, una stringa altro non è che un puntatore al primo 
 carattere che ne fa parte. Non avendo una dimensione, le stringhe in C devono essere marcate al termine da un carattere speciale ‘\textbackslash0’ 
 che ne segnala la terminazione. Al fine di poter convertire agevolmente una String in una RawString, la quale può essere usata per 
 interfacciarsi con C, allora in Basalt è comunque presente il carattere speciale ‘\textbackslash0’ al termine di ogni sequenza di caratteri 
@@ -17,7 +17,7 @@ var cstr : RawString = str;
 \end{lstlisting}
 \vspace{0.5cm}
 
-Nel frammento di codice appena mostrato, si assegna il valore di una variabile di tipo String ad una variabile di tipo RawString. É 
+Nel frammento di codice appena mostrato si assegna il valore di una variabile di tipo String ad una variabile di tipo RawString. É 
 possibile descrivere graficamente lo stato della memoria al termine dell’esecuzione di questo frammento di codice con un 
 Memory-Layout-Diagram nel seguente modo: \\
 
@@ -64,12 +64,11 @@ nella pool per inizializzare variabili o per effetturare accessi in lettura. \\
 Così come in Go e in Java, le stringhe sono immutabili, questo è un prerequisito essenziale al funzionamento dello string-pooling, dato 
 che stringhe in scope diversi si riferiscono in realtà alle stesse sequenze di caratteri nella pool. \\
 
-Per modificare una stringa, occorrerà dunque allocare una nuova area di memoria (su stack 
-utilizzando un array di caratteri da castare successivamente a puntatore vettoriale o su heap utilizzando una 
-funzione di allocazione e gestendo un puntatore vettoriale direttamente) per ospitare i caratteri della stringa, 
-si procederà alla modifica e si assegnerà il puntatore vettoriale dell’area di memoria contenete la nuova sequenza 
-di caratteri modificata alla stringa che si desiderava modificare. In Go accade qualcosa di sostanzialmente analogo. Segue un 
-conciso esempio concreto di quanto appena detto. \\
+Per modificare una stringa, occorrerà dunque allocare una nuova area di memoria per ospitare i caratteri della stessa 
+(su stack utilizzando un array di caratteri da castare successivamente a puntatore vettoriale o su heap utilizzando una 
+funzione di allocazione e gestendo un puntatore vettoriale direttamente). Si procederà alla modifica e si assegnerà il puntatore vettoriale 
+dell’area di memoria contenente la nuova sequenza di caratteri modificata alla stringa che si desiderava modificare. In Go 
+accade qualcosa di sostanzialmente analogo. Segue un conciso esempio concreto di quanto appena detto. \\
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]

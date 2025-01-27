@@ -15,8 +15,8 @@ doversi assicurare ogni volta che il puntatore sia non nullo, ma semplicemente c
 strettamente minori della sua dimensione come è del resto naturale fare anche per gli array. \\
 
 La sintassi per accedere all’i-esimo elemento di un puntatore vettoriale è del tutto uguale a quanto già 
-visto per gli array, ovvero si pone alla destra del puntatore vettoriale da cui si desidera leggere, un espressione di tipo intero il 
-cui valore numerico sarà interpretato come indice racchiuso fra parentesi quadre. \\
+visto per gli array, ovvero si pone alla destra del puntatore vettoriale, da cui si desidera leggere, un espressione di tipo intero, il 
+cui valore numerico sarà interpretato come indice, racchiusa fra parentesi quadre. \\
 
 Il seguente frammento di codice illustra come si può istanziare un blocco di memoria dinamica su heap e come lo 
 si può gestire mediante un puntatore vettoriale a tale blocco. In particolare il seguente codice stampa il contenuto di ogni cella del 
@@ -37,7 +37,7 @@ memory::free<$Int>(slice);
 \vspace{0.5cm}
 
 
-É possibile assegnare ad una variabile di tipo "puntatore vettoriale a T”, un’espressione di tipo "array di oggetti di tipo T” 
+É possibile assegnare ad una variabile di tipo "puntatore vettoriale a T”, un’espressione di tipo "puntatore scalare ad array di oggetti di tipo T” 
 di qualsiasi dimensione. Ciò consente l'utilizzo del puntatore vettoriale come supertipo di tutti gli array. Tale assegnazione 
 comporta un effetto simile a quello osservato quando si assegna l'indirizzo di un oggetto già istanziato a un puntatore utilizzando 
 l'operatore di indirizzo \texttt{\&}. In tal modo, entrambi i riferimenti puntano alla stessa area di memoria. \\
@@ -45,14 +45,14 @@ l'operatore di indirizzo \texttt{\&}. In tal modo, entrambi i riferimenti puntan
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
 var array : [10]Int = [10]Int{0,1,2,3,4,5,6,7,8,9};
-var slice : $Int = array;
+var slice : $Int = &array;
 \end{lstlisting}
 \vspace{0.5cm}
 
 Dato che un puntatore vettoriale, così come un puntatore scalare, non conserva informazioni sufficenti a determinare se 
-l’oggetto puntato si trovi su stack o su heap, e dato che Basalt si prefige come obbiettivo quello di non 
+l’oggetto puntato si trovi su stack o su heap, e dato che Basalt si prefigge come obbiettivo quello di non 
 effettuare allocazioni nascoste e invece di essere sempre trasparente riguardo alla gestione della memoria, ne consegue che non 
-è posibile inserire nuovi elementi in un puntatore vettoriale o ridimensionarlo in qualsiasi altro modo. \\
+è possibile inserire nuovi elementi in un puntatore vettoriale o ridimensionarlo in qualsiasi altro modo. \\
 
 Un’ipotetica implementazione di un array dinamico propriamente detto con possibilità di 
 inserire e rimuovere elementi da esso potrebbe essere quella mostrata nel seguente frammento di codice. 
