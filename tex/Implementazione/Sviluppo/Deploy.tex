@@ -1,0 +1,11 @@
+\subsubsection{Build automatizzata}
+Posto che la build del compilatore nella sua versione basata su ANTLR è manuale, e può essere condotta 
+solo usando specificamente il compilatore gcc con lo standard 17, la build del compilatore Basalt
+nella sua versione proposta sulla repository principale è automatizzata. \\
+
+La build automatizzata utilizza conan, un package manager per C++, 
+per scaricare le dipendenze del progetto (LLVM e libxml2), le quali sono 
+poi compilate in locale automaticamente solo al primo utilizzo. \\
+
+Scaricate le dipendenze, il progetto viene compilato con cmake, che è uno strumento 
+che consente di effettuare build incrementali di progetti C e C++. \\

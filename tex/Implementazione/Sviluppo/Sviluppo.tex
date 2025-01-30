@@ -1,0 +1,23 @@
+\subsection{Sviluppo del compilatore Basalt}
+Alla luce di quanto detto nei capitoli precedenti, si è deciso di sviluppare il compilatore 
+per il linguaggio di programmazione Basalt in C++. Questa scelta è stata fatta per diversi motivi, 
+tra cui:
+
+\begin{itemize}
+    \item \textbf{Facilità di utilizzo del compilatore}: É stato dato un particolare peso alla facilità di utilizzo 
+    del prodotto finito. Un compilatore scritto in Java ad esempio, avrebbe richiesto l'installazione di una JVM, 
+    rendendo il prodotto meno accessibile (Considerazioni analoghe possono essere fatte per C\# o simili). 
+    Inoltre, in C++ è possibile creare eseguibili linkati staticamente, semplificando il processo di 
+    distribuzione del compilatore.
+    
+    \item \textbf{Performance}: C++ è un linguaggio altamente performante, e questo è un requisito
+    fondamentale per un compilatore. Un compilatore scritto in un linguaggio più lento avrebbe richiesto
+    tempi di compilazione più lunghi, rendendo l'esperienza dell'utente finale meno piacevole.
+
+    \item \textbf{Supporto di LLVM}: L'adozione di LLVM è stata una scelta compiuta fin dalle primisse fasi di 
+    design del compilatore. LLVM è disponibile in vari linguaggi, ma non tutti, e comunque il supporto migliore
+    è garantito per C e C++.
+\end{itemize}
+
+\subfile{DueRepo.tex}
+\subfile{Deploy}
