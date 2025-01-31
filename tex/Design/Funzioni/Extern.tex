@@ -1,4 +1,4 @@
-\subsection{Funzioni extern}
+\subsubsection{Funzioni extern}
 Una funzione esterna, in generale, è una funzione che non è definita all'interno della compilation unit in cui viene 
 invocata. Nel caso concreto del linguaggio Basalt, essa è dunque una funzione che si desidera invocare all'interno
 di un programma Basalt, ma che è definita in un altro linguaggio ad esempio in C o in C++. \\
@@ -9,23 +9,26 @@ essere emesso dai compilatori C e C++. \\
 
 Per poter invocare una funzione esterna, è necessario che essa sia dichiarata all'interno del programma Basalt
 utilizzando la keyword \textit{extern} al posto della keyword \textit{func}, e rimpiazzando il corpo della funzione
-con un simbolo di \texttt{=} seguito da una string literal rappresentante il nome con cui tale funzione viene nominata 
-nell'object file che si desidera linkare, seguita da un punto e virgola. \\
+con un simbolo di \texttt{=} seguito da una string literal detta nome-macchina, rappresentante il nome con cui tale 
+funzione viene nominata nell'object file che si desidera linkare, seguita da un punto e virgola. \\
 
-\vspace{0.5cm}
+Una funzione extern non può essere generica, e non vi possono essere più funzioni esterne associate 
+allo stesso nome macchina. \\
+
+\vspace{0.4cm}
 \begin{lstlisting}[frame=single]
 // C stdlib: double sqrt(double);
 extern square_root(value : Float) -> Float = "sqrt";
 \end{lstlisting}
-\vspace{0.5cm}
+\vspace{0.4cm}
 
 Tale design consente di poter effettuare overloading di funzioni esterne, in quanto il nome da utilizzare per
 l'overloading è quello con cui essa è stata dichiarata, che è potenzialmente differente dal nome che essa ha
 nell'object file, e che è stato invece specificato in coda alla dichiarazione. Di seguito un esempio di quanto detto: \\
 
-\vspace{0.5cm}
+\vspace{0.4cm}
 \begin{lstlisting}[frame=single]
-// C stdlib: int32_t puchar(int32_t);
+// C stdlib: int32_t putchar(int32_t);
 extern print(char : Char) = "putchar";
 
 func print(str : RawString) {
@@ -44,4 +47,3 @@ func print(str : String) {
     }
 }
 \end{lstlisting}
-\vspace{0.5cm}
