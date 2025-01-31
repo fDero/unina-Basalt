@@ -9,3 +9,28 @@ poi compilate in locale automaticamente solo al primo utilizzo. \\
 
 Scaricate le dipendenze, il progetto viene compilato con cmake, che è uno strumento 
 che consente di effettuare build incrementali di progetti C e C++. \\
+
+\subsubsection{Installer per Windows x86}
+Per facilitare l'installazione del compilatore Basalt su sistemi Windows x86, è stato creato un installer
+automatico nel formato msi (Microsoft Installer). \\
+
+Tale installer posiziona l'eseguibile (staticamente linkato) del compilatore Basalt nella directory 
+\texttt{\%Program Files\%}\textbackslash\texttt{basalt}\textbackslash\texttt{<version>}, 
+e aggiunge la directory alla variabile d'ambiente \texttt{PATH}. In fase di disinstallazione, 
+che avviene dal pannello di controllo, rimuove l'eseguibile e la directory dalla variabile d'ambiente. \\
+
+Tale installer è stato creato con WiX Toolset, uno strumento del \texttt{.NET} framwork di Microsoft.
+Esso mostra in fase di installazione una End-User License Agreement (EULA) in formato rtf (Rich text format). \\
+
+\subsubsection{Package per linux}
+Per facilitare l'installazione del compilatore Basalt su sistemi Linux, è stata predisposta 
+la pacchettizazione per snapcraft (package manager di canonical). \\
+
+Snapcraft è uno strumento che consente di creare pacchetti snap, che sono pacchetti software
+sottoforma di container, che contengono tutte le dipendenze necessarie per l'esecuzione del software. 
+Snapcraft è nato nell'ecosistema Ubuntu, ma è possibile utilizzarlo anche in altre distribuzioni Linux 
+basate su Debian, e il supporto è attualmente in espansione anche per altre distribuzioni. \\ 
+
+Il pacchetto non è attualmente sulle repository ufficiali di snapcraft, ma è possibile installarlo
+scaricandolo manualmente dalla repository github del progetto. Il nome per la futura pubblicazione di 
+Basalt sui repository ufficiali di Snapcraft è già stato riservato. \\
