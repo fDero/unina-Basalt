@@ -1,0 +1,47 @@
+\subsection{Funzioni extern}
+Una funzione esterna, in generale, è una funzione che non è definita all'interno della compilation unit in cui viene 
+invocata. Nel caso concreto del linguaggio Basalt, essa è dunque una funzione che si desidera invocare all'interno
+di un programma Basalt, ma che è definita in un altro linguaggio ad esempio in C o in C++. \\
+
+Il linker, in fase di linking, si occuperà di risolvere il riferimento alla funzione esterna a patto che 
+esso abbia a disposizione l'object file contenente la definizione della funzione. Tale object file può 
+essere emesso dai compilatori C e C++. \\
+
+Per poter invocare una funzione esterna, è necessario che essa sia dichiarata all'interno del programma Basalt
+utilizzando la keyword \textit{extern} al posto della keyword \textit{func}, e rimpiazzando il corpo della funzione
+con un simbolo di \texttt{=} seguito da una string literal rappresentante il nome con cui tale funzione viene nominata 
+nell'object file che si desidera linkare, seguita da un punto e virgola. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+// C stdlib: double sqrt(double);
+extern square_root(value : Float) -> Float = "sqrt";
+\end{lstlisting}
+\vspace{0.5cm}
+
+Tale design consente di poter effettuare overloading di funzioni esterne, in quanto il nome da utilizzare per
+l'overloading è quello con cui essa è stata dichiarata, che è potenzialmente differente dal nome che essa ha
+nell'object file, e che è stato invece specificato in coda alla dichiarazione. Di seguito un esempio di quanto detto: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+// C stdlib: int32_t puchar(int32_t);
+extern print(char : Char) = "putchar";
+
+func print(str : RawString) {
+    var index : Int = 0;
+    while (str[index] != '\0') {
+        print(str[index]);
+        index = index + 1;
+    }
+}
+
+func print(str : String) {
+    var index : Int = 0;
+    while (index < len(str)) {
+        print(str[index]);
+        index = index + 1;
+    }
+}
+\end{lstlisting}
+\vspace{0.5cm}
