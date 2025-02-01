@@ -5,11 +5,9 @@ L’operazione di deduzione dei parametri attuali di tipo a partire dal
 contesto è detta type-inference. \\
 
 Supponiamo ad esempio di voler chiamare la funzione max, ma 
-senza specificare un parametro attuale di tipo tra parentesi angolari. 
-Per usare la type-inference, 
-è possibile omettere interamente la sezione dei parametri attuali di 
-tipo ed utilizzare max in maniera sintatticamente analoga a come 
-lo si farebbe per una funzione non generica. \\
+senza specificare un parametro attuale di tipo. 
+Per usare la type-inference, basterà omettere interamente i parametri attuali di 
+tipo ed utilizzare max come se fosse una funzione non generica. \\
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
@@ -35,14 +33,11 @@ var z2 : Number = max(int_value, float_value);
 \end{lstlisting}
 \vspace{0.5cm}
  
-La risoluzione dei vincoli di tipo è affrontata secondo il seguente algoritmo:
-\begin{itemize}
-      \item Se uno dei tipi degli argomenti è tale da essere utilizzato come parametro attuale di tipo, 
-      esso sarà scelto: è il caso di \texttt{max(int\_value, number\_value)} che porta alla scelta di 
-      \texttt{Number} come parametro attuale di tipo tramite type-inference. 
+La risoluzione dei vincoli di tipo è affrontata secondo il seguente algoritmo (in flow-chart):
 
-      \item Se nessuno dei tipi degli argomenti è tale da essere utilizzato come parametro attuale di tipo,
-      Basalt risolverà i vincoli considerando la union anonima di tutti i tipi degli argomenti concreti
-      forniti in chiamata. È il caso di \texttt{max(int\_value, float\_value)} che porta alla scelta di
-      \texttt{Int | Float} come parametro attuale di tipo tramite type-inference.
-\end{itemize}
+\subfile{FlowChartTypeInference}
+\vspace{0.5cm}
+
+Con tale algoritmo, la chiamata alla funzione \texttt{max} con argomenti di tipo \texttt{Int} e \texttt{Number}
+porterà alla deduzione del tipo \texttt{Number}, mentre la chiamata con argomenti di tipo \texttt{Int} 
+e \texttt{Float} porterà alla deduzione del tipo \texttt{Int | Float} (comportamento atteso).\\

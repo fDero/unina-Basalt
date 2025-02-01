@@ -1,12 +1,11 @@
 \subsubsection{Funzioni generiche}
-Come già detto in precedenza, le funzioni in Basalt possono essere generiche, 
-ovvero avere parametri formali di tipo. La definizione di una funzione generica 
-prevede la presenza di una lista non vuota di parametri formali di tipo separati da 
-virgole e racchiusi tra parentesi angolari che precede la lista di argomenti 
-della funzione. \\
+Come detto in precedenza, le funzioni in Basalt possono essere generiche. 
+La definizione di una funzione generica prevede la presenza di una lista 
+non vuota di parametri formali di tipo, separati da virgole e racchiusi tra 
+parentesi angolari, che precede la lista di argomenti della funzione. \\
 
-È possibile definire una funzione generica che restituisca il massimo tra due valori 
-il cui tipo è specificato a tempo di chiamata.
+È possibile definire una funzione generica che restituisca il massimo tra due 
+valori il cui tipo è specificato al momento della chiamata.
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
@@ -22,9 +21,8 @@ func max<T>(first : T, second : T) -> T {
 \vspace{0.5cm}
 
 
-Dato che in Basalt i generici vengono implementati mediante reificazione a tempo 
-di compilazione, tale definzione sarà istanziata all’occorrenza e sarà possibile 
-istanziare tale funzione solo per tipi conforntabili con l’operatore ‘>’. 
+Tale definizione sarà istanziata all’occorrenza e sarà possibile 
+istanziare tale funzione solo per tipi confrontabili con l’operatore ‘>’. 
 Istanziare tale funzione con tipi non confrontabili genererà un errore a tempo 
 di compilazione. \\
 

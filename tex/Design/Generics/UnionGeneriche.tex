@@ -5,8 +5,7 @@ nel caso delle union la loro implementazione concreta consiste nella reificazion
 Un caso particolarmente indicativo dell’utilità di questo costrutto è ad esempio una ipotetica union Collection, generica 
 con parametro di tipo T, definita a partire da una serie di tipi definiti come struct, i quali implementano varie strutture dati. \\
 
-\vspace{0.5cm}
+
 \begin{lstlisting}[frame=single]
 union Collection<T> = LinkedList<T> | HashTable<T> | Tree<T>
 \end{lstlisting}
-\vspace{0.5cm}

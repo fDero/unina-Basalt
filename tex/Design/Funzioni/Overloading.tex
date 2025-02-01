@@ -1,9 +1,9 @@
 \subsubsection{Overloading}
 Con overloading delle funzioni, si intende la possibilità di fornire all’interno 
 di un programma, eventualmente anche all’interno dello stesso package, multiple 
-definizioni di funzioni aventi lo stesso nome, a patto gli argomenti differiscano 
+definizioni di funzioni aventi lo stesso nome, a patto che gli argomenti differiscano 
 per quantità o per il tipo di almeno uno di essi. Due definzioni di funzioni 
-aventi lo stesso nome si dicono una overload dell’altra, l’insieme di tutti 
+aventi lo stesso nome si dicono una overload dell’altra. L’insieme di tutti 
 gli overload di una certa funzione viene chiamato overload-set. \\
 
 Analizziamo per esempio questi due overload per la funzione \texttt{max}, esse sono 
@@ -48,7 +48,7 @@ func max(first : Number, second : Number) -> Number {
 
 \newpage
 
-nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload rienuto 
+nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload ritenuto 
 più specifico, applicando queste politiche di selezione e filtraggio tra gli overload trovati.
 
 \begin{itemize}
@@ -70,7 +70,7 @@ più specifico, applicando queste politiche di selezione e filtraggio tra gli ov
         compaiono meno volte tipi definiti come union e/o union anonime.
     }
     \item{
-        un overload viene preferito ad un altro se il numero totale di casi comperti dalle 
+        un overload viene preferito ad un altro se il numero totale di casi coperti dalle 
         union che compaiono tra i suoi argomenti è minore.
     }
     \item{

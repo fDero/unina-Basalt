@@ -1,0 +1,34 @@
+\begin{figure}[h]
+    \centering
+        \resizebox{1.0\textwidth}{!}{
+            \begin{tikzpicture}[ 
+                auto,
+                decision/.style={diamond, draw=black, thick, text width=2cm, text centered, inner sep=1pt},
+                block/.style={rectangle, draw=black, thick, text width=3cm, text centered, minimum height=2em},
+                line/.style={draw, thick, -latex'},
+                node distance=2cm
+            ]
+
+            % Place nodes
+            \node [block, text width=10cm] (init) {bisogna trovare un tipo T a cui assegnare espressioni di tipo X};
+            \node [decision, below=of init, yshift=1cm] (cond1) {Esiste già un candidato per T?};
+            \node [block, left=of cond1, yshift=-4.3cm] (ezout) {X diventa candidato};
+            \node [decision, right=of cond1, yshift=-3cm, xshift=-2cm] (cond2) {X è compatibile col candidato?};
+            \node [decision, right=of cond2, yshift=-3cm, xshift=-2cm] (cond3) {É già compatibile con X?};
+            \node [block, below=of ezout, text width=4cm, yshift=-1cm] (ez2) {il vecchio candidato non viene aggiornato};
+            \node [block, right=of ez2, text width=8cm] (sub) {il nuovo candidato diventa la union anonima del precedente con X};
+            
+
+            % Draw paths
+            \path [line] (init.south)                -| (cond1.north);
+            \path [line] (cond1.west) -- ++(-3,0)    -| node [yshift=0.45cm] {no} (ezout.north);
+            \path [line] (cond2.west) -- ++(-5,0)    -| node [yshift=0.45cm] {sì} (ezout.north);
+            \path [line] (cond1.east) -- ++(+2,0)    -| node [yshift=0.45cm, xshift=-0.45cm] {sì} (cond2.north);
+            \path [line] (cond2.east) -- ++(+1.80,0) -| node [yshift=0.45cm, xshift=-0.45cm] {sì} (cond3.north);
+            \path [line] (cond3.west) -- ++(-11,0)   -| node [yshift=0.45cm] {sì} (ez2.north);
+            \path [line] (cond3.east) -- ++(+1,0)    |- node [yshift=0.45cm, xshift=0.45cm] {no} (sub.east);
+
+            \end{tikzpicture}
+        }
+    \caption{Flow chart per l'algoritmo di type inference}
+\end{figure}
