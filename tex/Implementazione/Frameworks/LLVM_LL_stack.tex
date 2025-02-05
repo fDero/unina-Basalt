@@ -1,0 +1,52 @@
+\subsubsection{Implementazione di strutture dati in LL}
+È possibile definire delle struct in LL, le quali sono simboli come le funzioni e possono essere 
+globali o locali. Di seguito è riportato un esempio di definizione di due struct locali, che rappresentano 
+rispettivamente uno stack (struttura dati) ed un suo nodo. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+%Stack = type { 
+    %Node*, 
+    i64 
+}
+
+%Node = type { 
+    %Node*, 
+    i32 
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Volendo mostrare solo un esempio di come è possibile usare le struct definite sopra,
+si riporta la definizione di una funzione che stampa tutti gli elementi di uno stack. \\
+
+Nel seguente frammento di codice \texttt{.ll}, si può notare che per chiamare una funzione, 
+si utilizza l'istruzione \texttt{call}, la quale richiede l'esplicita specificazione del tipo
+di ritorno della funzione chiamata. L'istruzione \texttt{br} è una istruzione di salto. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+define void @printStack(%Stack* %stack) {
+  entry:
+    %cursorPtr = call %Node* @getHead(%Stack* %stack)
+    br label %loopCondition
+
+  loopCondition:
+    %cursor = load %Node*, %Node** %cursorPtr    
+    %condition = icmp ne %Node* %cursor, null
+    br i1 %condition, label %loopBody, label %loopExit
+
+  loopBody:
+    %currentNumberPtr = call i32* @getNumber(%Node* %cursor)
+    %currentNumber = load i32, i32* %currentNumberPtr
+    call void @printInt(i32 %currentNumber) 
+    %currentNextPtr = call %Node* @getNext(%Node* %cursor)
+    %currentNext = load %Node*, %Node** %currentNextPtr
+    store %Node* %currentNext, %Node** %cursorPtr
+    br label %loopCondition
+
+  loopExit:
+    ret void
+}
+\end{lstlisting}
+\vspace{0.5cm}

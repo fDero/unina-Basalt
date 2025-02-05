@@ -1,0 +1,50 @@
+\subsubsection{Introduzione ad LL (LLVM-IR)}
+LLVM, come già detto nel paragrafo precedente, è un progetto composto da un 
+insieme di librerie, e da alcuni tool. Due di questi tool sono \texttt{lli} ed 
+\texttt{llc}, rispettivamente un interprete IR e un compilatore IR. \\
+
+Questi due strumenti possono essere usati per eseguire codice IR, fornito 
+sotto forma di file di testo con estensione \texttt{.ll}. Analizzare la sintassi, 
+e più in generale la semantica, di tale formato testuale renderà più facile comprendere 
+l'utilizzo della API nei capitoli successivi. \\
+
+Un simbolo globale deve essere preceduto dal carattere speciale "@", ad 
+esempio la funzione che fa da entry-point per l'esecuzione del programma 
+è definita come \texttt{@main}. \\ 
+
+Per definire una funzione è necessario specificare il tipo di ritorno, il 
+nome della funzione, e la lista dei parametri. Il corpo della funzione 
+è racchiuso tra parentesi graffe. \\ 
+
+\begin{lstlisting}[frame=single, language=LLVM]
+define i32 @main() {
+  entry:
+    ret i32 0
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Una funzione in LL è fatta da uno o più blocchi, ognuno dei quali è composto da 
+una lista di istruzioni. Ogni blocco termina con un'istruzione di return o di salto. 
+Nella funzione \texttt{@main} definita sopra, \texttt{entry} è una label, e definisce 
+l'ingresso nell'omonimo blocco. Il blocco entry è un blocco speciale in quanto esso è 
+il primo ad essere eseguito in ogni funzione. \\
+
+L'istruzione \texttt{ret} effettua il return, e sancisce la fine del blocco 
+corrente. Il valore restituito deve essere dello stesso tipo specificato nella 
+firma della funzione, e tale tipo va esplicitamente specificato. \\
+
+I nomi dei simboli, possono contenere spazi e/o caratteri speciali purchè
+racchiusi tra doppi apici. Per effettuare un return da una funzione void 
+servirà scrivere \texttt{ret void}. \\
+
+\begin{lstlisting}[frame=single]
+define void %"example void function"() {
+  entry:
+    ret void
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+L'utilizzo di "\%" in luogo di "@" identifica un simbolo come locale invece che globale, pertanto 
+esso non sarà visibile all'esterno del file \texttt{.ll} in cui esso è definito.

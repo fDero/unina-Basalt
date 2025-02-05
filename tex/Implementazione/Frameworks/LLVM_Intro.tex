@@ -1,0 +1,19 @@
+\subsubsection{LLVM: Low Level Virtual Machine}
+Ciò che accomuna Basalt, Rust, Zig e molti altri linguaggi moderni è l'adozione di LLVM 
+come backend-framework. LLVM è un progetto open-source che si occupa di offrire una API 
+per costruire manualmente rappresentazioni IR per le varie istruzioni di un programma, 
+e di fornire un set di tool per ottimizzare e generare codice macchina a partire
+da tali rappresentazioni IR. \\ 
+
+In altri termini, LLVM si occupa di implementare le fasi di IR-optimization e 
+codegen discusse in precedenza, essendo cross-platform, ovvero supportando 
+varie CPU e varie architetture (x86, ARM, Web-Assembly, etc...). \\
+
+LLVM è nato come libreria in C, ma sono stati successivamente scritti porting 
+per C++ in primis, e a seguire per Rust ed Ada. \\
+
+LLVM ha infine reso possibile la creazione di cling, un interprete C/C++ basato 
+sul compilatore clang, il quale utilizza LLVM per effettuare JIT-compilation 
+(compilazione "just in time", ovvero al volo) di codice C/C++. Tale 
+strumento è tutt'ora di fondamentale importanza per la comunità scientifica, 
+ed è in utilizzo presso il CERN.
