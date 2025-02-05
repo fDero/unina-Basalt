@@ -1,0 +1,28 @@
+\subsubsection{Considerazioni generali}
+L'utilizzo di frameworks nello sviluppo di compilatori è una pratica ormai consolidata, anche se vale 
+la pena chiedersi se tale pratica sia sempre conveniente. \\ 
+
+LLVM è un framework largamente usato 
+da numerosi compilatori per linguaggi di successo, diffusi, performanti, sicuri ed efficienti. LLVM ha 
+dimostrato di essere un framework affidabile e robusto, e soprattutto la sua larga user-base ne garantisce
+la manutenzione e l'aggiornamento costante, il quale a sua volta garantisce la compatibilità con le ultime
+versioni di CPU e architetture, che in un periodo come questo è molto importante data la proliferazione di 
+nuove archietture ARM / RISC-V. \\
+
+L'egemonia dell'architettura x86 sarà, con ogni
+probabilità, messa in discussione nei prossimi decenni, pertanto lo sviluppo di un backend da zero, richiederebbe
+uno studio approfondito di molti standard, diversi fra loro, ed in continuo aggiornamento.  \\ 
+
+In definitiva, l'utilizzo di LLVM come backend-framework è una scelta saggia, che permette di concentrarsi
+su ciò che realmente conta, ovvero le symbol-tables e l'analisi statica. \\
+
+Per quanto ANTLR invece, la situazione è un po' diversa. ANTLR è un framework molto potente, ma vale la pena 
+sottolineare che esso, occupandosi di frontend a tutto tondo, si occupa anche della gestione dei commenti e nell'emissione
+degli errori di sintassi. Questo comporta un minor controllo sul tipo di feedback da dare all'utente, il quale potrebbe
+ricevere messaggi di errore non chiari o addirittura fuorvianti. \\
+
+Inoltre, utilizzare ANTLR in C++, porta a dei problemi di compatibilità per via dell'utilizzo di alcune features 
+deprecate dei vecchi standard C++ all'interno del codice autogenerato. Ciò è facilmente risolvibile mediante 
+correzione manuale, ma ciò andrebbe a inficiare la facilità di manutenzione e di aggiornamento, rendendo difficile 
+modificare la grammatica del linguaggio (ogni modifica della grammatica richiederebbe una nuova generazione, 
+e dunque una nuova correzione manuale). \\

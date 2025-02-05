@@ -1,0 +1,12 @@
+\subsubsection{ANTLR: Generazione del frontend}
+Una volta spostatosi nella directory dove sono presenti i file \texttt{.g4}, è possibile generare il frontend
+da riga di comando utilizzando l'apposito cli-tool di ANTLR, ovvero \texttt{antlr4}. \\
+
+Per generare il frontend, è necessario specificare il linguaggio di destinazione, 
+il quale può essere Java, Python, C++, ecc...
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+antlr4 -Dlanguage=Cpp -no-listener -visitor *.g4
+\end{lstlisting}
+\vspace{0.5cm}

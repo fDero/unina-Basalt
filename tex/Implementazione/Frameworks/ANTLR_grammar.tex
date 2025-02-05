@@ -1,0 +1,37 @@
+\subsubsection{ANTLR: Vocabolari e grammatiche}
+ANTLR lavora con due file di testo in formato \texttt{.g4}, che rappresentano rispettivamente 
+il vocabolario e la grammatica del linguaggio. \\
+
+Un vocabolario è un file contentente le regole di tokenizzazione in forma di espressioni regolari. 
+Ogni regola è composta da un nome, seguito dai due punti, e da un'espressione regolare oppure un exact-match 
+delimitato da apici. \\
+
+Il seguente frammento di vocabolario \texttt{.g4} è un'estratto dal vocabolario di Basalt,
+dove si definiscono i token \texttt{ID} e \texttt{TYPENAME}, rispettivamente per gli identificatori
+(nomi di variabili, costanti, funzioni) e per i nomi dei tipi. \\
+
+\vspace{0.3cm}
+\begin{lstlisting}[frame=single]
+ID       : [a-z][a-zA-Z_0-9]* ;
+TYPENAME : [A-Z][a-zA-Z_0-9]* ;
+\end{lstlisting}
+\vspace{0.3cm}
+
+Una grammatica è un file contentente le regole di parsing del linguaggio. Ogni regola è composta da un nome,
+seguito dai due punti, e da una sequenza di token e/o regole eventualmente combinate. \\
+
+Il seguente frammento di grammatica \texttt{.g4} è un'estratto dalla grammatica di Basalt, dove si definiscono
+le regole per il parsing di variabili e costanti.  \\
+
+\vspace{0.3cm}
+\begin{lstlisting}[frame=single]
+variableDeclaration
+    : VAR ID COLON typeSignature ASSIGN expr SEMICOLON
+    | VAR ID COLON typeSignature SEMICOLON
+    ;
+    
+constDeclaration
+    : CONST ID COLON typeSignature ASSIGN expr SEMICOLON
+    ; 
+\end{lstlisting}
+\vspace{0.3cm}
