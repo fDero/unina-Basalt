@@ -1,5 +1,7 @@
 \subsubsection{Assignment semplici}
 Un assignment è ritenuto semplice se non coinvolge costanti o espressioni immutabili, e se
-il tipo del target non è un tipo Union. Nelle condizioni appena descritte, è possibile 
-assegnare un nuovo valore all'espressione target se e solo se il tipo dichiarato del valore
-da assegnare coincide perfettamente con il tipo del target.
+il tipo del target non è nè un tipo Union, nè un tipo Array, nè un tipo Slice, nè un tipo Pointer, 
+e se non ha parametri attuali di tipo. \\
+
+Nelle condizioni appena descritte, l'assegnamento è possibile se e solo se i due nomi 
+dei due tipi coinvolti corrispondono allo stesso identico tipo. \\
