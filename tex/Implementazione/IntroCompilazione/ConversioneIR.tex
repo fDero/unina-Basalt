@@ -1,13 +1,13 @@
 \subsubsection{Conversione dell'AST in IR}
 Una volta che tutte le definizioni, in forma di AST, sono state validate, esse vengono convertite in IR 
-(Intermediate Representation). Questa nuova forma di rappresentazione del codice sorgente, permette di
+(Intermediate Representation). Questa nuova forma di rappresentazione del codice sorgente permette di
 eseguire operazioni di ottimizzazione e di generazione del codice macchina in modo più efficiente. \\
 
-Il codice macchina infatti, è per sua natura lineare, ovvero è una sequenza ordinata di istruzioni. Il processore 
+Il codice macchina infatti è per sua natura lineare, ovvero è una sequenza ordinata di istruzioni. Il processore 
 possiede un registro chiamato Program-Counter (PC) il quale tiene traccia dell'indirizzo dell'istruzione corrente, 
 al termine di ogni istruzione il PC viene incrementato o decrementato in modo da puntare all'istruzione successiva. \\
 
-La sfida della fase di traduzione dell'AST in IR, consiste nel trasformare una struttura ad albero in una sequenziale,
+La sfida della fase di traduzione dell'AST in IR consiste nel trasformare una struttura ad albero in una sequenziale,
 utilizzando le istruzioni di salto per rispecchiare fedelmente il flusso di esecuzione atteso. \\
 
 Si consideri ad esempio il seguente frammento di codice, rappresentabile in forma di AST 
@@ -59,14 +59,14 @@ else {
             \draw[arrow] (then1) -> (then2);
             \draw[arrow] (then1) -> (else2);
         \end{tikzpicture}
-    \caption{Esempio di AST \textbf{semplificato} per un doppio if-else annidato} 
     \label{fig:ast_doppio_if}
+    \caption{Esempio di AST \textbf{semplificato} per un doppio if-else annidato} 
 \end{figure}
 \newpage
 
-L'AST in Figura \ref{fig:ast_doppio_if} rappresenta un doppio if-else annidato. La conversione in IR di tale AST
+L'AST nella figura precedente rappresenta un doppio if-else annidato. La conversione in IR di tale AST
 richiede l'utilizzo di istruzioni di salto condizionato per gestire correttamente il flusso di esecuzione. (anch'esso 
-semplificato per motivi di chiarezza e leggibilità)\\
+semplificato per motivi di leggibilità)\\
 
 \begin{figure}[H]
     \centering

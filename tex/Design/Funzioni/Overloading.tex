@@ -1,5 +1,5 @@
 \subsubsection{Overloading}
-Con overloading delle funzioni, si intende la possibilità di fornire all’interno 
+Con overloading delle funzioni si intende la possibilità di fornire all’interno 
 di un programma, eventualmente anche all’interno dello stesso package, multiple 
 definizioni di funzioni aventi lo stesso nome, a patto che gli argomenti differiscano 
 per quantità o per il tipo di almeno uno di essi. Due definzioni di funzioni 
@@ -48,7 +48,7 @@ func max(first : Number, second : Number) -> Number {
 
 \newpage
 
-nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload ritenuto 
+Nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload ritenuto 
 più specifico, applicando queste politiche di selezione e filtraggio tra gli overload trovati.
 
 \begin{itemize}
@@ -90,7 +90,7 @@ Qualora, alla fine della fase di scarto
 degli overload incompatibili, siano state trovate due definizioni ugualmente specifiche 
 allora la chiamata viene definita ambigua e ciò porta ad un errore a tempo di compilazione. \\
 
-in particolare, applicando la regola numero 3, si è in grado di affermare 
+In particolare, applicando la regola numero 3, si è in grado di affermare 
 che tra i seguenti due overload di seguito riportati, vi è uno più specifico 
 dell’altro ed esso è, come è lecito aspettarsi, l’overload che 
 accetta un argomento di tipo \texttt{List<List<T>\>>}
@@ -134,7 +134,7 @@ alla meno specifica.
 \end{table}
 \vspace{0.5cm}
 
-Durante la fase di overload-resolution per una ipotetica chiamata alla funzione \texttt{max}
+Durante la fase di overload-resolution per un'ipotetica chiamata alla funzione \texttt{max}
 con argomenti \texttt{Int} e \texttt{Float}, allora vi sarebbero più overload compatibili, 
 ma nell’ambito dei soli overload compatibili, solo uno di essi è nettamente più specifico 
 di tutti gli altri, ovvero l'overload corrisponente alla seguente firma:
