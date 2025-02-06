@@ -54,7 +54,7 @@ più specifico, applicando queste politiche di selezione e filtraggio tra gli ov
 \begin{itemize}
     \item{
         un overload non generico viene sempre preferito rispetto ad un overload generico, il 
-        numero di parametri di tipo non è rilevante.
+        numero di parametri di tipo non è rilevante
     }
     \item{
         un overload viene preferito ad un altro se i suoi parametri di tipo compaiono 
@@ -63,15 +63,15 @@ più specifico, applicando queste politiche di selezione e filtraggio tra gli ov
     \item{
         un overload viene preferito ad un altro se i suoi argomenti hanno tipi più complicati, 
         ovvero hanno più parametri di tipo, oppure tali parametri di tipo sono a loro volta, 
-        ricorsivamente, più complicati. 
+        ricorsivamente, più complicati
     }
     \item{
         un overload viene preferito ad un altro se tra i tipi dei suoi argomenti 
-        compaiono meno volte tipi definiti come union e/o union anonime.
+        compaiono meno volte tipi definiti come union e/o union anonime
     }
     \item{
         un overload viene preferito ad un altro se il numero totale di casi coperti dalle 
-        union che compaiono tra i suoi argomenti è minore.
+        union che compaiono tra i suoi argomenti è minore
     }
     \item{
         un overload viene preferito ad un altro se tra i tipi dei suoi argomenti e/o tra i 
