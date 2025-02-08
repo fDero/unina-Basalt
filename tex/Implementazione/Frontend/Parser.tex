@@ -45,7 +45,7 @@ Parser.parse_terminal_expression(tok):
         case OPN_PARENTHESYS: expr = parse_wrapped_expr(&tok)
     return expr
 
-Parser.parse_prefix_operator(tok)
+Parser.parse_prefix_operator(tok):
     UnaryOperator prefix_op = { 
         tok.current, 
         parse_expression(tok.next()) 

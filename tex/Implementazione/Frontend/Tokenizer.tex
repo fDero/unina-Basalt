@@ -36,7 +36,7 @@ sui vari metodi specifici per estrarre uno specifico tipo di token.
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
-Tokenizer.extract(line, char_index)
+Tokenizer.extract(line, char_index):
     handle_multiline_comments(line, &char_index)
     handle_simple_comments(line, &char_index)
     first_char = line[char_index]
