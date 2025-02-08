@@ -24,7 +24,7 @@ suddetti metodi astratti. \\
 \newpage
 
 Il risultato di ogni chiamata ai vari metodi di \texttt{ConcreteBasaltParserVisitor} è
-un oggetto di tipo \texttt{antlr4::Any}, il è un tipo di dato fornito da ANTLR per 
+un oggetto di tipo \texttt{antlr4::Any}, il quale è un tipo di dato fornito da ANTLR per 
 modellare il risultato di una generica visita al parse tree. \\
 
 Nel caso specifico, il risultato di ogni metodo di \texttt{ConcreteBasaltParserVisitor}
@@ -41,7 +41,7 @@ su \texttt{ConcreteBasaltParserVisitor}, viene passato un oggetto di tipo
 Per ottenere un oggetto di tipo \texttt{antlr4::CommonTokenStream} è necessario
 utilizzare la classe \texttt{Tokenizer}, la quale è a sua volta un wrapper sulla classe 
 autogenerata \texttt{BasaltLexer} (l'utilizzo dei wrapper serve ad esporre la stessa API
-della repository principale, e consentire una migliore integrazione tra le due). \\
+della repository principale e consentire una migliore integrazione tra le due). \\
 
 \begin{figure}[H]
     \centering

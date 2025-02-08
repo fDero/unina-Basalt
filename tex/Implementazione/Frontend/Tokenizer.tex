@@ -7,13 +7,13 @@ La classe \texttt{Tokenizer} espone due costruttori,
 uno per la costruzione a partire da un file ed uno 
 per la costruzione a partire da una stringa 
 , utilizzato durante il testing (in C++ è possibile 
-trattare enteambi i casi in modo molto simile grazie
+trattare entrambi i casi in modo molto simile grazie
 alla classe \texttt{std::istream} che astrae sui 
 dettagli implementativi sottostanti).
 
 Il metodo \texttt{tokenize()} della classe tokenizer 
-si occupa di effettuare la tokenizzazione dell'intero sorgente. Esso 
-Segue il seguente algoritmo (espresso in pseudocodice):
+si occupa di effettuare la tokenizzazione dell'intero sorgente. È
+possibile schematizzare il funzionamento del metodo in pseudocodice come segue:
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
@@ -57,7 +57,7 @@ I singoli metodi \texttt{extract\_string}, \texttt{extract\_number},
 partendo dalla posizione \texttt{char\_index}, coincida con quanto 
 atteso. In caso di successo, essi restituiscono il token corrispondente 
 alla porzione di testo che è stata riconosciuta e si occupano di 
-avanzare l'inidce fino al primo carattere non riconosciuto. 
+avanzare l'indice fino al primo carattere non riconosciuto. 
 
 \newpage
 
@@ -93,7 +93,7 @@ Tokenizer.handle_multiline_comments(line, char_index):
 \vspace{0.5cm}
 
 Se al termine della tokenizzazione lo stack non dovesse essere vuoto, 
-ciò significherebbe che almeno un commento multi-riga non è stato chiuso, 
+ciò significherebbe che almeno un commento multi-riga non è stato chiuso 
 e i token che sono stati salvati nello stack potranno essere usati 
 per fornire errori significativi in console. \\
 
