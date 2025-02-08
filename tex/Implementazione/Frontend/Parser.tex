@@ -1,0 +1,56 @@
+\subsubsection{Parsing nella repository principale}
+Nella repository principale il parser è
+stato realizzato su misura, senza l'uso di alcuna
+dipendenza esterna. In particolare, il parser di Basalt è un 
+parser \textit{LL(*)} implementato 
+mediante \textit{recursive descent}. \\
+
+Con \textit{recurisve descent} si intende una tecnica implementativa 
+di realizzazione di parser \textit{LL(*)} che prevede l'utilizzo di 
+funzioni (o metodi) i quali si chiamano a vicenda fra loro generando 
+un grafo ricorsivo di chiamate. \\
+
+Ad ogni chiamata viene passato, in termini di argomenti, tutto il necessario 
+per tenere traccia del token corrente e dei token successivi durante il 
+parsing. Ogni funzione si occupa di processare un certo numero di 
+token a partire dal token corrente in avanti. \\
+
+Ad esempio, per il parsing delle espressioni, si segue un approccio 
+simile a quanto di seguito illustrato in pseudocodice, al netto di 
+doverose ed opportune semplificazioni:
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Parser.parse_expression(tok):
+    Expression expr = parse_terminal_expression(&tok)
+    if tok.current == BINARY_OPERATOR:
+        expr = BinaryOperator {
+            expr,
+            tok.current(),
+            parse_expression(tok.next())
+        }
+    return expr
+
+Parser.parse_terminal_expression(tok):
+    Expression expr = null
+    switch token_stream_iterator.type:
+        case IDENTIFIER:      expr = parse_identifier(&tok)
+        case INT_LITERAL:     expr = parse_int_literal(&tok)
+        case FLOAT_LITERAL:   expr = parse_int_literal(&tok)
+        case BOOL_LITERAL:    expr = parse_bool_literal(&tok)
+        case STRING_LITERAL:  expr = parse_string_literal(&tok)
+        case ARRAY_LITERAL:   expr = parse_array_literal(&tok)
+        case PREFIX_OPERATOR: expr = parse_prefix_operator(&tok)
+        case OPN_PARENTHESYS: expr = parse_wrapped_expr(&tok)
+    return expr
+
+Parser.parse_prefix_operator(tok)
+    UnaryOperator prefix_op = { 
+        tok.current, 
+        parse_expression(tok.next()) 
+    }
+    return prefix_op
+
+\end{lstlisting}
+\vspace{0.5cm}

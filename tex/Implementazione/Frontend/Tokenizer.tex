@@ -1,0 +1,114 @@
+\subsubsection{Tokenizzazione nella repository principale}
+Nella repository principale il tokenizer
+è stato realizzato su misura, senza l'uso di alcuna
+dipendenza esterna. \\
+
+La classe \texttt{Tokenizer} espone due costruttori, 
+uno per la costruzione a partire da un file ed uno 
+per la costruzione a partire da una stringa 
+, utilizzato durante il testing (in C++ è possibile 
+trattare enteambi i casi in modo molto simile grazie
+alla classe \texttt{std::istream} che astrae sui 
+dettagli implementativi sottostanti).
+
+Il metodo \texttt{tokenize()} della classe tokenizer 
+si occupa di effettuare la tokenizzazione dell'intero sorgente. Esso 
+Segue il seguente algoritmo (espresso in pseudocodice):
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Tokenizer.tokenize():
+    tokens = { }
+    for line in source_code:
+        char_index = 0
+        while char_index < length(line):
+            token, success = extract(line, &char_index)
+            if (success): 
+                tokens.append(token)
+    ensure_multiline_comments_closed()
+    return tokens
+\end{lstlisting}
+\vspace{0.5cm}
+
+Il metodo \texttt{tokenize()} si occupa di estrarre un singolo token 
+per volta dal sorgente, esso è concretamente implementato come un dispatch 
+sui vari metodi specifici per estrarre uno specifico tipo di token.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Tokenizer.extract(line, char_index)
+    handle_multiline_comments(line, &char_index)
+    handle_simple_comments(line, &char_index)
+    first_char = line[char_index]
+    tok = null
+    switch(first_char):
+        case '"' "'" '`': tok = extract_string(line, &char_index)
+        case '0' ... '9': tok = extract_number(line, &char_index)
+        case 'a' ... 'z': tok = extract_identifier(line, &char_index)
+        case 'A' ... 'Z': tok = extract_typename(line, &char_index)
+        case '+' ... '=': tok = extract_symbol(line, &char_index)
+    return tok
+\end{lstlisting}    
+\vspace{0.5cm}
+
+I singoli metodi \texttt{extract\_string}, \texttt{extract\_number}, 
+\texttt{extract\_identifier}, \texttt{extract\_typename}, 
+\texttt{extract\_symbol}, verificano se il testo della riga corrente, 
+partendo dalla posizione \texttt{char\_index}, coincida con quanto 
+atteso. In caso di successo, essi restituiscono il token corrispondente 
+alla porzione di testo che è stata riconosciuta e si occupano di 
+avanzare l'inidce fino al primo carattere non riconosciuto. 
+
+\newpage
+
+Il tokenizer mantiene traccia dei commenti multi-riga mediante uno 
+stack. Esso viene popolato con i token relativi alle aperture dei 
+commenti multi-riga (tali token sono salvati solo temporaneamente ai 
+fini di error checking). \\
+
+Ad ogni apertura di un commento multiriga, esso viene tokenizzato 
+e salvato nello stack, mentre ad ogni chiusura di un commento multi-riga, 
+si effettua un pop dallo stack. \\
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Tokenizer.handle_multiline_comments(line, char_index):
+    maybe_open_comment = line.substring(char_index, 2)
+    if (maybe_open_comment == "/*"):
+        comments_stack.push(make_token(line, char_index))
+        char_index = char_index + 2
+    while comments_stack.size() > 0 AND char_index < length(line):
+        maybe_comment_seq = line.substring(char_index, 2)
+        switch(maybe_comment_seq):
+            case "/*": 
+                comments_stack.push(make_token(line, char_index))
+                char_index = char_index + 2
+            case "*/:
+                comments_stack.pop()
+                char_index = char_index + 2
+            default:
+                char_index = char_index + 1
+\end{lstlisting}    
+\vspace{0.5cm}
+
+Se al termine della tokenizzazione lo stack non dovesse essere vuoto, 
+ciò significherebbe che almeno un commento multi-riga non è stato chiuso, 
+e i token che sono stati salvati nello stack potranno essere usati 
+per fornire errori significativi in console. \\
+
+Per quanto riguarda la gestione dei commenti su singola riga, essi 
+sono gestiti in modo molto semplice. Qualora si incontri la sequenza
+di caratteri corrispondente all'apertura di un commento a singola riga, 
+l'indice corrispondente al carattere corrente viene aggiornato 
+in modo da far sembrare che la riga sia stata già tokenizzata fino al termine.
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Tokenizer.handle_simple_comments(line, &char_index):
+    maybe_open_comment = line.substring(char_index, 2)
+    if (maybe_open_comment == "//"):
+        char_index = length(line)
+\end{lstlisting}    
+\vspace{0.5cm}
