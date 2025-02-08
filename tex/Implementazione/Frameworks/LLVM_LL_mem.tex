@@ -3,13 +3,13 @@ In LL, la memoria è gestita in modo drasticamente diverso rispetto
 a come avviene nei linguaggi di programmazione di uso comune. \\ 
 
 Nei linguaggi di programmazione tipici una variabile è associata ad un indirizzo 
-di memoria, ed è possibile assegnare valori a tale variabile riferendosi ad essa con il suo nome. Quando 
+di memoria ed è possibile assegnare valori a tale variabile riferendosi ad essa con il suo nome. Quando 
 servirà leggere il valore di tale variabile, sarà sufficiente, ancora una volta, riferirsi ad essa 
 con il suo nome. \\
 
-In LL ciò non avviene, in quanto le variabili non hanno un vero e proprio indirizzo di memoria, 
-e sono invece solo dei simboli. Si consideri ad esempio il seguente frammento di codice Basalt, 
-ed alla sua traduzione in LL:
+In LL ciò non avviene, in quanto le variabili non hanno un vero e proprio indirizzo di memoria 
+e sono invece solo dei simboli. Si consideri ad esempio il seguente frammento di codice Basalt 
+e la sua fedele traduzione in LL:
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
@@ -27,12 +27,12 @@ example_block:
 \vspace{0.5cm}
 
 Si noti come la variabile \texttt{number} sia stata tradotta come la \texttt{numberAddress} e \texttt{numberValue}.
-La variabile \texttt{numberAddress} è un puntatore ad una locazione di memoria, e la variabile \texttt{numberValue}
+La variabile \texttt{numberAddress} è un puntatore ad una locazione di memoria e la variabile \texttt{numberValue}
 è il valore numerico contenuto in tale area di memoria. \\
 
 Nè \texttt{numberValue} nè \texttt{numberAddress} in 
-questo caso hanno dei veri e propri indirizzi di memoria propri. Essi sono solo dei simboli 
-a cui sono associati dei valori. \\
+questo caso hanno dei veri e propri indirizzi di memoria ad essi associati. 
+Essi sono solo dei simboli a cui sono associati dei valori. \\
 
 La gestione della memoria di LL può sembrare controintuitiva al programmatore medio, ed è proprio per questo 
 che anche se LL è un vero e proprio linguaggio, esso non è considerato veramente utilizzabile. Si è infatti abituati
@@ -40,5 +40,5 @@ a ragionare in termini di variabili, intese come coppie indirizzo/valore, ed un 
 classificabile come innaturale. \\
 
 È bene ricordarsi però che i calcolatori utilizzano internamente una rappresentazione 
-analoga a quella proposta da LL, ed è proprio per questo che LL è facilmente ed efficientemente traducibile 
+analoga a quella proposta da LL ed è proprio per questo che LL è facilmente ed efficientemente traducibile 
 in linguaggio macchina nativo per molteplici architetture. \\
