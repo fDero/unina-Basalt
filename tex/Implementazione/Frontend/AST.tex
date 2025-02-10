@@ -28,8 +28,8 @@ Si tenga presente che non necessariamente essere super tipo in C++ significa ess
 tramite ereditarietà. Nello specifico, per le definizioni di tipo, la classe 
 \texttt{TypeDefinition} eredita dalla classe \texttt{std::variant}, la quale è 
 sostanzialmente una union. Una \texttt{TypeDefinition} infatti è implementata 
-come una union delle classi \texttt{UnionDefinition}, 
-\texttt{StructDefinition} e \texttt{TypeAlias}. \\ 
+come una union delle classi \texttt{UnionDefinition} e 
+\texttt{StructDefinition}. \\ 
 
 Anche per le classe \texttt{TypeSignature}, \texttt{Expression} e \texttt{Statement}
 si è seguita la stessa logica, ovvero si è deciso di far si che esse fossero super-tipi 
