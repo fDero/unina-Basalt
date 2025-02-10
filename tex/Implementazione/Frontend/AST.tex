@@ -62,6 +62,44 @@ autogenerato da ANTLR per navigare la rappresentazione di ANTLR e tradurla oppor
 \begin{figure}[H]
     \centering
         \includegraphics[width=1\textwidth]{../../Assets/AstExpr.png}
-    \caption{UML class diagram dell'AST}
+    \caption{UML class diagram dei nodi dell'AST che rappresentano espressioni}
 \end{figure}
 
+\newpage
+
+Di seguito segue l'UML class diagram relativo alle classi che modellano 
+gli statement in forma di AST. Così come già detto, anche la repository
+basata su ANTLR utilizza la medesima rappresentazione, e si utilizza il visitor
+autogenerato da ANTLR per navigare la rappresentazione di ANTLR e tradurla opportunamente.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=1\textwidth]{../../Assets/StatementAST.png}
+    \caption{UML class diagram dei nodi dell'AST che rappresentano statement}
+\end{figure}
+
+Si può osservare come la classe \texttt{FunctionCall} sia un sottotipo di \texttt{Expression}
+e di \texttt{Statement}. Questo è dovuto al fatto che una chiamata di funzione può essere
+usata sia come espressione, se restituisce un valore, sia come statement, in caso contrario. \\
+
+Si ricordi infatti che in C++ esiste l'ereditarietà multipla, e quindi è possibile che un
+una classe abbia più di un super-tipo anche nei casi in cui si usa l'eredita.
+
+\newpage
+
+Di seguito segue l'UML class diagram relativo alle classi che modellano type-signatures e 
+definizioni di tipo in forma di AST. Così come già detto, anche la repository
+basata su ANTLR utilizza la medesima rappresentazione, e si utilizza il visitor
+autogenerato da ANTLR per navigare la rappresentazione di ANTLR e tradurla opportunamente.
+
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=0.9\textwidth]{../../Assets/TypeSignatureAST.png}
+        \vspace{0.5cm}
+        \includegraphics[width=0.7\textwidth]{../../Assets/TypeDefAST.png}
+    \caption{
+        \centering
+        UML class diagram dei nodi dell'AST che rappresentano le type-signature
+        e le definizioni di tipo
+    }
+\end{figure}

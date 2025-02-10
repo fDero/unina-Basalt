@@ -84,7 +84,7 @@ Tokenizer.handle_multiline_comments(line, char_index):
             case "/*": 
                 comments_stack.push(make_token(line, char_index))
                 char_index = char_index + 2
-            case "*/:
+            case "*/":
                 comments_stack.pop()
                 char_index = char_index + 2
             default:
