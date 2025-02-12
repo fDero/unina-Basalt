@@ -1,43 +1,101 @@
-\subsubsection{Algoritmo di type-inferece}
+\subsubsection{Type-inferece}
 Per funzioni generiche è possibile non specificare espressamente dei parametri 
 attuali di tipo e lasciare che sia Basalt a dedurli dal contesto. 
 L’operazione di deduzione dei parametri attuali di tipo a partire dal 
 contesto è detta type-inference. \\
 
-Supponiamo ad esempio di voler chiamare la funzione max, ma 
-senza specificare un parametro attuale di tipo. 
-Per usare la type-inference, basterà omettere interamente i parametri attuali di 
-tipo ed utilizzare max come se fosse una funzione non generica. \\
+In sede di chiamata a funzione, se tale funzione è generica e non vengono specificati
+i tipi dei parametri attuali, Basalt analizzerà uno ad uno gli argomenti forniti e cercherà 
+di risolvere i vincoli di assegnabilità. \\
+
+Per ogni argomento, Basalt analizzerà il tipo dichiarato in sede di definizione della funzione e 
+lo comparerà con il tipo dell'argomento. Se il tipo dell'argomento è generico, Basalte tale generico 
+viene usato una sola volta, allora Basalt assumerà che il parametro attuale di tipo corrispondente sia 
+proprio il tipo dichiarato dell'argomento. \\
+
+Qualora il tipo dell'argomento sia un generico ed è già stato usato in precedenza, Basalt metterà in discussione
+la sua iniziale assunzione, qualora sia possibile, e potrà eventualmente dedurre un tipo più generale capace di ricevere assegnamenti di 
+espressioni sia del tipo corrispondente alla sua precedente assunzione, sia di tipo corrispondente al tipo concreto 
+dell'argomento. \\
+
+In certi casi, è impossibile mettere in disussione l'assuzione fatta dalla type-inference, ad esempio, si consideri 
+la seguente funzione generica:
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
-var x : Int = max(3, 5);
-var y : Float = max(3.14, 5.17);
+struct Wrapper<T> {
+    var value : T;
+}
+
+func f<T>(x : Wrapper<T>, y : T) { 
+    /* no-op */ 
+}
 \end{lstlisting}
 \vspace{0.5cm}
 
-Consideriamo poi le due seguenti chiamate, dove in entrambi i casi, 
-i tipi degli argomenti forniti in chiamata sono distinti. Dato che nella definizione della 
-funzione \texttt{max} compare un unico parametro formale di tipo \texttt{T} che risulta essere 
-il tipo di entrambi gli argomenti, l'algoritmo di typeinference si troverà a risolvere due vincoli
-per un solo tipo.\\
+Allora, la chiamata a funzione \texttt{f} con argomenti \texttt{Wrapper<Int>} e \texttt{Float} non sarà 
+risolta su questo overload in quanto la type-inference prima assumerà che \texttt{T} sia \texttt{Int}, successivamente 
+però, tenterà di aggiornare la sua assunzione precedente e dedurrà che \texttt{T} debba essere \texttt{Int|Float},
+ma ciò renderà impossibile l'assegnamento di \texttt{Wrapper<Int>} a \texttt{Wrapper<T>}. \\
+
+Si tenga presente che in Basalt, è sempre possibile trovare un tipo \texttt{T} tale da ricevere assegnamenti da parte 
+di espressioni di due tipi concreti noti \texttt{X1} ed \texttt{X2}, e tale tipo è la union anonima \texttt{X1 | X2}. Ad 
+esempio sarà possibile chiamare la seguente implementazione della funzione \texttt{g} con argomenti arbitrari e 
+la type-inference risolverà il tipo \texttt{T} come la union dei tipi concreti degli argomenti della chiamata. \\
 
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
-var int_value : Int = 3;
-var float_value : Float = 3.14;
-var number_value : Number = 5;
-
-var z1 : Number = max(int_value, number_value);
-var z2 : Number = max(int_value, float_value);
+func g<T>(x : T, y : T) {  /* no-op */ }
 \end{lstlisting}
 \vspace{0.5cm}
- 
-La risoluzione dei vincoli di tipo è affrontata secondo il seguente algoritmo (in flow-chart):
 
-\subfile{FlowChartTypeInference}
+\newpage
+
+Il seguente programma Basalt illustra l'utilizzo della type-inference per 
+funzioni generiche:
+
 \vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+package type_inference_demo;
 
-Con tale algoritmo, la chiamata alla funzione \texttt{max} con argomenti di tipo \texttt{Int} e \texttt{Number}
-porterà alla deduzione del tipo \texttt{Number}, mentre la chiamata con argomenti di tipo \texttt{Int} 
-e \texttt{Float} porterà alla deduzione del tipo \texttt{Int | Float} (comportamento atteso).\\
+struct Wrapper<T> {
+    value : T;
+}
+
+func f<T>(w : Wrapper<T>, t : T) { 
+    /* no-op */ 
+} 
+
+func g<T>(x : T, y : T) { 
+    /* no-op */ 
+}
+
+func h<T>(x : T, y : Wrapper<T>) { 
+    /* no-op */ 
+} 
+
+func demo() {
+    var w1 : Wrapper<Float>;
+    var w2 : Wrapper<Float|String>;
+        
+    f(w1, 3.2);     
+    // T = Float
+    
+    f(w2, "Hello"); 
+    // T = Float|String
+
+    // f(w1, "Hello");  
+    // T = Float|String 
+    // ERROR: Wrapper<Float|String> = Wrapper<Float> not allowed
+
+    g(3.2, 3.2);     
+    // T = Float
+    
+    g(3.2, "Hello"); 
+    // T = Float|String
+
+    h(3.2, w2);      
+    // T = Float|String
+}
+\end{lstlisting}
+\vspace{0.5cm}

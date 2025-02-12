@@ -38,3 +38,17 @@ var x : Int = max<Int>(3, 5);
 var y : Float = max<Float>(3.14, 5.17);
 \end{lstlisting}
 \vspace{0.5cm}
+
+Così come è lecito aspettarsi, è possibile utilizzare union, eventualmente anche anonime,
+come parametri attuali di tipo per funzioni generiche. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func f<T>(x : T, y : T) { 
+    /* no-op */ 
+}
+\end{lstlisting}
+\begin{lstlisting}[frame=single]
+f<Int|String>(3, "Hello");
+\end{lstlisting}
+\vspace{0.5cm}
