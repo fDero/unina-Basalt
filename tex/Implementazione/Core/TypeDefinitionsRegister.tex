@@ -1,0 +1,98 @@
+\subsubsection{Costruzione della tabella dei tipi}
+La tabella dei tipi è una struttura dati che traccia le definizioni di tutti i tipi
+e rende possibile risalire ad esse partendo da un oggetto di tipo \texttt{TypeSignature}. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class TypeDefinitionsRegister {
+
+    public:
+        TypeDefinitionsRegister(ProjectFileStructure&);
+
+        void store_type_definition(TypeDefinition&);
+        TypeDefinition retrieve_type_definition(TypeSignature&);
+
+        /* public exposed API */
+
+    protected:
+        /* other internal methods */
+
+    private:
+        list<string> type_definitions_ids;
+        unordered_map<string, TypeDefinition> type_definitions;
+        ProjectFileStructure& project_file_structure;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+Internamente, la tabella dei tipi è implementata come una mappa che associa ad ogni
+nome di tipo, completamente qualificato, la definizione del tipo corrispondente. Inoltre, viene mantenuta una 
+lista dei nomi di tipo per consentire l'iterazione con modifica in modo analogo a quanto visto nel paragrafo precedente. \\
+
+Per registrare una definizione di tipo all'interno della tabella, viene generato una stringa 
+univoca nella forma \texttt{<package>::<type\_name>::<N>} (dove \texttt{<N>} è il numero di parametri formali di tipo)
+e viene usata come chiave nella mappa per l'inserimento della definizione.
+
+In fase di recupero, la tabella dei tipi permette di ottenere la definizione di un tipo a partire da una \texttt{TypeSignature}.
+Ciò avviene mediante il recupero diretto della definizione associata alla chiave generata a partire dal nome qualificato del tipo, 
+se tale tipo è stato utilizzando specificandone il package di provenienza (e.g. math::Complex). \\
+
+Se il package di provenienza non è stato specificato, si tenterà prima con il package a cui appartiene il file 
+in cui è stata trovata la \texttt{TypeSignature} e, in caso di fallimento, si proverà tutti i package 
+importati da tale file. \\
+
+Risalire al package in cui si trova il file che contiene la \texttt{TypeSignature}, così come i package da esso importati, 
+è un'operazione resa possibile dalla classe \texttt{ProjectFileStructure} approfondita precedentemente. \\
+
+
+È possibile schematizzare il processo di recupero della definizione di un tipo in pseudocodice come segue
+(si assuma che \texttt{get\_key} restituisca la chiave univoca): \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+TypeDefinitionsRegister.retrieve_type_definition(type_signature):
+    current_package = project_file_structure
+        .get_package_containing_file(type_signature.file)
+    if type_signature.package != nil:
+        key = get_key(current_package, type_signature)
+        return type_definitions[key]
+    else:
+        imports = project_file_structure
+            .get_imports_by_file(type_signature.file)
+        for pkg in List.concat(current_package, imports):
+            key = get_key(current_package, type_signature)
+            if type_definitions[key] != nil:
+                return type_definitions[key]
+    return nil
+\end{lstlisting}
+\vspace{0.5cm}
+
+In fase di inserimento, si controlla che non vi siano duplicati. In caso di duplicati, viene 
+sollevata un'eccezione la quale corrisponderà ad un errore a tempo di compilazione dal punto 
+di vista dell'utente. Se il recupero di una definizione di tipo fallisce viene sollevata 
+ugualmente un'eccezione. \\
+
+Si noti come il formato scelto per le chiavi consente di indicizzare correttamente tipi 
+apparentemente duplicati ma con un numero diverso di parametri formali, come ad esempio 
+\texttt{Pair<T>} e \texttt{Pair<T,U>}. \\
+
+Non è possibile distinguere però \texttt{Pair<T,U>} da \texttt{Pair<T,T>}, in quanto il 
+numero di parametri formali di tipo è lo stesso. Questo è un limite del sistema di indicizzazione 
+scelto, ma è accettabile in quantoin caso contrario si potrebbe incorrere nella complessità 
+accessoria di dover gestire i casi ambigui come \texttt{Pair<T,U>} e \texttt{Pair<U,T>}.
+
+Si tenga poi a mente che l'operazione di generazione della chiave è un'operazione esosa di risorse.
+Il costo computazionale maggiore deriva dalla ricerca del package corretto iterando su tutti i package
+importati dal file in cui è stata trovata la \texttt{TypeSignature} qualora essa non abbia un 
+package specificato e/o non sia trovata all'interno del package corrente. \\
+
+L'utilizzo di una cache per velocizzare il recupero delle definizioni di tipo è stato considerato,
+ma non è stato implementato in quanto non si è ritenuto necessario. Tuttavia sarebbe possibile 
+implementare un sistema di cache per memorizzare come un dato tipo sprovvisto di package esplicitamente 
+specificato sia stato risolto partendo da uno specifico file. \\
+
+Tale ottimizzazione favorirebbe codebase con pochi file molto grandi, mentre non sarebbe granchè d'impatto 
+su codebase con molti file piccoli, per i quali, anzi, sarebbe sfavorevole. \\
+
+
+

@@ -1,4 +1,4 @@
-\subsection{Indicizzazione ed analisi statica}
+\subsection{Indicizzazione: Symbol tables}
 Con indicizzazione si riferisce in generale al processo di creazione delle symbol-tables
 e della loro gestione. In questo capitolo si affronterà il tema della logica interna 
 del compilatore Basalt che passa per l'indicizzazione di tutte le definizioni di tutti i file 
@@ -10,13 +10,21 @@ sorgente e che si conclude nell'analisi statica del programma indicizzato. \\
 \subfile{ProjectFileStructure}
 \newpage
 
+\subfile{TypeDefinitionsRegister}
+\newpage
+
+\subfile{FunctionDefinitionsRegister}
+\newpage
+
+\subsubsection{Scoring degli overload}
+\subsubsection{Gestione ad alto livello della CFA}
+\subsubsection{Astrazione rispetto ad overload semplici ed overload CFA}
+
+
+\subsubsection{Generics: Sistema di reificazione}
+\subsubsection{Algoritmo di Type-inference}
+
 \subsubsection{Controllo di aciclicità delle dipendenze dirette fra tipi}
 \subsubsection{Controllo di non-shadowing dei tipi}
 \subsubsection{Tracciamento degli scope e delle definizioni locali}
-\subsubsection{Typechecking}
-\subsubsection{Algoritmo di Type-inference}
-\subsubsection{Scoring degli overload}
-\subsubsection{Costruzione della tabella delle funzioni}
-\subsubsection{Generics: Sistema di reificazione}
-\subsubsection{Gestione ad alto livello della CFA}
-\subsubsection{Astrazione rispetto ad overload semplici ed overload CFA}
+\subsubsection{Typechecking delle funzioni}

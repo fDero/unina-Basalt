@@ -1,0 +1,39 @@
+\subsubsection{Costruzione della tabella delle funzioni}
+La tabella dei tipi è una struttura dati che traccia le definizioni di tutte le funzioni
+e rende possibile risalire ad esse partendo da un oggetto di tipo \texttt{FunctionCall} e dai 
+tipi concreti degli argomenti passati alla chiamata. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class FunctionDefinitionsRegister {
+
+    public:
+        FunctionDefinitionsRegister(
+            ProjectFileStructure&,
+            TypeDefinitionsRegister&
+        );
+
+        void store_function_definition(FunctionDefinition&);
+
+        FunctionDefinition retrieve_function_definition(
+            const FunctionCall& function_call, 
+            const vector<TypeSignature>& arg_types
+        );
+
+        /* public exposed API */
+
+    protected:
+        /* other internal methods */
+
+    private:
+        /* other internal data-structures */
+
+        list<FunctionDefinition> function_definitions;
+        unordered_map<string, OverloadSet> overload_sets;
+        unordered_map<string, FunctionDefinition> fast_retrieve_cache;
+        
+        TypeDefinitionsRegister& type_definitions_register;
+        ProjectFileStructure& project_file_structure;
+};
+\end{lstlisting}
+\vspace{0.5cm}
