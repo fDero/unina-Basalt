@@ -1,0 +1,48 @@
+
+\subsubsection{Costruzione della tabella dei file/package}
+La tabella dei file e dei package è una struttura dati che traccia le relazioni fra 
+diversi file sorgenti. Essa tiene traccia dei package importati da ogni file e dei file 
+contenuti in ogni package. \\
+
+Internamente essa è implementata sotto il nome di \texttt{ProjectFileStructure} 
+ed è un wrapper su delle hash-map che permettono di
+effettuare ricerche in tempo costante. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class ProjectFileStructure {
+
+    public:
+        ProjectFileStructure() = default;
+        ProjectFileStructure(vector<FileRepresentation>&);
+
+        /* public exposed API */
+
+    private:
+        /* other internal data-structures */ 
+        
+        list<string> package_names;
+        unordered_map<string, string> package_name_by_file_name;
+        unordered_map<string, list<FileRepresentation>> files_by_pkg;
+        unordered_map<string, vector<string>> imports_by_file;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+Tale classe possiede i metodi necessari ad iterare sui file di un package, a trovare
+il package di un file, a trovare i file importati da un file e soprattutto a 
+registrarli (e.g. indicizzarli, conservarli all'interno della struttura dati). \\
+
+I restanti metodi della classe sono di supporto e permettono di iterare sui file e 
+sui package, o di ottenere informazioni specifiche per un dato file o package. \\
+
+Durante la compilazione di un programma Basalt, viene costruita una ed una sola 
+istanza di \texttt{ProjectFileStructure} che sarà passata come parametro di costruttore 
+alle restanti tabelle e strutture dati che necessitano le informazioni che essa codifica. \\
+
+L'utilizzo della lista texttt{package\_names} permette di avere una collezione da poter iterare 
+anche durante la modifica, ciò consente di poter alterare le mappe sottostanti senza invalidare 
+l'iterazione. \\
+
+In C++ infatti, non è possibile modificare una hash-map durante l'iterazione, in quanto 
+l'iteratore potrebbe diventare invalido (ciò non avviene con le liste).

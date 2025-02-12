@@ -1,0 +1,34 @@
+
+\subsubsection{Merge degli output di parsing dei vari file sorgente}
+Basalt supporta la compilazione multi-sorgente, ovvero è possibile compilare più di 
+un file per volta. Ciò significa che vi saranno molteplici oggetti di tipo 
+\texttt{FileRepresentation} da dover unificare. \\
+
+In generale, al termine della fase di 
+indicizzazione sarà prodotto un unico oggetto di tipo \texttt{ProgramRepresentation}
+il quale rappresenta un layer di astrazione sulle varie symbol-table nonchè su alcune
+utility di gestione del filesystem che saranno necessarie nelle successive fasi 
+della compilazione. Di seguito alcuni fra i metodi più significativi della classe \texttt{ProgramRepresentation}: \\
+
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|b|} \hline
+            \cheader{METODI}                          & \cheader{BREVE DOCUMENTAZIONE}                           \\ \hline
+            \texttt{retrieve\_type\_definition}       & Prende in input un oggetto di tipo \texttt{CustomType}, 
+                                                        sottotipo di \texttt{TypeSignature}, restituisce la 
+                                                        \texttt{TypeDefinition}, eventualmente già reificata     \\ \hline
+            \texttt{resolve\_function\_call}          & Prende in input una \texttt{FunctionCall} ed uno 
+                                                        \texttt{ScopeContext}, restituisce un oggetto 
+                                                        di tipo \texttt{CallableCodeBlock}, facendo overloading 
+                                                        resolution e reificando il risultato se necessario      \\ \hline
+            \texttt{resolve\_expression\_type}        & Prende in input una \texttt{Expression} ed uno 
+                                                        \texttt{ScopeContext}, restituisce il tipo dell'espressione
+                                                        in forma di \texttt{TypeSignature} oppure null se il contesto 
+                                                        non fornisce informazione a sufficienza.                \\ \hline
+            \texttt{validate\_assignment}             & Restituisce \texttt{true} se il tipo passato come primo 
+                                                        argomento è assegnabile al tipo passato come secondo, 
+                                                        \texttt{false} altrimenti                               \\ \hline
+        \end{tabularx}
+    \caption{Metodi più significativi della classe \texttt{ProgramRepresentation}}
+\end{table}
+\vspace{0.5cm}
