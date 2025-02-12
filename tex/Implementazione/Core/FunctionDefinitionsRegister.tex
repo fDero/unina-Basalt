@@ -37,3 +37,58 @@ class FunctionDefinitionsRegister {
 };
 \end{lstlisting}
 \vspace{0.5cm}
+
+Così come per le altre tabelle, anche la tabella delle funzioni tiene traccia di tutte le definizioni
+di funzioni presenti nel progetto usando una lista, così da potervi iterare anche quando la si sta modificando 
+(ad esempio generando nuove definizioni tramite reificazione). \\
+
+Per effettuare il recupero della definizione a funzione a partire da una chiamata, è necessario 
+fornire anche i tipi concreti degli argomenti passati alla chiamata per poter effettuare overloading resolution 
+basandosi proprio sui suddetti tipi. La classe \texttt{ProgramRepresentation} si occupa di generare tali tipi 
+a partire da uno \texttt{ScopeContext}. \\
+
+In fase di registrazione di una definizione di funzione, si aggiunge la stessa ad un \texttt{OverloadSet}, 
+il quale è una collezione di definizioni di funzioni che condividono lo stesso nome, lo stesso package, lo stesso numero di argomenti e 
+parametri formali di tipo. \\
+
+Dato che si può chiamare una funzione anche senza specificare i parametri formali di tipo, è necessario
+inserire una funzione generica anche nell'overload set di quello in cui essa sarebbe stata inserita se non fosse 
+stata generica. \\
+
+Se la chiamata a funzione specifica il package in cui la funzione è definita, si effettua una ricerca diretta
+nell'overload set corrispondente (e.g. \texttt{console::println} specifica il package \texttt{console}). \\
+
+In fase di recupero di una definizione di funzione per il quale il package non è stato esplicitamente specificato, 
+si effettua una ricerca nell'overload set corrispondente prima usando il package relativo al file all'interno del 
+quale è stata effettuata la chiamata, e poi cercando tra tutti i package importati da tale file.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+FunctionDefinitionsRegister.retrieve_function_definition(func, types):
+    current_package = project_file_structure
+        .get_package_containing_file(type_signature.file)
+    if type_signature.package != nil:
+        key = get_key(current_package, type_signature)
+        return search_in_overload_set(key, func, types)
+    else:
+        imports = project_file_structure
+            .get_imports_by_file(type_signature.file)
+        for pkg in List.concat(current_package, imports):
+            key = get_key(current_package, type_signature)
+            func = search_in_overload_set(key, func, types)
+            if func != nil:
+                return func
+    return nil
+\end{lstlisting}
+\vspace{0.5cm}
+
+L'algoritmo di recupero di una definizione di funzione, sopra schematizzato tratta gli overload set in 
+maniera analoga a quanto visto per le definizioni di tipo e analizza un overload set per volta. Solo che 
+in questo caso, sarà necessario anche analizzare ogni funzione all'interno di un dato overload set. \\
+
+L'operazione di scelta del miglior candidato, ove possibile, da un dato overload set è detta \textit{overloading resolution}. \\
+
+Dato che tale operazione è \textit{molto} esosa di risorse, si è deciso di implementare una cache per velocizzare
+il recupero delle definizioni di funzione. La cache è implementata come una mappa che associa ad una 
+chiave di tipo stringa nella forma calcolata a partire dal nome del file in cui si trova una chiamata, il nome 
+della funzione e i tipi concreti dei generics e degli argomenti la definzione stessa. \\
