@@ -51,33 +51,7 @@ func max(first : Number, second : Number) -> Number {
 Nel caso poi in cui esistano due overload entrambi validi, sarà scelto l’overload ritenuto 
 più specifico, applicando queste politiche di selezione e filtraggio tra gli overload trovati.
 
-\begin{itemize}
-    \item{
-        un overload non generico viene sempre preferito rispetto ad un overload generico, il 
-        numero di parametri di tipo non è rilevante
-    }
-    \item{
-        un overload viene preferito ad un altro se i suoi parametri di tipo compaiono 
-        meno volte nei tipi dei suoi argomenti
-    }
-    \item{
-        un overload viene preferito ad un altro se i suoi argomenti hanno tipi più complicati, 
-        ovvero hanno più parametri di tipo, oppure tali parametri di tipo sono a loro volta, 
-        ricorsivamente, più complicati
-    }
-    \item{
-        un overload viene preferito ad un altro se tra i tipi dei suoi argomenti 
-        compaiono meno volte tipi definiti come union e/o union anonime
-    }
-    \item{
-        un overload viene preferito ad un altro se il numero totale di casi coperti dalle 
-        union che compaiono tra i suoi argomenti è minore
-    }
-    \item{
-        un overload viene preferito ad un altro se tra i tipi dei suoi argomenti e/o tra i 
-        parametri di tipo di questi ultimi vi sono meno conversioni di tipo
-    }
-\end{itemize}
+\subfile{SpecificityRules}
 
 É possibile analizzare tutti gli aspetti appena elencati durante una fase apposita 
 di preprocessing. Le funzioni quindi vengono valutate per la loro specificità 

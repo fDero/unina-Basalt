@@ -1,0 +1,23 @@
+\subsubsection{Scoring degli overload}
+Durante il processo di \textit{overloading resolution}, viene generato un \texttt{FunctionSpecificityDescriptor}
+per ogni funzione candidata. Questo oggetto contiene informazioni utili per individuare la funzione più specifica. \\
+
+Una considerazione da fare è che, due funzioni in Basalt possono essere comparate per specificità in senso assoluto, 
+e non necessariamente in relazione al contesto in cui sono state chiamate. Questo semplifica di molto la logica di 
+attribuzione dello score. Si ricordi:
+
+\subfile{../../Design/Funzioni/SpecificityRules}
+
+Come è possibile constatare dalle regole sopra elencate, la specificità di una funzione è un concetto che può essere
+valutato in modo assoluto, senza dover considerare il contesto in cui la funzione è stata chiamata. \\
+
+In particolare, la valutazione delle conversioni di tipo è un'operazione che può essere effettuata in modo assoluto, in quanto,
+per un qualunque tipo \texttt{T}, il compilatore è a conoscenza del numero esatto di tipi diversi \texttt{U$_1$}, \texttt{U$_2$}, ..., \texttt{U$_i$}
+tali che espressioni di quel tipo siano assegnabili a \texttt{T}. Questo numero è finito e noto a priori previa l'opportuna 
+interrogazione della tabella dei tipi. \\
+
+Quindi, in generale, è possibile ordinare tutte le funzioni di un overload set per specificità in modo assoluto. Poi, la/le più specifica/e tra 
+queste potrebbero venire scartate per incompatibilità con i tipi concreti degli argomenti, di fatti portando ad una corretta overloading resolution. \\
+
+Un \texttt{FunctionSpecificityDescriptor} è quindi una strcut che contiene diversi indici corrispondenti a ciascuna delle regole sopra elencate, 
+sul quale viene effettuato un confronto secondo il principio dell'ordinamento lessicografico.
