@@ -66,7 +66,7 @@ quale è stata effettuata la chiamata, e poi cercando tra tutti i package import
 \begin{lstlisting}[frame=single]
 FunctionDefinitionsRegister.retrieve_function_definition(func, types):
     current_package = project_file_structure
-        .get_package_containing_file(type_signature.file)
+        .get_package_containing_file(func.file)
     if type_signature.package != nil:
         key = get_key(current_package, type_signature)
         return search_in_overload_set(key, func, types)
@@ -92,3 +92,49 @@ Dato che tale operazione è \textit{molto} esosa di risorse, si è deciso di imp
 il recupero delle definizioni di funzione. La cache è implementata come una mappa che associa ad una 
 chiave di tipo stringa nella forma calcolata a partire dal nome del file in cui si trova una chiamata, il nome 
 della funzione e i tipi concreti dei generics e degli argomenti la definzione stessa. \\
+
+\newpage
+
+Durante la ricerca della definizione di una funzione all'interno di un overload set, si tiene traccia dei candidati 
+migliori (più specifici) e, una volta terminata la ricerca, se è stato trovato un solo candidato, esso viene restituito. \\
+
+In caso di più candidati viene generato un errore a tempo di compilazione per chiamata ambigua, mentre, nel caso di 
+zero candidati, si prosegue la ricerca nell'overload set successivo. \\
+
+Per ogni definizione di funzione dell'overload set si verifica se essa sia compatibile con i tipi concreti 
+degli argomenti. Se e solo se la funzione risulta compatibile allora si genera un \texttt{FunctionSpecificityDescriptor} il quale
+viene comparato con il \texttt{FunctionSpecificityDescriptor} del miglior candidato trovato finora. \\
+
+In caso di funzione ugualmente specifica, essa viene salvata tra i potenziali candidati. In caso di funzione più specifica, 
+essa diventa il nuovo miglior candidato. In caso di funzione meno specifica, essa viene scartata. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+FunctionDefinitionsRegister.search_in_overload_set(key, f, arg_types):
+    best_matches = { }
+    best_so_far = FunctionSpecificityDescriptor.worst()
+    for func_def : overload_sets[key]: 
+        current_specificity = FunctionSpecificityDescriptor(func_def)
+        if comparison_result.less_specific(): 
+            continue
+        comparison_result = current_specificity
+            .compare_with(best_so_far);
+        if !is_compatible(func_def, f, arg_types): 
+            continue
+        best_maches_so_far.append(func_def);
+        if comparison_result.more_specific(): 
+            best_maches_so_far = { func_def };
+            best_specificity_so_far = current_specificity;
+    return extract_single_or_zero_best_match(best_matches);
+\end{lstlisting}
+\vspace{0.5cm}
+
+Successivamente sarà dedicato l'opportuno spazio alla trattazione approfondita sia del sistema di scoring 
+delle funzioni che all'istanziazione delle definizioni generiche (sia di tipi che di funzioni). \\
+
+È opportuno precisare che lo pseudocodice mostrato è semplificato e non riflette esattamente l'implementazione
+reale, che invece si occupa anche di reificare le definizioni generiche ed aggiornare la cache mappando 
+la definizione trovata con una opportuna chiave per il recupero veloce. \\
+
+Anche il funzionamento del metodo \texttt{is\_compatible} è particolarmente complesso e verrà trattato
+in dettaglio in seguito con il dovuto rigore formale. \\
