@@ -46,9 +46,10 @@ delle symbol-tables, e avere un layer di astrazione in più ha di molto facilita
         \includegraphics[width=1\textwidth]{../../Assets/OverviewIndexing.png}
     \caption{Diagramma UML semplificato delle relazioni tra le symbol-tables}
 \end{figure}
+\vspace{0.5cm}
 
 La classe \texttt{FunctionCallResolver} è un layer di astrazione ulteriore rispetto ai diversi processi di risoluzione 
 di una chiamata a funzione (e.g. risoluzione di una chiamata semplice, risoluzione di una chiamata che fa uso di \textit{Common Features Adoption}). \\
 
 Dato che le classi che si occupano della gestione del typesystem sono strettamente legate alla classe \texttt{TypeDefinitionsRegister},
-anche l'interazione con queste ultime è mediata dalla classe \texttt{ProgramRepresentation}. \\
+anche l'interazione con queste ultime è interamente mediata dalla classe \texttt{ProgramRepresentation}. \\
