@@ -21,38 +21,19 @@ struct FileRepresentation {
 \end{lstlisting}
 \vspace{0.5cm}
 
-La classe \texttt{TypeDefinition} rappresenta una definizione di tipo, ed è \textit{super-tipo}
+La classe \texttt{TypeDefinition} rappresenta una definizione di tipo, ed è super-tipo
 di tutti nodi dell'AST che rappresentano definizioni di tipo. \\
 
-Si tenga presente che non necessariamente essere super tipo in C++ significa essere esteso 
-tramite ereditarietà. Nello specifico, per le definizioni di tipo, la classe 
-\texttt{TypeDefinition} eredita dalla classe \texttt{std::variant}, la quale è 
-sostanzialmente una union. Una \texttt{TypeDefinition} infatti è implementata 
-come una union delle classi \texttt{UnionDefinition} e 
-\texttt{StructDefinition}. \\ 
+\begin{figure}[H]
+    \centering
+        \includegraphics[width=0.7\textwidth]{../../Assets/TypeDefAST.png}
+    \caption{
+        \centering
+        UML class diagram dei nodi dell'AST che rappresentano le definizioni di tipo
+    }
+\end{figure}
 
-Anche per le classe \texttt{TypeSignature}, \texttt{Expression} e \texttt{Statement}
-si è seguita la stessa logica, ovvero si è deciso di far si che esse fossero super-tipi 
-di tutti i nodi dell'AST che rappresentano rispettivamente una firma di tipo, un'espressione
-o una istruzione, ma ciò non è stato ottenuto tramite ereditarietà. Per queste ultime si è 
-scelto di procedere all'implementazione ispirandosi ad un design pattern proprio di 
-C++, ovvero il patter \textit{Type-Erasure}. \\
-
-Tale design pattern è un wrapper su di una gerarchia classica ad oggetti basata su ereditarietà,
-ma che espone una API senza puntatori, e quindi molto più comoda da usare. \\
-
-Si è però deviati dall'implementazione classica di tale pattern, in quanto si è scelto di
-conservare traccia del tipo sottostante per poter all'occorrenza verificare il tipo 
-concreto dell'oggetto prima di procedere ad un cast. \\
-
-Per tutto il resto della trattazione, si userà il termine \textit{super-tipo} con l'accezione 
-appena descritta, ovvero si dirà che se oggetti di tipo \texttt{T} sono assegnabili 
-ad oggetti di tipo \texttt{U}, allora \texttt{T} è un super-tipo di \texttt{U}. \\
-
-Alla luce di tale considerazione, si può procedere all'analisi delle classi che
-compongono l'AST illustrandone gli UML class diagram. Anche negli UML class diagram, 
-la freccia che tipicamente indica l'ereditarietà sarà usata con l'accezione appena
-descritta. \\
+\newpage
 
 Di seguito segue l'UML class diagram relativo alle classi che modellano 
 le espressioni in forma di AST. Si tenga presente che anche la repository
@@ -95,11 +76,28 @@ autogenerato da ANTLR per navigare la rappresentazione di ANTLR e tradurla oppor
 \begin{figure}[H]
     \centering
         \includegraphics[width=0.9\textwidth]{../../Assets/TypeSignatureAST.png}
-        \vspace{0.5cm}
-        \includegraphics[width=0.7\textwidth]{../../Assets/TypeDefAST.png}
     \caption{
         \centering
         UML class diagram dei nodi dell'AST che rappresentano le type-signature
-        e le definizioni di tipo
     }
 \end{figure}
+\vspace{0.5cm}
+
+\subsubsection{Tracciamento delle coordinate}
+Ogni classe dell'AST è sotto-tipo propriamente detto (via ereditarietà) della classe \texttt{CoordinatesAwareEntity},
+la quale contiene informazioni utilizzabili per fornire messaggi di errore contestualizzati e significativi. \\
+
+Tali informazioni sono dette coordinate, e consentono di tracciare la posizione dell'entità 
+(Tipo, Funzione, Statement, Espressione) all'interno del file sorgente. \\
+
+\begin{lstlisting}[language=C++, frame=single]
+struct CoordinatesAwareEntity {
+
+    string filename;
+    int line_number;
+    int tok_number;
+    int char_pos;
+
+    /* ... */
+};
+\end{lstlisting}
