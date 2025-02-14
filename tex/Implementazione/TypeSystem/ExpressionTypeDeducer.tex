@@ -1,0 +1,67 @@
+\subsubsection{Deduzione del tipo di una espressione}
+La deduzione del tipo di un'espressione è responsabilità della classe \texttt{ExpressionTypeDeducer}. 
+Di essa si crea un'istanza per ogni scope all'interno del quale si desidera analizzare le espressioni. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class ExpressionTypeDeducer {
+    
+    public:
+        ExpressionTypeDeducer(
+            TypeDefinitionsRegister&,
+            FunctionDefinitionsRegister&,
+            CommonFeatureAdoptionPlanGenerationEngine&,
+            ProjectFileStructure&,
+            ScopeContext&
+        );
+
+        std::optional<TypeSignature> deduce_expression_type(
+            Expression& expression
+        );
+
+        std::vector<TypeSignature> deduce_arguments_types(
+            FunctionCall& function_call
+        );
+
+        /* other methods */
+
+    private:
+        TypeDefinitionsRegister& type_definitions_register;
+        FunctionDefinitionsRegister& function_definitions_register;
+        CFAPlanGenerationEngine& cfa_plan_generation_engine;
+        ProjectFileStructure& project_file_structure;
+        ScopeContext& scope_context;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+Il metodo \texttt{deduce\_expression\_type} è il metodo principale della classe, che si occupa di dedurre 
+il tipo di un'espressione. Il risultato può essere \texttt{std::nullopt} (null) nel caso in cui la 
+deduzione non sia possibile (e.g. dipendente da un tipo generico non ancora reificato). \\
+
+Il metodo \texttt{deduce\_arguments\_types} è un metodo di supporto che si occupa di dedurre i tipi
+degli argomenti di una chiamata di funzione, al fine di poter effettuare l'overloading resolution. In caso 
+il numero di tipi dedotti non coincida col numero di argomenti della funzione, ciò vuol dire che la deduzione 
+di uno o più tipi non è stata possibile (e.g. dipendente da un tipo generico non ancora reificato). \\
+
+\newpage
+
+La deduzione del tipo di un'espressione avviene mediante visita ricorsiva dell'AST dell'espressione stessa,
+attraverso una visita in profondità (DFS). Durante la visita si applicano le seguenti regole:
+
+\begin{itemize}
+    \item \textbf{Literal}: il tipo di un letterale è noto a priori, e viene restituito direttamente.
+    \item \textbf{Identifier}: il tipo di un identificatore è conservato all'interno dello \texttt{ScopeContext}.
+    \item \textbf{Operatore unario}: \begin{itemize}
+        \item Se l'operatore è la negazione logica, il tipo dell'operatore è \texttt{Bool}
+        \item Se l'operatore è la dereferenziazione, si deduce che l'espressione è del tipo puntato dall'operando
+        \item Se l'operatore è la referenziazione (\texttt{\&}), si deduce che l'espressione è un puntatore al tipo dell'operando
+        \item Negli altri casi, l'espressione è del tipo dell'operando
+    \end{itemize}
+    \item \textbf{Operatore binario}: \begin{itemize}
+        \item Se l'operatore è un operatore aritmetico, si deduce il tipo dell'operando
+        \item Se l'operatore è un operatore di confronto, si deduce il tipo \texttt{Bool}
+        \item Se l'operatore è un operatore logico, si deduce il tipo \texttt{Bool}
+        \item Se l'operatore è l'operatore \texttt{is}, si deduce il tipo \texttt{Bool}
+        \item Se l'operatore è un cast, si deduce il tipo a cui si sta castando.
+\end{itemize}

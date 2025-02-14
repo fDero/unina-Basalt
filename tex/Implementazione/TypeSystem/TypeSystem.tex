@@ -1,6 +1,11 @@
 \subsection{Implementazione del typesystem}
+Il type-system è il componente del compilatore che si occupa di effettuare operazioni su definizioni di tipo e 
+type-signature, di dedurre il tipo di una espressione e di controllare la compatibilità di due tipi rispetto 
+all'operazione di assegnamento, eventualmente deducendo i vincoli di tipo necessari per i generics coinvolti e risolvendoli
+in un processo chiamato \textit{type-inference}.
 
-\subsubsection{Reificazione dei generics}
-\subsubsection{Deduzione del tipo di una espressione}
+\subfile{Generics}
+\subfile{ExpressionTypeDeducer}
+
 \subsubsection{Typechecking degli assegnamenti}
 \subsubsection{Algoritmo di Type-inference}
