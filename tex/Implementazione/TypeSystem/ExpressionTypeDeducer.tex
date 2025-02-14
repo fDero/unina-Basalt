@@ -49,6 +49,7 @@ di uno o più tipi non è stata possibile (e.g. dipendente da un tipo generico n
 La deduzione del tipo di un'espressione avviene mediante visita ricorsiva dell'AST dell'espressione stessa,
 attraverso una visita in profondità (DFS). Durante la visita si applicano le seguenti regole:
 
+\vspace{1cm}
 \begin{itemize}
     \item \textbf{Literal}: il tipo di un letterale è noto a priori, e viene restituito direttamente.
     \item \textbf{Identifier}: il tipo di un identificatore è conservato all'interno dello \texttt{ScopeContext}.
@@ -63,5 +64,15 @@ attraverso una visita in profondità (DFS). Durante la visita si applicano le se
         \item Se l'operatore è un operatore di confronto, si deduce il tipo \texttt{Bool}
         \item Se l'operatore è un operatore logico, si deduce il tipo \texttt{Bool}
         \item Se l'operatore è l'operatore \texttt{is}, si deduce il tipo \texttt{Bool}
-        \item Se l'operatore è un cast, si deduce il tipo a cui si sta castando.
+        \item Se l'operatore è un cast, si deduce il tipo a cui si sta castando
+    \end{itemize}
+    \item \textbf{Chiamata di funzione}: Si deduce il tipo di ritorno, previa overloading resolution
+    \item \textbf{Accesso a membro}: \begin{itemize}
+        \item Se l'operando non è un puntatore, si deduce il tipo del membro richiesto
+        \item Se l'operando è un puntatore, si si simula la sua dereferenziazione
+        \item Se l'operando è array/stringa/slice, si deduce il tipo \texttt{Int} per l'accesso a \texttt{.len}
+    \end{itemize}
+    \item \textbf{Accesso a cella di array/slice}: Si deduce il tipo del generico elemento
 \end{itemize}
+
+\newpage
