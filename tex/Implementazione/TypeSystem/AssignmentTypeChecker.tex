@@ -1,0 +1,138 @@
+\subsubsection{Typechecking degli assegnamenti}
+Verificare che espressioni di tipo \texttt{T} siano assegnabili ad espressioni di tipo \texttt{U} è
+responsabilità della classe \texttt{AssignmentTypeChecker}. Tale classe espone una API estremamente minimale, ma
+al contempo fondamentale, composta di due soli metodi. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class AssignmentTypeChecker {
+
+    public:
+        AssignmentTypeChecker(
+            TypeDefinitionsRegister& program_representation, 
+            ProjectFileStructure& project_file_structure
+        );
+
+        bool validate_assignment(
+            const TypeSignature& source, 
+            const TypeSignature& dest,
+            bool is_strict_mode
+        );
+        
+        GenericSubstitutionRule::Set&
+            get_generic_substitution_rules(); 
+
+    private:
+        /* other methods */
+        
+        TypeDefinitionsRegister& type_definitions_register;
+        ProjectFileStructure& project_file_structure;
+        set<string> strict_type_inference_deductions;       
+        GenericSubstitutionRule::Set generic_substitution_rules;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+Il metodo \texttt{validate\_assignment} è il metodo principale della classe, che si occupa di verificare
+che un'espressione di tipo \texttt{T} sia assegnabile ad un'espressione di tipo \texttt{U}. Esso prende 
+tre argomenti, due dei quali sono le \texttt{TypeSignature} prese in esame mentre il terzo è una flag booleana 
+che indica se il controllo debba essere effettuato in modalità \textit{strict} (stringente, conservativa) o meno. \\
+
+Tale metodo restituisce un valore booleano che indica se l'assegnamento è valido o meno. In caso l'assegnamento 
+non possa essere controllato in quanto i tipi presi in esame sono generici e non ancora reificati, sarà ugualmente 
+restituito \texttt{true}. \\
+
+\newpage
+
+Presupposto che \texttt{TypeSignature} è supertipo di tutte le classi che modellano una type-signature nell'AST, e presupposto che 
+quindi è necessario scoprire a tempo di esecuzione quale sia il tipo concreto degli oggetti il cui tipo dichiarato è \texttt{TypeSignature},
+allora è chiaro come la chiamata al metodo \texttt{validate\_assignment} debba ricorsivamente visitare l'AST delle due \texttt{TypeSignature},
+mediante continue chiamate ricorsive a metodi interni della classe, per poi arrivare ad una ultima chiamata ad un metodo specifico per 
+il caso concreto che si è verificato. \\
+
+Alla luce di quanto detto è chiaro come la classe \texttt{AssignmentTypeChecker} abbia moltissimi metodi interni (privati), anche se 
+ha solo due metodi pubblici. Ognuno di questi metodi interni implementa un grafo di chiamate altamente ricorsivo dove ad ogni chiamata 
+si ci avvina allo scoprire i tipi concreti degli oggetti il cui tipo dichiarato è \texttt{TypeSignature}. \\
+
+\begin{lstlisting}[frame=single]
+AssignmentTypeChecker.validate_assignment(source, dest, mode):
+   switch dest:
+      case TemplateType:  return validate_assignment_to_template(...)
+      case CustomType:    return validate_assignment_to_custom(...)
+      case PointerType:   return validate_assignment_to_pointer(...)
+      case ArrayType:     return validate_assignment_to_array(...)
+      case SliceType:     return validate_assignment_to_slice(...)
+      case InlineUnion:   return validate_assignment_to_union(...)
+      case PrimitiveType: return validate_assignment_to_primitive(...)
+
+AssignmentTypeChecker.validate_assignment_to_pointer(source, ptr):
+   if source.is_pointer():
+       return validate_assignment(
+          source.pointed_type(), 
+          ptr.pointed_type(), 
+          STRICT_MODE
+       )
+   else:
+      return false
+\end{lstlisting}
+\vspace{0.5cm}
+
+Nel precedente frammento di codice si intuisce l'utilizzo e lo scopo della flag relativa alla 
+strict-mode. Tale flag è necessaria per segnalare che non si desidera restituire \texttt{true}
+qualora l'assegnamento comporti una conversione implicita di tipo. \\
+
+Ad esempio, è possibile assegnare \texttt{Int} ad \texttt{Int | Float} ma non è 
+possibile assegnare \texttt{List<Int>} a \texttt{List<Int|Float>} e nemmeno 
+\texttt{\#Int} a \texttt{\#(Int|Float)}. La differenza fra questi scenari è che le chiamate al 
+metodo \texttt{validate\_assignment} fatte nei contesti appena illustrati vengono fatte in \textit{strict-mode}. \\
+
+\newpage
+
+Si consideri ad esempio il metodo \texttt{validate\_assignment\_to\_union}, che si occupa di verificare
+se un'espressione di tipo \texttt{T} sia assegnabile ad un'espressione di tipo \texttt{U} dove \texttt{U}
+è un \texttt{InlineUnion} oppure un \texttt{CustomType} corrispondente ad una \textit{named-union}: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+AssignmentTypeChecker.validate_assignment_to_union(src, dest, mode):
+    if mode == STRICT_MODE:
+        return source.is_equal_to(dest)
+    if src.is_equal_to(dest):
+        return true
+    for type in dest.alternatives():
+        if validate_assignment(src, type, mode):
+            return true
+    for type in src.alternatives():
+        if !validate_assignment(type, dest, mode):
+            return false
+    return true
+\end{lstlisting}
+\vspace{0.5cm}
+
+Risulta evidente analizzando lo pseudocodice sopra riportato come il controllo di assegnabilità
+restituisca \texttt{true} per assegnamenti di tipo \texttt{Int} a \texttt{Int|Float} in modalità \textit{non-strict}, 
+e invece restituisca \texttt{false} in modalità \textit{strict}. \\
+
+In generale, valgono le seguenti affermazioni:
+
+\begin{itemize}
+    \item \texttt{\#T} è assegnabile a \texttt{\#U} se e solo se \texttt{T} è assegnabile a \texttt{U} in modalità \textit{strict}
+    \item \texttt{\$T} è assegnabile a \texttt{\$U} se e solo se \texttt{T} è assegnabile a \texttt{U} in modalità \textit{strict}
+    \item \texttt{A<T>} è assegnabile ad \texttt{A<U>} se e solo se \texttt{T} è assegnabile a \texttt{U} in modalità \textit{strict}
+    \item \texttt{[]T} è assegnabile in modalità \textit{non-strict} ad \texttt{[]U} se e solo se \texttt{T} è assegnabile a \texttt{U}
+    \item \texttt{[]T} è assegnabile in modalità \textit{strict} ad \texttt{[]U} se e solo se \texttt{T} = \texttt{U}
+    \item \texttt{String} è assegnabile in modalità \textit{non-strict} ad \texttt{RawString}
+    \item \texttt{A} è assegnabile in modalità \textit{strict} a \texttt{B} se e solo se \texttt{A} e \texttt{B} sono identici
+    \item la prima chiamata a \texttt{validate\_assignment} è fatta in modalità \textit{non-strict}
+\end{itemize}
+
+Valgono inoltre le regole di assegnabilità già trattate nella sezione dedicata al design del linguaggio al 
+capitolo dedicato all'assegnabilità, in particolare, come confermato dal frammento di codice appena discusso, 
+è possibile assegnare espressioni di tipo \texttt{SubType} ad espressioni di tipo \texttt{SuperType} in modalità 
+\textit{non-strict} se: \\
+
+\begin{itemize}
+    \item \texttt{SubType} è identico a \texttt{SuperType}
+    \item \texttt{SuperType} è una union e \texttt{SubType} è uno dei tipi che essa descrive
+    \item \texttt{SubType} è una union e tutti i tipi da essa descritti sono assegnabili a \texttt{SuperType}    
+\end{itemize}
