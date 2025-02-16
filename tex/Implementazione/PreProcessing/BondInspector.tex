@@ -1,0 +1,42 @@
+\subsubsection{Analisi dei legami post-assegnamento}
+Assegnando un espressione detta \textit{sorgente} ad un'altra espressione detta \textit{destinazione}
+è opportuno chiedersi se, manipolando la destinazione, non si possa alterare in qualche modo la sorgente. \\
+
+Ad esempio, nel caso in cui sia sorgente che destinazione fossero puntatori, al termine dell'assegnamento, 
+manipolando il puntatore destinazione si potrebbe accedere in scrittura all'area di memoria puntata 
+dal puntatore sorgente. \\
+
+In generale, ci si deve porre il problema di quando assegnare un'espressione sorgente espone 
+tale espressione alla possibilità di essere indirettamente modificata, del tutto o in parte, 
+mediante azioni di qualsiasi tipo compiute sulla destinazione. \\
+
+La risposta a tale domanda è fornita dalla classe \texttt{BondInspector} e dall'algoritmo che 
+essa implementa sottoforma di metodi mutuamente ricorsivi. Tale classe infatti implementa un 
+metodo chiamato \texttt{does\_the\_type\_of\_this\_expr\_imply\_a\_bond} che, visitando 
+in profondità (DFS) l'AST relativo ad una data typesignature, restituisce \texttt{true} se 
+assegnare espressioni aventi tale tipo può portare a scenari di modifica indiretta. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+BondInspector.does_the_type_of_this_expr_imply_a_bond(type):
+    switch type:
+        case InlineUnion:   
+            return does_this_inline_union_imply_a_bond(type)
+        case CustomType:    
+            return does_this_custom_type_imply_a_bond(type)
+        case ArrayType:     
+            return does_the_type_of_this_expr_imply_a_bond(
+                type.stored_type
+            )
+        case PrimitiveType: return false
+        case PointerType:   return true
+        case SliceType:     return true
+        case TemplateType:  return true
+    
+BondInspector.does_this_union_imply_a_bond(union):
+    for alternative in union.alternatives:
+        does_the_type_of_this_expr_imply_a_bond(alternative):
+            return true
+    return false
+\end{lstlisting}
+\vspace{0.5cm}
