@@ -1,6 +1,6 @@
 \subsubsection{Variant}
 Il design pattern \textit{Variant} è un pattern che permette di implementare una union di tipi anche 
-quando alcuni o tutti i tipi sono classi sono sprovvisti di un costruttore di default (senza argomenti).
-In C++17 è stato introdotto il tipo \texttt{std::variant}, che permette di fare esattamente questo. All'interno 
+quando alcuni di essi sono sprovvisti di un costruttore di default (senza argomenti). In 
+C++17 è stato introdotto il tipo \texttt{std::variant}, che permette di fare esattamente questo. All'interno 
 della codebase di Basalt è possibile trovare una classe \texttt{SmartVariant} che è un wrapper su \texttt{std::variant}
 e che espone una API più consona all'utilizzo specifico all'interno del progetto. \\

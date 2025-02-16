@@ -15,10 +15,10 @@ come supertipo di tutti gli oggetti che implementano dei metodi pubblici chiamat
 
 \newpage
 
-Internamente essa possiede un puntatore ad \texttt{Concept}, a cui è possibile assegnare 
+Internamente essa possiede un puntatore a \texttt{Concept}, a cui è possibile assegnare 
 puntatori ad oggetti di tipo \texttt{Model<T>} per ogni scelta di \texttt{T}. \\
 
-A patto che \texttt{T} esponga la corretta l'API, la classe \texttt{Model<T>} può implementare i metodi chiamandoli 
+A patto che \texttt{T} esponga la corretta API, la classe \texttt{Model<T>} può implementare i metodi chiamandoli 
 direttamente su di un'istanza di \texttt{T} che essa possiede come membro interno. \\
 
 Assegnare un oggetto di tipo \texttt{T} ad un \texttt{Gateway} è possibile grazie alla ridefinizione dell'operatore \texttt{=}

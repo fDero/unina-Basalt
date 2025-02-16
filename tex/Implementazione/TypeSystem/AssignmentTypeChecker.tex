@@ -52,7 +52,7 @@ il caso concreto che si è verificato. \\
 
 Alla luce di quanto detto è chiaro come la classe \texttt{AssignmentTypeChecker} abbia moltissimi metodi interni (privati), anche se 
 ha solo due metodi pubblici. Ognuno di questi metodi interni implementa un grafo di chiamate altamente ricorsivo dove ad ogni chiamata 
-si ci avvina allo scoprire i tipi concreti degli oggetti il cui tipo dichiarato è \texttt{TypeSignature}. \\
+ci si avvina allo scoprire i tipi concreti delle \texttt{TypeSignature}. \\
 
 \begin{lstlisting}[frame=single]
 AssignmentTypeChecker.validate_assignment(source, dest, mode):
@@ -120,8 +120,8 @@ In generale, valgono le seguenti affermazioni:
     \item \texttt{\$T} è assegnabile a \texttt{\$U} se e solo se \texttt{T} è assegnabile a \texttt{U} in modalità \textit{strict}
     \item \texttt{A<T>} è assegnabile ad \texttt{A<U>} se e solo se \texttt{T} è assegnabile a \texttt{U} in modalità \textit{strict}
     \item \texttt{[]T} è assegnabile in modalità \textit{non-strict} ad \texttt{[]U} se e solo se \texttt{T} è assegnabile a \texttt{U}
-    \item \texttt{[]T} è assegnabile in modalità \textit{strict} ad \texttt{[]U} se e solo se \texttt{T} = \texttt{U}
-    \item \texttt{String} è assegnabile in modalità \textit{non-strict} ad \texttt{RawString}
+    \item \texttt{[]T} è assegnabile in modalità \textit{strict} ad \texttt{[]U} se e solo se \texttt{T} e \texttt{U} sono identici
+    \item \texttt{String} è assegnabile in modalità \textit{non-strict} a \texttt{RawString}
     \item \texttt{A} è assegnabile in modalità \textit{strict} a \texttt{B} se e solo se \texttt{A} e \texttt{B} sono identici
     \item la prima chiamata a \texttt{validate\_assignment} è fatta in modalità \textit{non-strict}
 \end{itemize}

@@ -1,5 +1,5 @@
 \subsubsection{Costruzione della tabella delle funzioni}
-La tabella dei tipi è una struttura dati che traccia le definizioni di tutte le funzioni
+La tabella delle funzioni è una struttura dati che traccia le definizioni di tutte le funzioni
 e rende possibile risalire ad esse partendo da un oggetto di tipo \texttt{FunctionCall} e dai 
 tipi concreti degli argomenti passati alla chiamata. \\
 
@@ -82,7 +82,7 @@ FunctionDefinitionsRegister.retrieve_function_definition(func, types):
 \end{lstlisting}
 \vspace{0.5cm}
 
-L'algoritmo di recupero di una definizione di funzione, sopra schematizzato tratta gli overload set in 
+L'algoritmo di recupero di una definizione di funzione, sopra schematizzato, tratta gli overload set in 
 maniera analoga a quanto visto per le definizioni di tipo e analizza un overload set per volta. Solo che 
 in questo caso, sarà necessario anche analizzare ogni funzione all'interno di un dato overload set. \\
 
@@ -91,7 +91,7 @@ L'operazione di scelta del miglior candidato, ove possibile, da un dato overload
 Dato che tale operazione è \textit{molto} esosa di risorse, si è deciso di implementare una cache per velocizzare
 il recupero delle definizioni di funzione. La cache è implementata come una mappa che associa ad una 
 chiave di tipo stringa nella forma calcolata a partire dal nome del file in cui si trova una chiamata, il nome 
-della funzione e i tipi concreti dei generics e degli argomenti la definzione stessa. \\
+della funzione e i tipi concreti dei generics e degli argomenti della definzione stessa. \\
 
 \newpage
 

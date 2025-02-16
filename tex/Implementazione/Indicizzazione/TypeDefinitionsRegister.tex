@@ -29,16 +29,16 @@ Internamente, la tabella dei tipi è implementata come una mappa che associa ad 
 nome di tipo, completamente qualificato, la definizione del tipo corrispondente. Inoltre, viene mantenuta una 
 lista dei nomi di tipo per consentire l'iterazione con modifica in modo analogo a quanto visto nel paragrafo precedente. \\
 
-Per registrare una definizione di tipo all'interno della tabella, viene generato una stringa 
+Per registrare una definizione di tipo all'interno della tabella, viene generata una stringa 
 univoca nella forma \texttt{<package>::<type\_name>::<N>} (dove \texttt{<N>} è il numero di parametri formali di tipo)
 e viene usata come chiave nella mappa per l'inserimento della definizione.
 
 In fase di recupero, la tabella dei tipi permette di ottenere la definizione di un tipo a partire da una \texttt{TypeSignature}.
 Ciò avviene mediante il recupero diretto della definizione associata alla chiave generata a partire dal nome qualificato del tipo, 
-se tale tipo è stato utilizzando specificandone il package di provenienza (e.g. math::Complex). \\
+se tale tipo è stato utilizzando specificandone il package di provenienza (e.g. \texttt{math::Complex}). \\
 
 Se il package di provenienza non è stato specificato, si tenterà prima con il package a cui appartiene il file 
-in cui è stata trovata la \texttt{TypeSignature} e, in caso di fallimento, si proverà tutti i package 
+in cui è stata trovata la \texttt{TypeSignature} e, in caso di fallimento, si proverà con tutti i package 
 importati da tale file. \\
 
 Risalire al package in cui si trova il file che contiene la \texttt{TypeSignature}, così come i package da esso importati, 
@@ -76,11 +76,6 @@ Si noti come il formato scelto per le chiavi consente di indicizzare correttamen
 apparentemente duplicati ma con un numero diverso di parametri formali, come ad esempio 
 \texttt{Pair<T>} e \texttt{Pair<T,U>}. \\
 
-Non è possibile distinguere però \texttt{Pair<T,U>} da \texttt{Pair<T,T>}, in quanto il 
-numero di parametri formali di tipo è lo stesso. Questo è un limite del sistema di indicizzazione 
-scelto, ma è accettabile in quantoin caso contrario si potrebbe incorrere nella complessità 
-accessoria di dover gestire i casi ambigui come \texttt{Pair<T,U>} e \texttt{Pair<U,T>}.
-
 Si tenga poi a mente che l'operazione di generazione della chiave è un'operazione esosa di risorse.
 Il costo computazionale maggiore deriva dalla ricerca del package corretto iterando su tutti i package
 importati dal file in cui è stata trovata la \texttt{TypeSignature} qualora essa non abbia un 
@@ -92,7 +87,7 @@ implementare un sistema di cache per memorizzare come un dato tipo sprovvisto di
 specificato sia stato risolto partendo da uno specifico file. \\
 
 Tale ottimizzazione favorirebbe codebase con pochi file molto grandi, mentre non sarebbe granchè d'impatto 
-su codebase con molti file piccoli, per i quali, anzi, sarebbe sfavorevole. \\
+su codebase con molti file piccoli, per le quali, anzi, sarebbe sfavorevole. \\
 
 
 

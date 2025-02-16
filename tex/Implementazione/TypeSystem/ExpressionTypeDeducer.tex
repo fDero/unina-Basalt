@@ -40,8 +40,8 @@ il tipo di un'espressione. Il risultato può essere \texttt{std::nullopt} (null)
 deduzione non sia possibile (e.g. dipendente da un tipo generico non ancora reificato). \\
 
 Il metodo \texttt{deduce\_arguments\_types} è un metodo di supporto che si occupa di dedurre i tipi
-degli argomenti di una chiamata di funzione, al fine di poter effettuare l'overloading resolution. In caso 
-il numero di tipi dedotti non coincida col numero di argomenti della funzione, ciò vuol dire che la deduzione 
+degli argomenti di una chiamata di funzione, al fine di poter effettuare l'overloading resolution. Nel caso 
+in cui numero di tipi dedotti non coincida col numero di argomenti della funzione, ciò vuol dire che la deduzione 
 di uno o più tipi non è stata possibile (e.g. dipendente da un tipo generico non ancora reificato). \\
 
 \newpage
@@ -69,7 +69,7 @@ attraverso una visita in profondità (DFS). Durante la visita si applicano le se
     \item \textbf{Chiamata di funzione}: Si deduce il tipo di ritorno, previa overloading resolution
     \item \textbf{Accesso a membro}: \begin{itemize}
         \item Se l'operando non è un puntatore, si deduce il tipo del membro richiesto
-        \item Se l'operando è un puntatore, si si simula la sua dereferenziazione
+        \item Se l'operando è un puntatore, si simula la sua dereferenziazione
         \item Se l'operando è array/stringa/slice, si deduce il tipo \texttt{Int} per l'accesso a \texttt{.len}
     \end{itemize}
     \item \textbf{Accesso a cella di array/slice}: Si deduce il tipo del generico elemento

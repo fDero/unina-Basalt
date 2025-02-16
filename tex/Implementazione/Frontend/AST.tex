@@ -1,7 +1,7 @@
 \subsubsection{Implementazione dell'AST}
 L'output della fase di parsing è un oggetto di tipo \texttt{FileRepresentation}. Esso 
 è sostanzialmente la radice dell'AST relativo ad un singolo file sorgente, ed è 
-composto da una lista di radici di sotto-alberi corrispondenti alle definizioni contenute 
+composto da una collezione di radici di sotto-alberi corrispondenti alle definizioni contenute 
 nel file. \\
 
 \vspace{0.5cm}
@@ -9,20 +9,20 @@ nel file. \\
 struct FileRepresentation {
 
     struct Metadata {
-        std::string filename;
-        std::string packagename;
-        std::vector<std::string> imports;
+        string filename;
+        string packagename;
+        vector<string> imports;
     };
 
     Metadata file_metadata;
-    std::vector<TypeDefinition> type_defs;
-    std::vector<FunctionDefinition> func_defs;
+    vector<TypeDefinition> type_defs;
+    vector<FunctionDefinition> func_defs;
 };
 \end{lstlisting}
 \vspace{0.5cm}
 
 La classe \texttt{TypeDefinition} rappresenta una definizione di tipo, ed è super-tipo
-di tutti nodi dell'AST che rappresentano definizioni di tipo. \\
+di tutti i nodi dell'AST che rappresentano definizioni di tipo. \\
 
 \begin{figure}[H]
     \centering
@@ -59,12 +59,12 @@ autogenerato da ANTLR per navigare la rappresentazione di ANTLR e tradurla oppor
     \caption{UML class diagram dei nodi dell'AST che rappresentano statement}
 \end{figure}
 
-Si può osservare come la classe \texttt{FunctionCall} sia un sottotipo di \texttt{Expression}
-e di \texttt{Statement}. Questo è dovuto al fatto che una chiamata di funzione può essere
+Si può osservare che la classe \texttt{FunctionCall} è sia un sottotipo di \texttt{Expression}
+sia di \texttt{Statement}. Questo è dovuto al fatto che una chiamata di funzione può essere
 usata sia come espressione, se restituisce un valore, sia come statement, in caso contrario. \\
 
 Si ricordi infatti che in C++ esiste l'ereditarietà multipla, e quindi è possibile che un
-una classe abbia più di un super-tipo anche nei casi in cui si usa l'eredita.
+una classe abbia più di un super-tipo anche nei casi in cui si usa l'ereditarietà.
 
 \newpage
 
