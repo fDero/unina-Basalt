@@ -1,0 +1,144 @@
+\subsubsection{Algoritmo di Type-inference}
+Con \textit{type-inference} si intende il processo che porta alla deduzione di uno o più 
+tipi a partire dal contesto. In Basalt, l'unico scenario in cui si applica la type-inference è
+la deduzione dei parametri attuali di tipo di una chiamata a funzione. \\
+
+Come detto in precedenza, durante la fase di \textit{overloading-resolution}, il 
+compilatore deve scegliere quale tra le funzioni contenute in un overload set è 
+quella più specifica tra quelle \textit{compatibili con la chiamata}. \\
+
+Solo per le chiamate a funzione che non specificano i parametri attuali di tipo, ma che non 
+sono compatibili con nessuna funzione non-generica, si tenta di dedurre i parametri attuali
+di tipo con la type-inference. \\
+
+Durante l'atto di controllare che una definizione di funzione sia compatibile con una chiamata,
+viene controllata l'assegnabilità di tutti i tipi concreti degli argomenti rispetto ai tipi 
+dichiarati dei parametri formali. Durante la validazione dell'assegnabilità, se il tipo a cui si desidera
+assegnare è generico, come \textit{by-product} del controllo di assegnabilità, vengono dedotti i vincoli di tipo
+che legano quel tipo generico con il tipo concreto. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+FunctionDefinitionsRegister.check_compatiblity(fdef, fcall, types):
+   checker = new AssignmentTypeChecker(...)
+   for actual, expected in arg_types(fdef, fcall):
+      if !checker.validate_assignment(actual, expected, !STRICT_MODE):
+         return (false, null)
+   engine = new GenericsInstantiationEngine(
+      checker.get_generic_substitution_rules() // inferred
+   )
+   instantiated = engine.instantiate(fdef, ...)
+   return (true, instantiated)
+\end{lstlisting}
+\vspace{0.5cm}
+
+Se la compatibilità è verificata, si restituisce non solo \texttt{true}, ma anche la definizione 
+di funzione reificata grazie ai tipi attuali di tipo dedotti. Nel caso in cui i parametri attuali di 
+tipo siano stati esplicitamente specificati, essi saranno passati al costruttore di \texttt{AssignmentTypeChecker}
+il quale li restituirà con il metodo \texttt{get\_generic\_substitution\_rules} e l'algoritmo resterà invariato. \\
+
+L'istanza di \texttt{AssignmentTypeChecker} in uso è specifica per la coppia definizione-chiamata in esame,
+essa tiene traccia internamente delle assunzioni che essa stessa effettua durante il type-checking e 
+le restituisce al chiamante al termine. Tali assunzioni sono specifiche per l'istanza e quindi non hanno 
+effetto sul controllo di compatibilità delle future definizioni. \\ 
+
+\newpage
+
+I vincoli di assegnabilità che legano un parametro formale di tipo ad un tipo concreto sono dedotte 
+in sede di controllo di validità dell'assegnabilità del tipo concreto al tipo generico. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+AssignmentTypeChecker.validate_assignment_to_template(src, dst, mode):
+    already_locked = false
+    if strict_type_inference_deductions.contains(dst.type_name):
+        already_locked = true
+    if mode == STRICT_MODE:
+        strict_type_inference_deductions.insert(dst.type_name);
+
+    for rule in generic_substitution_rules:
+        if rule.to_be_replaced != dst.type_name:
+            continue
+        if validate_assignment(src, rule.replacement, STRICT_MODE):   
+            return true;
+        if validate_assignment(src, rule.replacement, !STRICT_MODE):   
+            return !already_locked
+        if validate_assignment(rule.replacement, src, !STRICT_MODE):
+            rule.replacement = src
+            return !already_locked
+        if rule.replacement.is_inline_union():
+            rule.replacement.alternatives.append(src);
+            return !already_locked 
+        rule.replacement = new InlineUnionType(
+            rule.replacement, src
+        );
+        return !already_locked
+
+    generic_substitution_rules.insert(dst.type_name, src)
+    return !already_locked
+\end{lstlisting}
+\vspace{0.5cm}
+
+In particolare, è possibile schematizzare ulteriormente l'algoritmo come segue:
+
+\begin{itemize}
+    \item Se esiste già un plausibile candidato per il tipo generico, ed è possibile 
+    assegnare il tipo concreto a tale candidato in modalità \textit{strict}, allora il candidato viene 
+    lasciato intatto e si restituirà \texttt{true} sia che ci si trovi in modalità 
+    \textit{strict} che \textit{non-strict}.
+
+    \item Se non esiste un plausibile candidato per il tipo generico, il tipo che si desidera 
+    assegnare diventa esso stesso un candidato. Esso sarà scelto se e solo se l'assunzione non 
+    sarà affinata in seguito all'analisi dei rimanenti argomenti. In caso di \textit{strict-mode},
+    l'assunzione sarà marcata come non-modificabile.
+
+    \item In tutti gli altri casi si richiede di non essere in strict-mode, e si può mettere 
+    in discussione l'assunzione precedente rimpiazzandola con il tipo che si desidera assegnare, 
+    qualora tale modifica preservi i vincoli dedotti in precedenza, oppure con la union anonima 
+    del tipo concreto che si desidera assegnare con il precedente candidato.
+\end{itemize}
+
+Un dubbio che è lecito porsi è il seguente: È giusto che anche qualora in \textit{strict-mode}, vi sia 
+un modo modificare l'assunzione precedente basandosi sull'esito di un controllo di assegnabilità che 
+non è stato condotto in \textit{strict-mode}? \\
+
+Si consideri la seguente definizione di funzione generica:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func contains<T>(target : T, list : List<T>) -> Bool {
+    cursor : #Node = list.head;
+    while (cursor != null) {
+        if (utils::compare_eq(cursor.value, target)) {
+            return true;
+        }
+        cursor = cursor.next;
+    }
+    return false;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Deve essere possibile chiamare la funzione \texttt{contains} con argomenti \texttt{Int} e \texttt{List<Int|Float>}
+affidandosi alla type-inference per dedurre il tipo di \texttt{T}. Al momento in cui si analizza l'assegnamento 
+di \texttt{List<Int|Float>} a \texttt{List<T>} in modalità \textit{non-strict}, il quale comporta il controllo 
+dell'assegnamento di \texttt{Int|Float} a \texttt{T} in modalità \textit{strict}, il tipo \texttt{T} avrà
+già un possibile candiato ovvero \texttt{Int}. \\
+
+Tale assunzione è modificabile, ed è quindi giusto che venga modificata anche in \textit{strict-mode}. Questo 
+significa che la \textit{strict-mode} impedisce l'assegnazione di un tipo ad un altro se questo avviene mediante 
+conversione implicita di tipo, ma solo se il tipo destinzazione non è generico. \\
+
+Per tipi di destinazione generici, la \textit{strict-mode} impedisce solo la modifica futura dell'assunzione 
+che si sta attualmente facendo. \\
+
+La modifica dell'assunzione precedente è possibile se essa è modificabile e se il nuovo candidato 
+non comporta la perdita di vincoli di tipo dedotti in precedenza. La non-perdita dei vincoli è garantita
+dal fatto che è stato già verificato che il nuovo candidato possa ricevere assegnamenti da parte del candidato 
+precedente a patto di supportare le conversioni implicite di tipo, ciò significa che dunque è assolutamente corretto 
+che tale controllo non avvenga in \textit{strict-moode}. \\
+
+Si ricordi che l'assegnabilità di un tipo ad un altro è una relazione transitiva, e quindi se è possibile assegnare 
+ad un nuovo candidato il precedente, allora ciò implica che è possibile assegnarvi tutti i candidati che sono 
+stati dedotti fin ora e che sono poi stati scartati. Questa semplice osservazione garantisce la correttezza 
+dell'algoritmo. \\
