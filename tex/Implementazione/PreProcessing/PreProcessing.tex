@@ -1,6 +1,10 @@
 \subsection{Analisi statica}
+Con \textit{analisi statica} si intende il processo di validazione e controllo 
+del programma già indicizzato. Tale processo di controllo viene implementato mediante 
+una serie di visitor che navigano l'AST e/o i grafi delle dipendenze.
 
-\subsubsection{Controllo di aciclicità delle dipendenze dirette fra tipi}
+\subfile{TypeDependencyNavigator}
+
 \subsubsection{Controllo di non-shadowing dei tipi}
 \subsubsection{Tracciamento degli scope e delle definizioni locali}
 \subsubsection{Typechecking delle funzioni}

@@ -1,0 +1,44 @@
+\subsubsection{Controllo di aciclicità delle dipendenze dirette fra tipi}
+Il primo controllo di correttezza ad essere stato implementato nella codebase è 
+stato il controllo di aciclicità delle dipendenze dirette fra tipi. \\
+
+Dato un qualunque tipo \texttt{T}, si considerano dipendenti direttamente da esso 
+tutti i tipi che modellano array di \texttt{T}, tutti i tipi union definite a partire da 
+esso o da suoi tipi dipendenti direttamente e tutti i tipo struct con membri di tipo \texttt{T} o suoi
+tipi dipendenti direttamente. \\
+
+Se il grafo delle dipendenze dirette fosse ciclico, in particolare, se ad esempio il tipo \texttt{T}
+fosse direttamente dipendente da \texttt{U} e viceversa, ciò implicherebbe che non è possibile calcolare 
+la dimensione in byte necessaria ad allocare in memoria oggetti ti tipo \texttt{T}. \\
+
+Per garantire l'aciclicità del grafo, esso viene visitato in profondità (DFS) dalla classe 
+\texttt{TypeDependencyNavigator}, la quale inzia la visita da una data definizione di tipo, e 
+procede esplorando tutti i tipi da cui tale definizione è dipendente direttamente.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+TypeDependencyNavigator.visit_type_definition(type_definition):
+    union_id = union_definition.generate_union_id()
+    if visited.contains(union_id):
+        return
+    if visiting.contains(union_id):
+        raise new CyclicDependencyError(...);
+    visiting.insert(union_id)
+    for type in get_depnendencies(type_definitions):
+        visit_typesignature(type, type_definitions.generics)
+    visiting.remove(union_id)
+    visited.insert(union_id)
+
+TypeDependencyNavigator.visit_typesignature(typesignature, generics):
+    if typesignature.is_generic():
+        return
+    else if typesignature.is_array():
+        visit_typesignature(typesignature.stored_type, generics)
+    else if typesignature.is_custom_type():
+        retrieved_def = type_definitions_register
+            .retrieve_type_definition(typesignature)
+        visit_type_definition(type_definition)
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
