@@ -43,12 +43,14 @@ ad un'espressione destinazione \textit{non} immutabile. Tale classe è utilizzat
 La politica applicata nel decretare la validità di un assegnamento rispetto all'immutabilità è la seguente:
 
 \begin{itemize}
-    \item L'assegnamento è \textit{non-valido} se l'espressione destinazione è immutabile
-    \item L'assegnamento è \textit{non-valido} se l'espressione destinazione è in sola lettura
+    \item L'assegnamento è \textit{non-valido} se l'espressione destinazione è immutabile. Per 
+    valutare questo criterio ci si affida alla classe \texttt{ImmutabilityDeducer}
+    \item L'assegnamento è \textit{non-valido} se l'espressione destinazione è in sola lettura,
+    ovvero se mutamenti di tale espressione non sarebbero osservabili in nessun caso. Per valutare
+    questo criterio ci si affida alla classe \texttt{OvservabilityDeducer}
     \item L'assegnamento è \textit{non-valido} se esso consentirebbe di modificare indirettamente 
     l'espressione sorgente mediante manipolazione dell'espressione destinazione e l'espressione sorgente 
-    è immutabile. Per valutare questo criterio ci si affida alla classe \texttt{BondInspector} discussa 
-    precedentemente
+    è immutabile. Per valutare questo criterio ci si affida alla classe \texttt{BondInspector}
 \end{itemize}
 
 Si ricordi che con \textit{espressioni di sola-lettura} si intendono le espressioni che non sono propriamente 
