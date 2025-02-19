@@ -1,0 +1,133 @@
+\subsubsection{Traduzione dei tipi in LLVM-IR}
+La traduzione delle definizioni di tipo e delle type-signatures in LLVM-IR mediante è responsabilità della classe 
+\texttt{TypesLLVMTranslator}. Questa classe è in grado di tradurre sia i tipi primitivi che i tipi definiti dall'utente.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class TypesLLVMTranslator {
+
+    public:
+        TypesLLVMTranslator(
+            ProgramRepresentation& program_representation, 
+            llvm::LLVMContext& context,
+            llvm::Module& llvm_module
+        );
+
+        llvm::Type* translate_type_definition(TypeDefinition&);
+        llvm::Type* translate_typesignature(TypeSignature&);
+        vector<llvm::Type*> translate_all(vector<TypeSignature>&);
+
+        size_t compute_sizeof(const TypeSignature& typesignature);
+
+        llvm::GlobalVariable* fetch_type_info(TypeSignature&);
+
+    protected:
+        /* other methods */
+
+    private:
+        ProgramRepresentation& program_representation;
+        llvm::LLVMContext& context;
+        llvm::Module& llvm_module;
+
+        unordered_map<string, llvm::Type*> 
+            llvm_type_definitions;
+        
+        unordered_map<string, llvm::GlobalVariable*> 
+            llvm_exact_type_infos;
+
+        unordered_map<string, std::vector<llvm::GlobalVariable*>> 
+            llvm_compatible_type_infos;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+La traduzione di un tipo in LLVM-IR comporta la creazione di un oggetto di tipo \texttt{llvm::Type} che rappresenta
+una typesignature in LLVM-IR. In particolare, di tale oggetto si tende a mantenere solo un puntatore, in quanto l'API di 
+LLVM lavora solo ed esclusivamente con puntatori. La \textit{lifetime} di tali oggetti è gestita da LLVM stesso, ed in particolare essi sono 
+automaticamente deallocati quando il modulo che li contiene viene deallocato. Come si può vedere, la classe \texttt{TypesLLVMTranslator}
+mantiene un riferimento a \texttt{llvm::Module} che corrisponde appunto al modulo appena citato. \\ 
+
+La traduzione delle definizioni di struct avviene in modo molto naturale e diretto, in quanto LLVM-IR supporta le struct nativamente, 
+ed è quindi sufficiente utilizzare l'API di LLVM opportunamente.
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+TypesLLVMTranslator.translate_struct_definition(struct_def):
+    fully_qualified_name = program_representation
+        .get_fully_qualified_typedefinition_name(struct_definition)
+
+    if llvm_type_definitions[fully_qualified_name] != nil:
+        return llvm_type_definitions[fully_qualified_name]
+    
+    llvm_type_def = llvm_create_struct(fully_qualified_name)
+    llvm_type_definitions.insert(fully_qualified_name, llvm_type_def)
+    for field : struct_definition.fields:
+        llvm_type_def.fields.append(
+            translate_typesignature(field.field_type)
+        )
+    
+    if llvm_type_def.fields.is_empty():
+        fields_types.append(llvm::Type::getInt1Ty(context))
+    
+    return llvm_type_def
+\end{lstlisting}
+\vspace{0.5cm}
+
+La traduzione avviene solo la prima volta, tutte le altre volte ci si limita a recuperare 
+il tipo già tradotto dalla mappa \texttt{llvm\_type\_definitions} usando il nome completamente qualificato come 
+chiave di recupero. \\
+
+Inserendo immediatamente il \texttt{llvm::Type*} nella mappa \texttt{llvm\_type\_definitions}, 
+si fa sì che per definizioni ricorsive (indirette), si possa evitare di entrare in un loop infinito. \\
+
+Per far si che sia possibile allocare oggetti il cui tipo è una struct senza field si è deciso di inserire un 
+campo fittizio di un byte dentro ogni struct che non ha field. A seconda dell'architettura, tale campo potrebbe
+potrebbe portare ad una dimensione maggiore per motivi di alignment. \\
+
+In generale, l'ordine di definizione di un field influenza l'alignment, così come avviene in C e C++. Sarebbe stato 
+possible implementare un sistema di alignment personalizzato, ma ciò avrebbe compromesso l'interoperabilità con C. \\
+
+\newpage
+
+Per la traduzione delle union invece, è stato necessario utilizzare un approccio differente, in quanto LLVM-IR non supporta
+le union nativamente. Per ovviare a questo problema, si è deciso di utilizzare una struct contenente due campi, corrispondneti
+ad header e payload. L'header è un puntatore che punta alla \textit{typeinfo} dell'oggetto contenuto nel payload. Il payload
+è un array di byte di dimensione pari alla massima dimensione tra i campi della union. Entrambi questi campi sono definiti in base
+all'output dei metodi \texttt{fetch\_type\_info} e \texttt{compute\_sizeof}. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+TypesLLVMTranslator.translate_struct_definition(union_def):
+    fully_qualified_name = program_representation
+        .get_fully_qualified_typedefinition_name(union_def)
+
+    if llvm_type_definitions[fully_qualified_name] != nil:
+        return llvm_type_definitions[fully_qualified_name]
+    
+    llvm_type_def = llvm_create_struct(fully_qualified_name)
+    llvm_type_definitions.insert(fully_qualified_name, llvm_type_def)
+    for alternative : union_def.alternatives:
+        union_payload_sizeof = max(
+            compute_sizeof(alternative),
+            union_payload_sizeof
+        )
+
+    llvm_type_def.fields = [
+        llvm_create_pointer_to_type_info(),
+        llvm_create_array_of_bytes(union_payload_sizeof)
+    )
+    
+    return llvm_type_def
+\end{lstlisting}
+\vspace{0.5cm}
+
+Per array e puntatori scalari la traduzione è banale in quanto l'API di LLVM prevede che dato un \texttt{llvm::Type*} si possa 
+facilmente ottnere il \texttt{llvm::Type*} corrispondente ad un array di dimensione nota o un puntatore a tale tipo. Quando si incontra 
+una \texttt{TypeSignature} si traduce in un \texttt{llvm::Type*} mediante traduzione diretta se è un tipo primitivo, oppure si recupera 
+la definizione di tipo corrispondente e si restituisce la traduzione di tale definizione (il recupero restituisce una definizione già reificata). \\
+
+Per i puntatori vettoriali si è deciso di utilizzare una traduzione basata su struct, in quanto LLVM-IR non supporta i vettori
+come tipi primitivi. In particolare, si è deciso di utilizzare una struct contenente un campo di tipo \texttt{uint64\_t} che rappresenta
+la lunghezza del vettore, e un campo di tipo puntatore al tipo base del vettore. \\
+
+\newpage
