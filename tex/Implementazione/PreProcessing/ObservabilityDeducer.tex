@@ -23,7 +23,7 @@ espressione sia la destinazione. \\
     all'espressione a cui si accede oppure se l'espressione a cui si accede è una slice.
     \item \textbf{Chiamate a funzioni}: la loro modifica non è osservabile
     \item \textbf{Identificatori}: la loro modifica è sempre osservabile
-    \item \textbf{Literali}: la loro modifica non è osservabile
+    \item \textbf{Literal}: la loro modifica non è osservabile
 \end{itemize}
 \vspace{0.5cm}
 
@@ -40,7 +40,7 @@ delle funzioni per facilitare la lettura): \\
 \vspace{0.5cm}
 \begin{lstlisting}[frame=single]
 struct S {
-    ptr : *S;
+    ptr : #S;
     val : Int;
 }
 
