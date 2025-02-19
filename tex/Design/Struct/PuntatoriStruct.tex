@@ -1,11 +1,11 @@
 \subsubsection{Puntatori a struct}
 In C e in C++, per accedere ai campi di un oggetto dato un puntatore a tale oggetto, occorre o dereferenziare il 
-puntatore, per poi utilizzare l’operatore ".” sull’oggetto così ottenuto, oppure usare l'operatore 
-apposito "->” funzionalmente analogo. \\ 
+puntatore, per poi utilizzare l’operatore “.” sull’oggetto così ottenuto, oppure usare l'operatore 
+apposito “->” funzionalmente analogo. \\ 
 
-In Basalt, così come in Go, è possibile usare l’operatore ".” direttamente sul puntatore per accedere ai campi 
+In Basalt, così come in Go, è possibile usare l’operatore “.” direttamente sul puntatore per accedere ai campi 
 dell’oggetto puntato. Tale sintassi non porta ambiguità dato che non vi sono altri 
-significati per l’operatore ".” applicato ad un puntatore. \\
+significati per l’operatore “.” applicato ad un puntatore. \\
 
 Consideriamo infatti il seguente frammento di codice, dove vengono definite diverse variabili, e alcune delle 
 quali sono puntatori. In questo esempio, sarà fatto riferimento alla 
@@ -19,15 +19,15 @@ var person_ptr_ptr : ##Person = &person_ptr;
 \end{lstlisting}
 \vspace{0.5cm}
  
-Allora si potrà accedere al campo "name” della variabile "person” posponendo 
-".name” a una qualunque di queste tre variabili. \\ 
+Allora si potrà accedere al campo “name” della variabile “person” posponendo 
+“.name” a una qualunque di queste tre variabili. \\ 
 
 Go è stato il primo linguaggio ad introdurre un meccanismo del genere, seppur in una forma 
 più limitata dove è possibile accedere al campo dell’oggetto puntato solo da un 
 puntatore che vi punti direttamente, e non consentendolo invece nei casi dove vi 
 sono puntatori a puntatori, o più in generale, due o più livelli di indirezione. \\ 
 
-Tale sovraccarico della semantica dell’operatore ".”, consente di ridurre al minimo le 
+Tale sovraccarico della semantica dell’operatore “.”, consente di ridurre al minimo le 
 modifiche da effettuare ad un blocco di codice funzionante qualora si voglia decidere 
 di cambiare il tipo di una delle variabili che esso utilizza rendendola un puntatore 
 invece che un oggetto locale. Dunque la scelta di estendere l’utilizzo di tale 

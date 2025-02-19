@@ -1,7 +1,7 @@
 \subsubsection{Puntatori vettoriali}
 Contrapponendosi ai puntatori scalari vi sono poi i puntatori vettoriali. Un puntatore vettoriale è un puntatore ad una sequenza 
 di oggetti contigui in memoria il cui tipo è noto a tempo di compilazione, ma la cui lunghezza è nota a tempo di esecuzione. Per 
-semplicità è possibile chiamarli "slice” così come si fa in molti altri linguaggi. \\
+semplicità è possibile chiamarli ”slice” così come si fa in molti altri linguaggi. \\
 
 I puntatori vettoriali sono internamente implementati come una coppia di un puntatore ed una dimensione.  Dato un tipo T allora il tipo \$T ne denoterà 
 il puntatore vettoriale. \\
@@ -37,7 +37,7 @@ memory::free<$Int>(slice);
 \vspace{0.5cm}
 
 
-É possibile assegnare ad una variabile di tipo "puntatore vettoriale a T”, un’espressione di tipo "puntatore scalare ad array di oggetti di tipo T” 
+É possibile assegnare ad una variabile di tipo “puntatore vettoriale a T”, un’espressione di tipo “puntatore scalare ad array di oggetti di tipo T” 
 di qualsiasi dimensione. Ciò consente l'utilizzo del puntatore vettoriale come supertipo di tutti gli array. Tale assegnazione 
 comporta un effetto simile a quello osservato quando si assegna l'indirizzo di un oggetto già istanziato a un puntatore utilizzando 
 l'operatore di indirizzo \texttt{\&}. In tal modo, entrambi i riferimenti puntano alla stessa area di memoria. \\
