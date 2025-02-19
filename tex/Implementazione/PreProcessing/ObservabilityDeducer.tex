@@ -1,0 +1,87 @@
+\subsubsection{Analisi dell'osservabilità post-assegnamento}
+Assegnando un espressione detta \textit{sorgente} ad un'altra espressione detta \textit{destinazione}
+è opportuno chiedersi se sia realmente possibile osservare le modifiche apportate. \\
+
+Ad esempio, nel caso in cui la destinazione fosse il valore restituito da una chiamata a funzione, 
+non sarebbe possibile osservare alcuna modifica apportata alla destinazione, in quanto di essa non 
+rimane più alcun riferimento ad assignment completato. \\
+
+In generale, un assignment ad una espressione detta \textit{destinazione} è
+considerato osservabile o non-osservabile in base in base a che tipologia di 
+espressione sia la destinazione. \\
+
+\vspace{0.5cm}
+\begin{itemize}
+    \item \textbf{Operatori binari}: la loro modifica non è osservabile
+    \item \textbf{Operatori unari (matematici)}: la loro modifica non è osservabile
+    \item \textbf{Operatori unari (logici)}: la loro modifica non è osservabile
+    \item \textbf{Operatori unari (su puntatori)}: la loro modifica è sempre osservabile
+    \item \textbf{Cast}: osservabile se è osservabile ciò che si vuole castare
+    \item \textbf{Accessi a membro}: la modifica è osservabile se lo sarebbe una modifica 
+    all'espressione a cui si accede oppure se l'espressione a cui si accede è un puntatore.
+    \item \textbf{Accessi a cella}: la modifica è osservabile se lo sarebbe una modifica 
+    all'espressione a cui si accede oppure se l'espressione a cui si accede è una slice.
+    \item \textbf{Chiamate a funzioni}: la loro modifica non è osservabile
+    \item \textbf{Identificatori}: la loro modifica è sempre osservabile
+    \item \textbf{Literali}: la loro modifica non è osservabile
+\end{itemize}
+\vspace{0.5cm}
+
+A partire dalle seguenti regole, la classe \texttt{ObservabilityDeducer} implementa un metodo
+chiamato \texttt{is\_expression\_update\_observable} che, visitando in profondità (DFS) l'AST relativo
+ad una data espressione, restituisce \texttt{true} se una ipotetica modifica a tale 
+espressione sarebbe osservabile, \texttt{false} in caso contrario. \\
+
+\newpage
+
+Si considerino ad esempio le seguenti definizioni (saranno fornite solo le firme 
+delle funzioni per facilitare la lettura): \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+struct S {
+    ptr : *S;
+    val : Int;
+}
+
+func f() -> S { 
+    /* ... */ 
+}
+
+func g() -> #S { 
+    /* ... */ 
+}
+
+var s : S = /* ... */;
+\end{lstlisting}
+\vspace{0.5cm}
+
+Date le definizioni appena fornite, si deducono i seguenti verdetti di 
+osservabilità: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+f() = s; 
+// Non-osservabile
+
+f().val = 10; 
+// Non-osservabile
+
+f().ptr.val = 10; 
+// Osservabile
+
+g() = &s; 
+// Non-osservabile
+
+g().val = 10; 
+// Osservabile
+
+g().ptr.val = 10; 
+// Osservabile
+
+#g() = s; 
+// Osservabile
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
