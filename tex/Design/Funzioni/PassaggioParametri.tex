@@ -1,0 +1,49 @@
+\subsubsection{Passaggio parametri}
+Il passaggio di parametri in Basalt è sempre per valore. Questo significa che, quando si passa un parametro ad una funzione, 
+viene creata una copia del valore del parametro passato. Questo comportamento è in contrasto con il passaggio per riferimento, in cui la funzione 
+riceve un riferimento alla variabile passata, permettendo alla funzione di modificare direttamente il valore della variabile passata. \\
+
+Per poter accedere in scrittura ad una qualsiasi area di memoria esterna alla funzione, è necessario passare un puntatore (scalare o vettoriale)
+a tale area di memoria, così simulando un passaggio parametri per riferimento. Tale modo di operare è prassi consolidata in molti altri linguaggi 
+di programmazione quali Go, C, Zig non solo.\\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func f(x : MyStruct, y : #MyStruct, z : ##MyStruct) {
+    x.field = 10;
+    y.field = 20;   // modifica osservabile dall'esterno
+    z.field = 30;   // modifica osservabile dall'esterno
+
+    var myStruct : MyStruct;
+
+    x = myStruct;
+    y = &myStruct;
+    #z = &myStruct; // modifica osservabile dall'esterno
+    z = &y;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+Così come accade in C, modificare un puntatore all'interno di una funzione non comporta alcuna modifica all'indirizzo di memoria puntato. 
+Ciò che si sta modificando è solo la copia locale dell'indirizzo. Modificare field di un puntatore invece, comporta una modifica effettiva
+all'indirizzo di memoria puntato, così come modificarne il valore dereferenziato. Analogamente a quanto appena visto per i puntatori scalari 
+avviene per array e puntatori vettoriali, i quali vengono copiati. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func f(x : [10]MyStruct, y : #[10]MyStruct, z : $MyStruct) {
+    x[0] = 10;
+    (#y)[0] = 20;   // modifica osservabile dall'esterno
+    z[0] = 30;      // modifica osservabile dall'esterno
+
+    var array : [10]MyStruct;
+
+    x = array;
+    y = &array;
+    #y = array;     // modifica osservabile dall'esterno
+    z = &array;
+}
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
