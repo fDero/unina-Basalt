@@ -16,7 +16,7 @@ class TypeManipulationsLLVMTranslator {
             TypesLLVMTranslator& types_llvm_translator
         );
 
-        TranslatedExpression test_concrete_type_of_union_in_llvm(
+        TranslatedExpression test_concrete_type_of_union(
             llvm::BasicBlock* block,
             TranslatedExpression union_expression,
             const TypeSignature& type_to_check
@@ -88,3 +88,52 @@ class TypeManipulationsLLVMTranslator {
 I due metodi pubblici di cui sopra \texttt{cast\_translated\_expression\_as\_copy} e \texttt{cast\_translated\_expression\_as\_ref} si occupano di
 effettuare un dispatch basandosi sulla strategia di cast calcolata, e di chiamare il metodo (privato) opportuno per la gestione del caso concreto
 tenendo conto del fatto che serve effettuare una conversione rispettivamente o per copia o per riferimento. \\
+
+\newpage
+
+Il metodo \texttt{test\_concrete\_type\_of\_union} si occupa di implementare sostanzialmente l'operatore \texttt{is}, esso accetta in input una espressione
+di tipo union, estrae il suo header, che si ricorda essere un puntatore ad una globale che traccia il tipo concreto contenuto nel payload, e lo paragona con 
+la variabile globale restituita dal metodo \texttt{fetch\_type\_info}, della classe \texttt{TypesLLVMTranslator}, chiamata sulla \texttt{TypeSignature} 
+da investigare. \\
+
+Anche se le due variabili globali non coincidessero servirà comunque vedere se la \texttt{TypeSignature} 
+da investigare non sia una union. In caso essa sia una union, bisognerà investigare ricorsivamente tutte le alternative che essa codifica. \\
+
+L'operatore \texttt{is} restituirà \texttt{true} se il tipo concreto tracciato dall'header è uguale al tipo che si sta investigando o ad una qualunque delle sue alternative. Ciò 
+perchè arrivati alla fase di generazione dell'IR, il typechecking è già avvenuto e ci si è già assicurati del fatto che la \texttt{TypeSignature} usata come operando 
+destro sia un sottotipo del tipo dichiarato dell'operando sinistro. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.test_concrete_type_of_union(block, union, type):
+    union_header_address = block.create_struct_access(union, 0)
+    union_header = block.create_load(union_header_address)
+    
+    expected_type_info = type_definitions_llvm_translator
+        .fetch_type_info(type)
+    casted_expected_type_info = block
+        .create_bitcast(expected_type_info, union_header.type)
+    
+    is_operator_result = builder
+        .create_compare(union_header, casted_expected_type_info)
+    
+    alternative_type_infos = type_definitions_llvm_translator
+        .fetch_all_type_infos_for_non_union_compatible_types(type)
+
+    for alternative_type_info in alternative_type_infos:
+        casted_alternative_type_info = block.create_bitcast(
+            alternative_type_info, 
+            union_header.type
+        )
+        is_current_type = builder.create_compare(
+            union_header, 
+            casted_alternative_type_info
+        )
+        is_operator_result = block.create_or(
+            is_operator_result, 
+            is_current_type
+        )
+    
+    return is_operator_result;
+\end{lstlisting}
+\vspace{0.5cm}
