@@ -137,3 +137,50 @@ utilizzati per effettuare rispettivamente o il salto al termine del ciclo o al t
 \newpage
 
 La traduzione di un ciclo until (simile al do-while) è schematizzabile come segue:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_until_loop(llvm_block, until_loop):
+    auto until_body_block = create_block_after(llvm_block)
+    auto until_cond_block = create_block_after(until_body_block)
+    auto until_exit_block = create_block_after(until_cond_block)
+    
+    current_block.create_jump(until_body_block)
+
+    auto body_translator = create_translator_for_nested_loop(
+        until_body_block, 
+        until_exit_block
+    )
+    until_body_block = body_translator.translate_all(
+        until_body_block,
+        until_loop.body
+    )
+    until_body_block.create_jump(until_cond_block)
+
+    condition = translate_expression_to_llvm(
+        until_cond_block, 
+        until_loop.condition
+    )
+    negated_condition = llvm_create_negation(condition.value)
+    until_cond_block.create_conditional_jump(
+        negated_condition.value, 
+        until_body_block, 
+        until_exit_block
+    )
+
+    return until_exit_block  
+\end{lstlisting}
+\vspace{0.5cm}
+
+È possibile schematizzare il metodo \texttt{translate\_all} come segue: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_all(llvm_block, statements):
+    for statement in statements: 
+        llvm_block = translate_statement(llvm_block, statement)
+    return llvm_block
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage

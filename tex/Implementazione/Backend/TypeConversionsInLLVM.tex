@@ -1,0 +1,90 @@
+\subsubsection{Conversioni implicite ed operatori di tipo}
+In sede di chiamata a funzione, di return da una funzione e di assegnamento è spesso necessario applicare conversioni 
+implicite di tipo. Ad esempio, assegnando un \texttt{Int} ad un \texttt{Int|Float}, esso deve venire prima convertito, 
+ovvero deve essere creata una union implicitamente a partire dal valore intero, e solo dopo tale union potrà essere assegnata. \\
+
+Assegnando un puntatore ad array ad una slice, assegnando una slice ad una stringa e così via, è necessario applicare
+conversioni di tipo implicite, e ciò è responsabilità della classe \texttt{TypeManipulationsLLVMTranslator}. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class TypeManipulationsLLVMTranslator {
+
+    public:
+        TypeManipulationsLLVMTranslator(
+            ProgramRepresentation& program_representation, 
+            TypesLLVMTranslator& types_llvm_translator
+        );
+
+        TranslatedExpression test_concrete_type_of_union_in_llvm(
+            llvm::BasicBlock* block,
+            TranslatedExpression union_expression,
+            const TypeSignature& type_to_check
+        );
+
+        TranslatedExpression cast_translated_expression_as_copy(
+            llvm::BasicBlock* block,
+            TranslatedExpression expression,
+            const TypeSignature& expression_original_type,
+            const TypeSignature& dest_type
+        );
+
+        TranslatedExpression cast_translated_expression_as_ref(
+            llvm::BasicBlock* block,
+            TranslatedExpression expression,
+            const TypeSignature& expression_original_type,
+            const TypeSignature& dest_type
+        );
+
+    private:
+        /* other fields */
+        /* other methods */
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
+
+Nei casi di conversione implicita in sede di return, di assegnamento o di un parametro attuale al tipo di un parametro formale 
+di una funzione in sede di chiamata la conversione porta ad una copia, mentre l'utilizzo dell'operatore \texttt{as} converte per riferimento. \\
+
+In entrambi i casi, l'approccio scelto è stato quello di generare una \texttt{CastStrategy} basandosi sul tipo attuale dell'espressione da 
+convertire e sul tipo di destinazione. Questa strategia è poi utilizzata per effettuare un dispatch e chiamare un metodo opportuno per la gestione 
+del caso concreto. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class TypeManipulationsLLVMTranslator {
+
+    public:
+        /* other methods */
+        
+        CastStrategy compute_cast_strategy(
+            TypeSignature,
+            TypeSignature
+        );
+
+    private:
+        enum class CastStrategy {
+            noop,
+            union_to_union,
+            union_to_alternative,
+            alternative_to_union,
+            array_pointer_to_slice,
+            array_pointer_to_string,
+            array_pointer_to_raw_string,
+            slice_to_string,
+            slice_to_raw_string,
+            string_to_raw_string,
+            array_to_array,
+        };
+
+        /* other fields */
+        /* other methods */
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+I due metodi pubblici di cui sopra \texttt{cast\_translated\_expression\_as\_copy} e \texttt{cast\_translated\_expression\_as\_ref} si occupano di
+effettuare un dispatch basandosi sulla strategia di cast calcolata, e di chiamare il metodo (privato) opportuno per la gestione del caso concreto
+tenendo conto del fatto che serve effettuare una conversione rispettivamente o per copia o per riferimento. \\
