@@ -1,0 +1,139 @@
+\subsubsection{Traduzione degli statements in LLVM-IR}
+La traduzione degli statements in LLVM-IR è abbastanza diretta per quanto riguarda istruzioni di assegnamento,
+allocazioni, return e simili, ma è invece decisamente più complessa per quanto riguarda le istruzioni di controllo
+del flusso di esecuzione quali branch condizionali e cicli iterativi. \\
+
+In generale, in LLVM, attraverso l'API in C++, si può inserire uno statement all'interno di un blocco di codice, 
+a sua volta all'interno di una funzione, e si deve concludere ogni blocco con un istruzione di salto. \\
+
+La traduzione di uno o più statement in LLVM-IR, così come la traduzione di una o più espressioni, è responsabilità
+della classe \texttt{ExpressionsAndStatementsLLVMTranslator}. Questa classe è stata progettata per essere istanziata 
+una volta per ogni blocco di codice delimitato da parentesi graffe, ed è equipaggiata con tutti i metodi necessari a 
+tradurre l'intero contenuto di tale blocco nonchè dei blocchi in esso innestati (essa è capace di generare autonomamente
+cloni di se stessa specializzati per i blocchi innestati che le si richiede di tradurre). \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class ExpressionsAndStatementsLLVMTranslator {
+    
+    public:
+        ExpressionsAndStatementsLLVMTranslator(
+            /* other parameters */
+            llvm::BasicBlock* loop_entry_block = nullptr,
+            llvm::BasicBlock* loop_exit_block = nullptr
+        );
+
+        llvm::BasicBlock* translate_statement(llvm::Block*, ...);
+        llvm::BasicBlock* translate_conditional(llvm::Block*, ...);
+        llvm::BasicBlock* translate_while_loop(llvm::Block*, ...);
+        llvm::BasicBlock* translate_until_loop(llvm::Block*, ...);
+        
+        TranslatedExpression translate_expression_to_llvm(...);
+        TranslatedExpression translate_type_operator(...);
+
+        /* other methods */
+
+    protected:        
+        /* other methods */
+
+    private:
+        /* other fields */
+        llvm::BasicBlock* loop_entry_block;
+        llvm::BasicBlock* loop_exit_block;
+};
+\end{lstlisting}
+\vspace{0.5cm}
+
+La traduzione di un branch condizionale (if-statement) schematizzabile con come segue:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_conditional(current_block, conditional):
+    if_cond_block = create_block_after(current_block)
+    if_then_block = create_block_after(if_cond_block)
+    if_else_block = create_block_after(if_then_block)
+    if_exit_block = create_block_after(if_else_block)
+
+    current_block.create_jump(if_cond_block)
+
+    condition = translate_expression_to_llvm(
+        if_cond_block, 
+        conditional.condition
+    )
+    if_cond_block.create_conditional_jump(
+        condition.value, 
+        if_then_block, 
+        if_else_block
+    )
+
+    auto then_translator = create_translator_for_nested_conditional()
+    if_then_block = then_translator.translate_all(
+        if_then_block,
+        conditional.then_branch
+    )
+    if_then_block.create_jump(if_exit_block)
+
+    auto else_translator = create_translator_for_nested_conditional()
+    if_else_block = else_translator.translate_all(
+        if_else_block,
+        conditional.else_branch
+    )
+    if_else_block.create_jump(if_exit_block)
+
+    return if_exit_block
+\end{lstlisting}
+\vspace{0.5cm}
+
+Ogni chiamata ai metodi che traducono in LLVM-IR uno statement restituisce il blocco di codice corrente al termine della traduzione
+di tale statement. Questo permette di concatenare le traduzioni di più statement in modo relativamente semplice. Al termine della traduzione 
+di questo if-statement, il nuovo codice sarà scritto nel blocco chiamato “exit” che corrisponde al blocco a cui si effettua salto non condizionato 
+al termine di entrambi i branch (sia “then” che “else”). La creazione di un blocco apposito per la condizione non era necessaria ma 
+rende il codice IR generato più leggibile quando emesso in formato testuale, e ciò è utile a fini di debugging. \\
+
+\newpage
+
+La traduzione di un ciclo while è schematizzabile come segue:
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_while_loop(llvm_block, while_loop):
+    while_cond_block = create_block_after(llvm_block)
+    while_body_block = create_block_after(while_cond_block)
+    while_exit_block = create_block_after(while_body_block)
+
+    llvm_block.create_jump(while_cond_block);
+
+    condition = translate_expression_to_llvm(
+        while_cond_block, 
+        while_loop.condition
+    )
+    while_cond_block.create_conditional_jump(
+        condition.vale, 
+        while_body_block, 
+        while_exit_block
+    )
+
+    body_translator = create_translator_for_nested_loop(
+        while_cond_block, 
+        while_exit_block
+    )
+    while_body_block = body_translator.translate_all(
+        while_body_block,
+        while_loop.body
+    )
+    while_body_block.create_jump(while_cond_block)
+
+    return while_exit_block
+\end{lstlisting}
+\vspace{0.5cm}
+
+La chiamata a \texttt{create\_translator\_for\_nested\_loop} è responsabile della creazione di un nuovo oggetto
+\texttt{ExpressionsAndStatementsLLVMTranslator} che sarà utilizzato per tradurre il corpo del ciclo. Tale oggetto
+è configurato in modo da avere come blocco di entrata il blocco della condizione del ciclo e come blocco di uscita. \\
+
+Ciò significa che in caso di istruzioni \texttt{break} o \texttt{continue} all'interno del ciclo, tali blocchi saranno 
+utilizzati per effettuare rispettivamente o il salto al termine del ciclo o al termine dell'iterazione corrente. \\
+
+\newpage
+
+La traduzione di un ciclo until (simile al do-while) è schematizzabile come segue:
