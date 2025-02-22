@@ -1,0 +1,104 @@
+\subsubsection{Traduzione degli overload CFA in LLVM}
+La traduzione in LLVM-IR degli overload CFA è responsabilità della classe 
+\texttt{CallableCodeBlocksLLVMTranslator} così come già detto in precedenza. La 
+traduzione inizia dalla creazione di un \textit{entry-block} all'interno della 
+funzione LLVM-IR che si sta creando, per poi proseguire ricorsivamente traducendo 
+all'interno del blocco corrente (che all'inizio è proprio l'entry-block) l'albero 
+decisionale codificato dal \texttt{CFAPlanDescriptor}. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]   
+Translator.translate_cfa_descriptor_to_llvm(
+    CFAPlanDescriptor descriptor, 
+    llvm_function
+):
+    entry_block = llvm_create_block("entry", llvm_function)
+    translate_cfa_plan_to_llvm(
+        descriptor, 
+        descriptor.plan, 
+        llvm_function, 
+        entry_block
+    )
+    return llvm_function
+\end{lstlisting}
+\vspace{0.5cm}
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]   
+Translator.translate_cfa_plan_to_llvm(
+    CFAPlanDescriptor cfa_plan_descriptor, 
+    CFAPlan cfa_plan,
+    llvm_function,
+    current_block
+):
+    if (cfa_plan.is_direct_adoption()):
+        selected_concrete_function = cfa_plan.get_direct_adoption()
+        translate_cfa_direct_adoption_to_llvm(
+            cfa_plan_descriptor, 
+            selected_concrete_function, 
+            llvm_function, 
+            current_block
+        )
+    else:
+        recursive_plan = cfa_plan.get_recursive_adoption()
+        translate_cfa_recursive_adoption_to_llvm(
+            cfa_plan_descriptor, 
+            recursive_plan, 
+            llvm_function, 
+            current_block
+        )
+\end{lstlisting}
+\vspace{0.5cm}
+
+\newpage
+
+La traduzione di una \texttt{FunctionDefinition} sotto forma di caso base 
+dell'albero decisionale non è in alcun modo difforme da una normale chiamata 
+a funzione effettuata all'interno del blocco corrente. \\
+
+La traduzione invece di un \texttt{RecursiveCFAPlan} è più complessa, in quanto
+richiede la creazione di un nuovo blocco per ogni figlio del nodo dell'albero 
+decisionale che esso codifica. \\
+
+\vspace{0.4cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_cfa_recursive_adoption_to_llvm(
+    CFAPlanDescriptor cfa_plan_descriptor, 
+    RecursiveAdoptionPlan recursive_plan,
+    llvm_function,
+    current_block
+):
+    alternative_blocks = { current_block };
+    for alt_index = 1 ... recursive_plan.alternatives.size():
+        prev_block = alternative_blocks.[alt_index - 1]
+        alternative_block = llvm_create_block("", llvm_function)
+        alternative_blocks.push_back(alternative_block)
+
+    for alt_index = 0 ... recursive_plan.alternatives.size() - 1:
+        alternative_block = alternative_blocks[alt_index]
+        llvm_argument = llvm_function.args[recursive_plan.arg_index]
+        helper = TypeManipulationsLLVMTranslator(...)
+        is_operator = helper.test_concrete_type_of_union_in_llvm(
+            alternative_block, 
+            llvm_argument, 
+            recursive_plan.alternatives[alt_index]
+        )
+        
+        success_block = llvm_create_block("", llvm_function)
+        alternative_block_builder.create_conditional_jump(
+            is_operator.value, 
+            success_block, 
+            alternative_blocks[alt_index + 1]
+        )
+
+        successful_plan = recursive_plan.nested_plans[alt_index];
+        translate_cfa_plan_to_llvm(
+            cfa_plan_descriptor, 
+            successful_plan, 
+            llvm_function, 
+            success_block
+        )
+    
+    // handle last alternative as successful
+    translate_cfa_plan_to_llvm(...)
+\end{lstlisting}

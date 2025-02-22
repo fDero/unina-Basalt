@@ -1,0 +1,113 @@
+\subsubsection{Traduzione delle funzioni in LLVM}
+La traduzione delle funzioni in codice LLVM è responsabilità della classe 
+\texttt{CallableCodeBlocksLLVMTranslator}, la quale si occupa di tradurre 
+un generico \texttt{CallableCodeBlock}, sia che esso abbia tipo concreto 
+\texttt{FunctionDefinition} sia che esso abbia tipo concreto 
+\texttt{CFAPlanDescriptor}. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+class CallableCodeBlocksLLVMTranslator {
+    
+    public:
+        CallableCodeBlocksLLVMTranslator(
+            ProgramRepresentation& program_representation, 
+            TypeDefinitionsLLVMTranslator& types_translator,
+            llvm::LLVMContext& llvm_context,
+            llvm::Module& llvm_module
+        );
+
+        llvm::Function* translate_callable_code_block_to_llvm(
+            const CallableCodeBlock& callable_code_block
+        );
+
+        llvm::Function* translate_cfa_descriptor_to_llvm(
+            const CFAPlanDescriptor& cfa_plan_descriptor, 
+            llvm::Function* llvm_function
+        );
+
+        llvm::Function* translate_function_definition_to_llvm(
+            const FunctionDefinition::Ref& function_definition, 
+            llvm::Function* llvm_function
+        );
+
+    protected:
+        /* other methods */
+
+    private:
+        /* other fields */
+};
+
+\end{lstlisting}
+\vspace{0.5cm}
+
+Il metodo \texttt{translate\_callable\_code\_block\_to\_llvm} si occupa di
+effettuare un dispatch sui due metodi \texttt{translate\_cfa\_descriptor\_to\_llvm}
+e \texttt{translate\_function\_definition\_to\_llvm} in base al tipo concreto
+dell'oggetto passato come parametro. \\
+
+\newpage
+
+Il metodo \texttt{translate\_function\_definition\_to\_llvm} si occupa di tradurre
+una definizione di funzione in codice LLVM. Questo metodo è responsabile di creare
+un nuovo \texttt{llvm::Function} all'interno del modulo LLVM, e di tradurre il corpo
+della funzione in codice LLVM. \\
+
+Una funzione non extern sarà tradotta con un corpo composto da almeno un blocco,
+chiamato \textit{entry}, in accordo con le specifiche di LLVM. In tale blocco saranno 
+presenti le allocazioni su stack necessarie per poter avere oggetti di tipo 
+\texttt{TranslatedExpression} che rappresentino i parametri formali della funzione. Senza 
+soluzioni di continuità tale blocco sarà utilizzato come blocco iniziale in cui 
+chiamare il metodo \texttt{translate\_all} della classe 
+\texttt{ExpressionsAndStatementsLLVMTranslator}. \\
+
+%\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_local_function_definition_to_llvm(
+    func_def, llvm_function
+):
+    entry_block = llvm_create_block("entry", llvm_function)
+    body_translator = ExpressionsAndStatementsLLVMTranslator(
+        func_def, entry_block, ...
+    )
+    body_translator.alloc_args(func_def, entry_block)
+    exit_block = body_translator.translate_all(
+        func_def, entry_block, ...
+    )
+    inject_return_statement_if_needed(exit_block, ...)
+    return llvm_function
+\end{lstlisting}
+\vspace{0.5cm}
+
+Se la funzione è stata dichiarata come extern, allora la traduzione 
+sarà effettuata sotto forma di dichiarazione di simbolo esterno, primitiva 
+dell'IR di LLVM. \\
+
+%\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+Translator.translate_extern_function_definition_to_llvm(
+    func_def, llvm_function
+):  
+    llvm_function.delete_body()
+    llvm_function.set_linkage(llvm.ExternalLinkage)
+    llvm_function.set_name(func_def.extern_name)
+    return llvm_function
+\end{lstlisting}
+\vspace{0.5cm}
+
+Una funzione senza corpo, e con policy di linkage "external", sarà tradotta 
+come una dichiarazione di simbolo esterno. Ad esempio, la dichiarazione della funzione 
+\texttt{square\_root(Float) -> Float} in Basalt, viene tradotta in LLVM-IR come segue: \\
+
+%\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+//BASALT
+extern square_root(x: Float) -> Float = "sqrt";
+\end{lstlisting}
+\begin{lstlisting}[frame=single]
+;;LLVM-IR
+declare double @sqrt(double)
+\end{lstlisting}
+%\vspace{0.5cm}
+
+\newpage
