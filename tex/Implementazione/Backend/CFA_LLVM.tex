@@ -102,3 +102,55 @@ Translator.translate_cfa_recursive_adoption_to_llvm(
     // handle last alternative as successful
     translate_cfa_plan_to_llvm(...)
 \end{lstlisting}
+
+\newpage
+
+In totale, il numero di blocchi di una funzione in LLVM-IR che implementa 
+un overload autogenerato tramite CFA avrà un numero di blocchi calcolabile come:
+
+\begin{equation*}
+    \text{numero di blocchi} = \sum_{i=1}^{U} (2K_i - 1)
+\end{equation*}
+
+\begin{itemize}
+    \item $U$ è il numero di argomenti il cui tipo è una union
+    \item $K_i$ è il numero di sottotipi diretti della $i$-esima union tra gli argomenti
+\end{itemize}
+
+Si consideri ad esempio il caso di una ipotetica chiamata alla funzione \texttt{double} 
+effettuata con un solo argomento di tipo \texttt{Int|Float}, dunque da risolvere 
+mediante CFA date le due definizioni, le quali coprono tutti i casi: 
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+func double(x : Int) -> Int { return x * 2; }
+func double(x : Float) -> Float { return x * 2.0; }
+\end{lstlisting}
+\vspace{0.5cm}
+
+Il numero di blocchi necessari per tradurre l'overload autogenerato in LLVM-IR è 
+3, in accordo con la forma generale della formula sopra esposta nel 
+caso in cui $U = 1$ e $K_1 = 2$. \\
+
+L'overload sarà tradotto in LLVM-IR come segue, al netto delle opportune semplificazioni: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+define void @cfa_double(%"Int|Float" %0) {
+    entry:
+        ...
+        ;; check if the argument is an Int
+        %flag = icmp eq i8* %3, getelementptr inbounds (...)
+        br i1 %flag, label %IntCase, label %FloatCase
+    
+    IntCase:
+        ...
+        %out = call i64 int_double(i64 %9)
+        ...
+    FloatCase:
+        ...
+        %out = call f64 float_double(f64 %14)
+        ...
+    }
+\end{lstlisting}
+\vspace{0.5cm}
