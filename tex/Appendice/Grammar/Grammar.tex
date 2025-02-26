@@ -1,0 +1,433 @@
+\subsection{Grammatica e vocabolario del linguaggio Basalt}
+In questo capitolo sarà riportato fedelmente tutto il codice utilizzato nella repository \texttt{unina-Basalt} 
+per l'integrazione con ANTLR4. \\
+
+\subsubsection{Grammatica del linguaggio Basalt}
+Il seguente file è la grammatica del linguaggio Basalt, scritta in formato \texttt{.g4} per ANTLR4. Esso 
+si avvale del contenuto del file \texttt{BasaltLexer.g4} dove vengono definiti i token che il tokenizer
+è in grado di riconoscere. \\
+
+\begin{lstlisting}[frame=single]
+parser grammar BasaltParser;
+options { tokenVocab=BasaltLexer; }
+
+program
+    : package definition* EOF
+    ;
+
+package
+    : PACKAGE identifier SEMICOLON
+    ;
+
+definition
+    : structDefinition
+    | unionDefinition
+    | functionDefinition
+    ;
+
+variableDeclaration
+    : varKeyword identifier colon typeSignature semicolon
+    | 
+        varKeyword identifier colon typeSignature 
+        assign expression semicolon
+    ;
+    
+constDeclaration
+    : 
+        constKeyword identifier colon typeSignature 
+        assign expression semicolon
+    ; 
+
+structDefinition
+    : 
+        structKeyword typeName formalTypeParametersSection? 
+        curlyBracketsOpen structField* curlyBracketsClose
+    ;
+
+structField
+    : identifier colon typeSignature semicolon 
+    ;
+
+unionDefinition
+    : 
+        unionKeyword typeName formalTypeParametersSection? 
+        EQ (typeSignature OR)+ typeSignature SEMICOLON
+    ;
+
+functionDefinition
+    : 
+        funcKeyword identifier formalTypeParametersSection? 
+        functionDefinitionArgumentsSection
+        functionReturnTypeSection? 
+        multilineScopedInstructionBlock
+    ;
+    
+functionDefinitionArgumentsSection
+    : 
+        parenthesysOpen 
+        functionDefinitionArgumentsList? 
+        parenthesysClose
+    ;
+    
+functionDefinitionArgumentsList
+    : 
+        identifier colon typeSignature 
+        (comma identifier colon typeSignature)* 
+    ;
+    
+functionReturnTypeSection
+    : arrow typeSignature 
+    ;
+    
+functionCall
+    : 
+        (pkg)? identifier actualTypeParametersSection? 
+        actualFunctionCallArgumentsSection
+    ;
+    
+functionCallStatement: functionCall semicolon ;
+
+actualFunctionCallArgumentsSection
+    : parenthesysOpen expression (comma expression)* parenthesysClose 
+    | parenthesysOpen parenthesysClose
+    ;
+
+typeSignature
+    : primitiveType
+    | customType
+    | pointerType
+    | sliceType
+    | arrayType
+    ;
+
+customType
+    : (pkg)? typeName actualTypeParametersSection?
+    ;
+
+pointerType
+    : pointerSymbol typeSignature 
+    ;
+
+sliceType
+    : sliceSymbol typeSignature 
+    ;
+
+arrayType
+    : squareBracketsOpen intLiteral squareBracketsClose typeSignature
+    ;
+
+actualTypeParametersSection
+    : diamondOpen typeSignature (comma typeSignature)* diamondClose
+    ;
+
+formalTypeParametersSection
+    : diamondOpen typeName (comma typeName)* diamondClose
+    ;
+ 
+expression
+    : terminalExpression
+    | infixOperator
+    | dotMemberAccess
+    | squareBracketsAccess
+    ;
+
+literal
+    : intLiteral
+    | floatLiteral
+    | charLiteral
+    | stringLiteral
+    | boolLiteral
+    | arrayLiteral
+    ;
+
+terminalExpression
+    : squareBracketsAccess 
+    | functionCall
+    | parenthesysDelimitedExpression
+    | prefixOperator
+    | literal
+    | identifier
+    ;
+
+infixOperator
+    : terminalExpression (plus | minus) expression
+    | terminalExpression (star | div | mod) expression
+    | terminalExpression (logicalAnd | logicalOr) expression
+    | terminalExpression (logicalEqual | logicalNotEqual) expression
+    | terminalExpression (logicalGt | logicalLt) expression
+    | terminalExpression (logicalLe | logicalGe) expression
+    ;
+
+dotMemberAccess
+    : terminalExpression (dot identifier)+
+    ;
+
+prefixOperator
+    : (pointerDereference | logicalNot | plus | minus) expression
+    ;
+
+squareBracketsAccess
+    : 
+        (identifier | parenthesysDelimitedExpression | 
+                 arrayLiteral | functionCall) 
+        (squareBracketsOpen expression squareBracketsClose)+
+    ;
+
+arrayLiteral
+    : 
+        squareBracketsOpen 
+        typeSignature 
+        squareBracketsClose 
+        curlyBracketsOpen 
+        expression 
+        (comma expression)* 
+        curlyBracketsClose 
+    ;
+
+parenthesysDelimitedExpression
+    : parenthesysOpen expression parenthesysClose
+    ;
+
+instructionBlock
+    : multilineScopedInstructionBlock
+    | statement
+    ;
+
+multilineScopedInstructionBlock
+    : curlyBracketsOpen statement* curlyBracketsClose
+    ;
+    
+assignment
+    : expression assign expression semicolon
+    ;
+
+statement
+    : functionCallStatement
+    | assignment
+    | variableDeclaration
+    | constDeclaration
+    | returnStatement
+    | breakStatement
+    | continueStatement
+    | ifStatement
+    | whileLoop
+    | untilLoop
+    ;
+    
+returnStatement
+    : returnKeyword expression? semicolon
+    ;
+    
+breakStatement
+    : 
+        breakKeyword 
+        semicolon
+    ;
+
+continueStatement
+    : 
+        continueKeyword 
+        semicolon
+    ;
+
+ifStatement
+    : 
+        ifKeyword parenthesysOpen expression parenthesysClose 
+        instructionBlock ( elseKeyword instructionBlock )?
+    ;
+    
+whileLoop
+    : 
+        whileKeyword 
+        parenthesysOpen 
+        expression 
+        parenthesysClose 
+        instructionBlock
+    ;
+
+untilLoop
+    : 
+        untilKeyword 
+        parenthesysOpen 
+        expression 
+        parenthesysClose 
+        instructionBlock
+    ;
+
+
+arrow               : '->';
+pointerDereference  : '#';
+pointerSymbol       : '#';
+sliceSymbol         : '#';
+addressOf           : '&';
+
+squareBracketsOpen  : '[';
+squareBracketsClose : ']';
+parenthesysOpen     : '(';
+parenthesysClose    : ')';
+curlyBracketsOpen   : '{';
+curlyBracketsClose  : '}';
+
+comma               : ',';
+semicolon           : ';';
+colon               : ':';
+dot                 : '.';
+
+plus                : '+';
+minus               : '-';
+star                : '*';
+div                 : '/';
+mod                 : '%';
+logicalNot          : '!';
+
+logicalAnd          : '&&';
+logicalOr           : '||';
+logicalEqual        : '==';
+logicalNotEqual     : '!=';
+logicalGt           : '>';
+logicalLt           : '<';
+logicalGe           : '>=';
+logicalLe           : '<=';
+assign              : '=';
+
+diamondOpen         : '<';
+diamondClose        : '>';
+varKeyword          : 'var';
+constKeyword        : 'const';
+structKeyword       : 'struct';
+unionKeyword        : 'union';
+funcKeyword         : 'func';
+returnKeyword       : 'return';
+breakKeyword        : 'break';
+continueKeyword     : 'continue';
+ifKeyword           : 'if';
+elseKeyword         : 'else';
+whileKeyword        : 'while';
+untilKeyword        : 'until';
+
+intLiteral          : INT_LITERAL;
+floatLiteral        : FLOAT_LITERAL;
+boolLiteral         : BOOL_LITERAL;
+charLiteral         : CHAR_LITERAL;
+stringLiteral       : STRING_LITERAL;
+
+identifier          : ID;
+typeName            : TYPENAME;
+
+primitiveType       
+    : 'Int'
+    | 'Float'
+    | 'Char'
+    | 'Bool'
+    | 'String'
+    | 'RawString'
+    ;
+
+packageSpecifier
+    : ID
+    ;
+
+pkg 
+    : packageSpecifier PKGCONCAT
+    ;
+
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Vocabolario del linguaggio Basalt}
+Di seguitp è riportato il file \texttt{BasaltLexer.g4} che definisce i 
+token riconosciuti dal tokenizer autogenerato da ANTLR4. \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+lexer grammar BasaltLexer;
+
+STRUCT   : 'struct';
+UNION    : 'union';
+SWITCH   : 'switch';
+DEFAULT  : 'default';
+FUNC     : 'func';
+RETURN   : 'return';
+BREAK    : 'break';
+CONTINUE : 'continue';
+IF       : 'if';
+ELSE     : 'else';
+WHILE    : 'while';
+UNTIL    : 'until';
+VAR      : 'var';
+CONST    : 'const';
+PACKAGE  : 'package';
+
+INT_LITERAL    : [0-9]+ ;
+FLOAT_LITERAL  : [0-9]+'.'[0-9]+;
+BOOL_LITERAL   : 'true'|'false';
+
+ID       : [a-z][a-zA-Z_0-9]* ;
+TYPENAME : [A-Z][a-zA-Z_0-9]* ;
+FUNCNAME : [a-z][a-zA-Z_0-9]* ;
+WS       : [ \t\n\r\f]+ -> skip;
+
+LPAREN    : '(';
+RPAREN    : ')';
+LBRACE    : '{';
+RBRACE    : '}';
+LBRACK    : '[';
+RBRACK    : ']';
+SEMICOLON : ';';
+COMMA     : ',';
+COLON     : ':';
+DOT       : '.';
+
+EQ        : '=';
+GT        : '>';
+LT        : '<';
+NOT       : '!';
+EQUAL     : '==';
+LE        : '<=';
+GE        : '>=';
+NOTEQUAL  : '!=';
+AND       : '&&';
+OR        : '||';
+PLUS      : '+';
+MINUS     : '-';
+MUL       : '*';
+DIV       : '/';
+MOD       : '%';
+
+ARROW     : '->';
+PKGCONCAT : '::';
+
+HASHTAG   : '#';
+DOLLAR    : '$';
+
+STRING_LITERAL
+    : '"' ( ESC_SEQ | ~["\\\r\n] )* '"'
+    | '`' ( ESC_SEQ | ~["\\\r\n] )* '`'
+    ;
+
+CHAR_LITERAL
+    : '\'' ( ESC_SEQ | ~['\\\r\n] ) '\''
+    ;
+
+fragment ESC_SEQ
+    : '\\0'
+    | '\\n' 
+    | '\\t'
+    | '\\r'
+    | '\\"'
+    | '\\\''
+    | '\\`'
+    | '\\\\'
+    ;
+
+BASETYPE 
+    : 'Int' 
+    | 'Float' 
+    | 'Bool' 
+    | 'Char' 
+    | 'String'
+    ;
+
+\end{lstlisting}
+\vspace{0.5cm}
