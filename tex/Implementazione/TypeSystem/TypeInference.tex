@@ -127,7 +127,7 @@ già un possibile candiato ovvero \texttt{Int}. \\
 
 Tale assunzione è modificabile, ed è quindi giusto che venga modificata anche in \textit{strict-mode}. Questo 
 significa che la \textit{strict-mode} impedisce l'assegnazione di un tipo ad un altro se questo avviene mediante 
-conversione implicita di tipo, ma solo se il tipo destinzazione non è generico. \\
+conversione implicita di tipo, ma solo se il tipo destinazione non è generico. \\
 
 Per tipi di destinazione generici, la \textit{strict-mode} impedisce solo la modifica futura dell'assunzione 
 che si sta attualmente facendo. \\
@@ -136,7 +136,7 @@ La modifica dell'assunzione precedente è possibile se essa è modificabile e se
 non comporta la perdita di vincoli di tipo dedotti in precedenza. La non-perdita dei vincoli è garantita
 dal fatto che è stato già verificato che il nuovo candidato possa ricevere assegnamenti da parte del candidato 
 precedente a patto di supportare le conversioni implicite di tipo, ciò significa che dunque è assolutamente corretto 
-che tale controllo non avvenga in \textit{strict-moode}. \\
+che tale controllo non avvenga in \textit{strict-mode}. \\
 
 Si ricordi che l'assegnabilità di un tipo ad un altro è una relazione transitiva, e quindi se è possibile assegnare 
 ad un nuovo candidato il precedente, allora ciò implica che è possibile assegnarvi tutti i candidati che sono 
