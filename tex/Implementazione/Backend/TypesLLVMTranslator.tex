@@ -42,7 +42,7 @@ class TypesLLVMTranslator {
 \vspace{0.5cm}
 
 La traduzione di un tipo in LLVM-IR comporta la creazione di un oggetto di tipo \texttt{llvm::Type} che rappresenta
-una typesignature in LLVM-IR. In particolare, di tale oggetto si tende a mantenere solo un puntatore, in quanto l'API di 
+una type-signature in LLVM-IR. In particolare, di tale oggetto si tende a mantenere solo un puntatore, in quanto l'API di 
 LLVM lavora solo ed esclusivamente con puntatori. La \textit{lifetime} di tali oggetti è gestita da LLVM stesso, ed in particolare essi sono 
 automaticamente deallocati quando il modulo che li contiene viene deallocato. Come si può vedere, la classe \texttt{TypesLLVMTranslator}
 mantiene un riferimento a \texttt{llvm::Module} che corrisponde appunto al modulo appena citato. \\ 

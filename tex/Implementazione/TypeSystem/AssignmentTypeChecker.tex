@@ -81,7 +81,7 @@ Nel precedente frammento di codice si intuisce l'utilizzo e lo scopo della flag 
 strict-mode. Tale flag è necessaria per segnalare che non si desidera restituire \texttt{true}
 qualora l'assegnamento comporti una conversione implicita di tipo. \\
 
-Ad esempio, è possibile assegnare \texttt{Int} ad \texttt{Int | Float} ma non è 
+Ad esempio, è possibile assegnare \texttt{Int} ad \texttt{Int|Float} ma non è 
 possibile assegnare \texttt{List<Int>} a \texttt{List<Int|Float>} e nemmeno 
 \texttt{\#Int} a \texttt{\#(Int|Float)}. La differenza fra questi scenari è che le chiamate al 
 metodo \texttt{validate\_assignment} fatte nei contesti appena illustrati vengono fatte in \textit{strict-mode}. \\
