@@ -1,0 +1,48 @@
+\subsubsection{Compilazione in ambienti Windows x86}
+Al fine di compilare codice Basalt su sistemi Windows x86, 
+è consigliabile avvalersi di \texttt{make} e \texttt{lld}, due strumenti per 
+riga di comando facilmente installabili sia manualmente che tramite i più comuni 
+package manager (e.g: choco, winget, ...). \texttt{lld} è un linker e si occupa 
+di trasformare file oggetto in file eseguibili, mentre \texttt{make} è uno strumento 
+di automatizzazione capace di eseguire script nella seguente forma: \\
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+# build_x86_windows.mk
+
+all: test.exe
+	.\$^
+
+test.o: src/*.bt
+	basalt compile -i $^ -o $@ -t x86_64-pc-windows-msvc
+
+test.exe: test.o
+	lld-link $^ /out:$@ \
+	/defaultlib:libcmt.lib /defaultlib:oldnames.lib \
+	/defaultlib:libvcruntime.lib /defaultlib:libucrt.lib \
+	/entry:mainCRTStartup /subsystem:console
+\end{lstlisting}
+\vspace{0.5cm}
+
+Avendo cura di posizionarsi in una shell aperta nella directory in cui si 
+trovano sia il file \texttt{build\_x86\_windows.mk} che la 
+directory \texttt{src} contenente i file sorgente Basalt, allora 
+lanciando il seguente comando si compileranno tutti i file sorgente in un 
+eseguibile di nome \texttt{test.exe}, il quale viene immediatamente eseguito: \\
+
+\noindent\hfill \texttt{make -f build\_x86\_windows.mk} \hfill\null \\
+
+L'insieme delle flag passate al linker sono necessarie per
+linkare correttamente le librerie di sistema di Windows, necessarie al corretto 
+funzionamento di qualsiasi programma. Viene anche linkata la libreria standard 
+del C per poter consentire una facile integrazione mediante l'utilizzo di 
+funzioni \textit{extern}. \\
+
+Se si vuole, è possibile utilizzare altri linker come \texttt{clang} o \texttt{msvc} a patto
+di modificare opportunamente il file \texttt{build\_x86\_windows.mk}. La scelta consigliata è \texttt{lld} 
+solo in quanto esso è un tool direttamente sviluppato e mantenuto dalla community di LLVM. \\
+
+Se lo si desidera, è possibile linkare asseieme ad object files di librerie esterne 
+ed è possibile utilizzarle mediante l'opportuna dichiarazione di funzioni \textit{extern}. \\
+
+\newpage

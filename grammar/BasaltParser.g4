@@ -8,16 +8,20 @@ options { tokenVocab=BasaltLexer; }
 // PROGRAM
 
 program
-    : definition* EOF
+    : package definition* EOF
+    ;
+
+package
+    : PACKAGE identifier SEMICOLON
     ;
 
 definition
     : structDefinition
     | unionDefinition
     | functionDefinition
-    | variableDeclaration
-    | constDeclaration
     ;
+
+
 
 
 
@@ -54,8 +58,6 @@ logicalGt           : '>';
 logicalLt           : '<';
 logicalGe           : '>=';
 logicalLe           : '<=';
-inc                 : '++';
-dec                 : '--';
 assign              : '=';
 addeq               : '+=';
 subeq               : '-=';
@@ -133,7 +135,7 @@ structField
 unionDefinition
     : 
         unionKeyword typeName formalTypeParametersSection? 
-        curlyBracketsOpen typeSignature* curlyBracketsClose
+        EQ (typeSignature OR)+ typeSignature SEMICOLON
     ;
 
 
@@ -250,7 +252,7 @@ dotMemberAccess
     ;
 
 prefixOperator
-    : (pointerDereference | logicalNot | plus | minus | inc | dec) expression
+    : (pointerDereference | logicalNot | plus | minus) expression
     ;
 
 squareBracketsAccess
@@ -287,7 +289,6 @@ multilineScopedInstructionBlock
     
 assignment
     : expression assign expression semicolon
-    | expression (addeq | subeq | muleq | diveq | modeq | poweq ) expression semicolon
     ;
 
 statement
@@ -327,15 +328,4 @@ whileLoop
 
 untilLoop
     : untilKeyword parenthesysOpen expression parenthesysClose instructionBlock
-    ;
-
-switchStatement
-    : 
-        switchKeyword parenthesysOpen expression parenthesysClose 
-        curlyBracketsOpen switchCase* curlyBracketsClose
-    ;
-
-switchCase
-    : defaultKeyword instructionBlock
-    | identifier colon typeSignature instructionBlock
     ;

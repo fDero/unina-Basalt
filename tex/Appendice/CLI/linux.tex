@@ -1,0 +1,47 @@
+\subsubsection{Compilazione in ambienti Linux x86}
+Al fine di compilare codice Basalt su sistemi Linux x86, 
+è consigliabile avvalersi di \texttt{make} e \texttt{gcc}, due strumenti per 
+riga di comando facilmente installabili sia manualmente che tramite i più comuni 
+package manager (e.g: apt, pacman, dnf, ...). \texttt{gcc} è un compilatore per C/C++ che 
+però è utilizzabile anche come linker: \\
+
+
+\vspace{0.5cm}
+\begin{lstlisting}[frame=single]
+# build_x86_linux.mk
+
+all: test
+	./$^
+
+test.o: src/*.bt
+	basalt compile -i $^ -o $@ -t x86_64-pc-linux-gnu
+
+test: test.o
+	gcc -no-pie $^ -o $@ -lc -lm
+
+\end{lstlisting}
+\vspace{0.5cm}
+
+Avendo cura di posizionarsi in una shell aperta nella directory in cui si 
+trovano sia il file \texttt{build\_x86\_linux.mk} che la 
+directory \texttt{src} contenente i file sorgente Basalt, allora 
+lanciando il seguente comando si compileranno tutti i file sorgente in un 
+eseguibile di nome \texttt{test}, il quale viene immediatamente eseguito: \\
+
+\noindent\hfill \texttt{make -f build\_x86\_linux.mk} \hfill\null \\
+
+L'insieme delle flag passate al linker sono necessarie per
+linkare correttamente le librerie di sistema di Linux, necessarie al corretto 
+funzionamento di qualsiasi programma. Viene anche linkata la libreria standard 
+del C per poter consentire una facile integrazione mediante l'utilizzo di 
+funzioni \textit{extern} e viene disabilitata la modalità \textit{PIE} (Position-Indipendent-Executable)
+la quale è attualmente non supportata da Basalt. \\
+
+Se si vuole, è possibile utilizzare altri linker come \texttt{ld}, \texttt{mold} o \texttt{clang} a patto
+di modificare opportunamente il file \texttt{build\_x86\_linux.mk}. La scelta consigliata è \texttt{gcc} 
+solo in quanto esso è tipicamente installato in qualsiasi distribuzione Linux. \\
+
+Se lo si desidera, è possibile linkare asseieme ad object files di librerie esterne 
+ed è possibile utilizzarle mediante l'opportuna dichiarazione di funzioni \textit{extern}. \\
+
+\newpage

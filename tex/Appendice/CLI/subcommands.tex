@@ -1,0 +1,42 @@
+\subsubsection{Interfaccia per riga di comando}
+Il comando che è necessario invocare per eseguire il compilatore Basalt è \texttt{basalt}. Esso 
+espone una interfaccia di concezione moderna basata su sotto-comandi.
+
+Tra i vari sotto-comandi disponibili, il più importante è \texttt{compile}, il quale
+si occupa di tradurre il codice sorgente Basalt nel formato richiesto: \\
+
+\noindent\hfill \texttt{basalt compile -i <source-files> -o <output-files> -t <target-triple>} \hfill\null \\
+
+È possibile fornire più di un output file a patto che essi abbiano diverse estensioni, e Basalt si occuperà di 
+compilare per il corretto formato. Le estensioni possibili sono: \\
+
+\vspace{0.5cm}
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|b|} \hline
+            \cheader{Estensione}                    & \cheader{Descrizione}                      \\ \hline
+            \texttt{.ll / .llvm}:                   & file di testo in formato LLVM-IR           \\ \hline
+            \texttt{.s  / .asm}:                    & file di testo in formato GNU-assembly      \\ \hline
+            \texttt{.o  / .obj}:                    & file oggetto (in formato binario)          \\ \hline
+        \end{tabularx}
+    \caption{Estensioni supportate per output di compilazione}
+\end{table}
+\vspace{0.5cm}
+
+I possibili valori per il campo \texttt{<target-triple>} sono stringhe della seguente forma: \\
+
+\noindent\hfill \texttt{<arch><sub\_arch>-<vendor>-<sys>-<env>} \hfill\null \\
+
+\begin{table}[h]
+    \centering
+        \begin{tabularx}{\textwidth}{|b|b|} \hline
+            \cheader{Target-Triple}                 & \cheader{Descrizione} \\ \hline
+            \texttt{x86\_64-pc-linux-gnu}           & Linux (x86)    \\ \hline
+            \texttt{x86\_64-pc-winodws-msvc}        & Windows (x86)  \\ \hline
+            \texttt{x86\_64-apple-darwin}           & Darwin (x86)   \\ \hline
+        \end{tabularx}
+    \caption{Esempi di target-triple per macchine x86}
+\end{table}
+\vspace{0.5cm}
+
+\newpage

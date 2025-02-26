@@ -15,6 +15,7 @@ UNTIL    : 'until';
 VAR      : 'var';
 CONST    : 'const';
 NULLK    : 'null';
+PACKAGE  : 'package';
 
 INT_LITERAL    : [0-9]+ ;
 FLOAT_LITERAL  : [0-9]+'.'[0-9]+;
