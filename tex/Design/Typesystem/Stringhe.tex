@@ -57,9 +57,9 @@ sovrascritta o invalidata. \\
 
 Questo meccanismo di gestione delle string-literals viene chiamato string-pooling, e l’area di memoria 
 nello scope globale dedicata a contenere tutte le string-literal dell’intero programma viene detta string-pool. Questo 
-meccansimo consente poi di non dover replicare le string-literal, infatti qualora una stessa string-literal apparisse 
+meccanismo consente poi di non dover replicare le string-literal, infatti qualora una stessa string-literal apparisse 
 più volte nel programma in scope diversi, sarebbe comunque utilizzato l’indirizzo della stessa unica string-literal 
-nella pool per inizializzare variabili o per effetturare accessi in lettura. \\
+nella pool per inizializzare variabili o per effettuare accessi in lettura. \\
 
 Così come in Go e in Java, le stringhe sono immutabili, questo è un prerequisito essenziale al funzionamento dello string-pooling, dato 
 che stringhe in scope diversi si riferiscono in realtà alle stesse sequenze di caratteri nella pool. \\
