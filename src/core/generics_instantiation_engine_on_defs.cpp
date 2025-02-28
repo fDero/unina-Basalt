@@ -66,6 +66,7 @@ FunctionDefinition::Ref GenericsInstantiationEngine::instantiate_generic_functio
 ) {
     DebugInformationsAwareEntity debug_info = function_definition.as_debug_informations_aware_entity();
     FunctionDefinition::Ref instantiated_function = std::make_shared<FunctionDefinition>(new_function_name, debug_info);
+    instantiated_function->extern_implementation = function_definition.extern_implementation;
     if (function_definition.return_type.has_value()) {
         instantiated_function->return_type = instantiate_generic_typesignature(*function_definition.return_type);
     }
@@ -76,4 +77,14 @@ FunctionDefinition::Ref GenericsInstantiationEngine::instantiate_generic_functio
         instantiated_function->code.push_back(instantiate_generic_statement(statement));
     }
     return instantiated_function;
+    throw "x";
+}
+
+FunctionDefinition::Ref GenericsInstantiationEngine::instantiate_generic_function(
+    const FunctionDefinition::Ref& function_definition_ref, 
+    const std::string& new_function_name
+) {
+    return (function_definition_ref->template_generics_names.empty()) 
+        ? function_definition_ref:
+        instantiate_generic_function(*function_definition_ref, new_function_name);
 };

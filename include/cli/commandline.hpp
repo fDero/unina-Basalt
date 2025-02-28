@@ -21,6 +21,7 @@ class CommandLineController {
             version, 
             help, 
             compiler, 
+            interpreter, 
             typechecker
         };
 
@@ -40,6 +41,7 @@ class CommandLineController {
         void version_subcommand();
         void help_subcommand();
         void compiler_subcommand();
+        void interpreter_subcommand();
         void typechecker_subcommand();
 
     private:        

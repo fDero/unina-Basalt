@@ -7,9 +7,9 @@
 
 #include <vector>
 #include <string>
+#include <optional>
 
 #include "language/typesignatures.hpp"
-#include "frontend/syntax.hpp"
 
 struct ExpressionBody : public DebugInformationsAwareEntity {
 
@@ -39,7 +39,6 @@ struct ExpressionBody : public DebugInformationsAwareEntity {
 class Expression : public Polymorph<ExpressionBody> {
     
     public:
-
         using Polymorph<ExpressionBody>::is;
         using Polymorph<ExpressionBody>::get;
         using Polymorph<ExpressionBody>::Polymorph;
@@ -135,12 +134,30 @@ struct BinaryOperator : public ExpressionBody {
 
     virtual ~BinaryOperator() = default;
 
+    enum class Kind {
+        boolean_and,
+        boolean_or,
+        boolean_xor,
+        cmp_lt,
+        cmp_gt,
+        cmp_leq,
+        cmp_geq,
+        cmp_eq,
+        cmp_neq,
+        math_sum,
+        math_sub,
+        math_mul,
+        math_div,
+        math_mod,
+    };
+
     BinaryOperator(
         const Token& operator_token, 
         const Expression& lx, 
         const Expression& rx
     );
 
+    Kind binary_op_kind;
     std::string operator_text;
     Expression left_operand;
     Expression right_operand;
@@ -150,6 +167,14 @@ struct BinaryOperator : public ExpressionBody {
 };
 
 struct UnaryOperator : public ExpressionBody {
+
+    enum class Kind {
+        boolean_not,
+        minus_sign,
+        plus_sign,
+        pointer_dereference,
+        address_of,
+    };
 
     virtual ~UnaryOperator() = default;
 
@@ -166,7 +191,8 @@ struct UnaryOperator : public ExpressionBody {
 
     [[nodiscard]] Token as_token() const;
     [[nodiscard]] ExpressionBody::Kind expression_kind() const override;
-    
+
+    Kind unary_op_kind;    
     std::string operator_text;
     Expression operand;
 };
@@ -187,7 +213,7 @@ struct StringLiteral : public ExpressionBody {
 
     virtual ~StringLiteral() = default;
 
-    StringLiteral(const Token& string_literal_token);
+    StringLiteral(const Token& string_literal_token, const std::string& value);
     
     [[nodiscard]] ExpressionBody::Kind expression_kind() const override;
 
@@ -231,7 +257,7 @@ struct CharLiteral : public ExpressionBody {
 
     virtual ~CharLiteral() = default;
 
-    CharLiteral(const Token& char_literal_token);
+    CharLiteral(const Token& char_literal_token, char value);
     
     [[nodiscard]] ExpressionBody::Kind expression_kind() const override;
 

@@ -18,6 +18,18 @@ void ensure_type_not_already_visited_hence_no_cyclic_dependency(
     }
 }
 
+void ensure_character_literal_has_exactly_one_character(
+    const Token& token, 
+    const std::string& char_literal_value
+) {
+    if (char_literal_value.size() != 1) {
+        throw std::runtime_error(
+            "character literal must have exactly one character: " +
+            token.sourcetext + "->" + char_literal_value
+        );
+    }
+}
+
 void ensure_no_multiple_definition_of_the_same_type(
     const std::pair<std::unordered_map<std::string, TypeDefinition>::iterator, bool>& 
         type_definition_insertion_outcome
@@ -86,16 +98,20 @@ void ensure_typesignature_is_int(const std::optional<TypeSignature>& type_signat
         return;
     }
     const TypeSignature& type_signature = type_signature_opt.value();
-    if (!type_signature.is<PrimitiveType>() || type_signature.get<PrimitiveType>().type_name != "Int") {
-        throw InternalError("type must be Int");
+    if (!type_signature.is<PrimitiveType>() || type_signature.get<PrimitiveType>().type_name != int_type) {
+        throw std::runtime_error("type must be Int");
     }
 }
 
-void ensure_typesignature_is_either_array_or_slice_for_square_brackets_access(
+void ensure_typesignature_is_compatible_square_brackets_access(
     const TypeSignature& type_signature
 ) {
-    if (!type_signature.is<ArrayType>() && !type_signature.is<SliceType>()) {
-        throw InternalError("type must be either array or slice");
+    bool is_array = type_signature.is<ArrayType>();
+    bool is_slice = type_signature.is<SliceType>();
+    bool is_string = type_signature.is<PrimitiveType>() && type_signature.get<PrimitiveType>().type_name == string_type;
+    bool is_raw_string = type_signature.is<PrimitiveType>() && type_signature.get<PrimitiveType>().type_name == raw_string_type;
+    if (!is_array && !is_slice && !is_string && !is_raw_string) {
+        throw std::runtime_error("type must be either array, slice, String, RawString");
     }
 }
 
@@ -118,7 +134,7 @@ void ensure_numeric_types_are_equal(
     const PrimitiveType& left_primitive = left_operand_type.get<PrimitiveType>();
     const PrimitiveType& right_primitive = right_operand_type.get<PrimitiveType>();
     if (left_primitive.type_name != right_primitive.type_name) {
-        throw InternalError("numeric types are not equal");
+        throw std::runtime_error("numeric types are not equal");
     }
 }
 
@@ -131,7 +147,7 @@ void ensure_template_types_are_equal(
     const TemplateType& left_primitive = left_operand_type.get<TemplateType>();
     const TemplateType& right_primitive = right_operand_type.get<TemplateType>();
     if (left_primitive.type_name != right_primitive.type_name) {
-        throw InternalError("numeric types are not equal");
+        throw std::runtime_error("numeric types are not equal");
     }
 }
 
@@ -160,18 +176,18 @@ void ensure_typesignature_is_boolean(const std::optional<TypeSignature>& type_si
         return;
     }
     const TypeSignature& type_signature = type_signature_opt.value();
-    if (!type_signature.is<PrimitiveType>() || type_signature.get<PrimitiveType>().type_name != "Bool") {
-        throw InternalError("type must be Bool");
+    if (!type_signature.is<PrimitiveType>() || type_signature.get<PrimitiveType>().type_name != bool_type) {
+        throw std::runtime_error("type must be Bool");
     }
 }
 
 void ensure_typesignature_is_numeric(const TypeSignature& type_signature) {
     if (!type_signature.is<PrimitiveType>()) {
-        throw InternalError("type must be numeric");
+        throw std::runtime_error("type must be numeric");
     }
     const PrimitiveType& primitive_type = type_signature.get<PrimitiveType>();
-    if (primitive_type.type_name != "Int" && primitive_type.type_name != "Float") {
-        throw InternalError("type must be numeric");
+    if (primitive_type.type_name != int_type && primitive_type.type_name != float_type) {
+        throw std::runtime_error("type must be numeric");
     }
 }
 
@@ -181,12 +197,12 @@ void ensure_typesignature_is_non_string_primitive_or_generic(const std::optional
     }
     const TypeSignature& type_signature = type_signature_opt.value();
     if (!type_signature.is<PrimitiveType>() && !type_signature.is<TemplateType>()) {
-        throw InternalError("type must be non-string primitive or generic");
+        throw std::runtime_error("type must be non-string primitive or generic");
     }
     if (type_signature.is<PrimitiveType>()) {
         const PrimitiveType& primitive_type = type_signature.get<PrimitiveType>();
-        if (primitive_type.type_name == "String") {
-            throw InternalError("type must be non-string primitive or generic");
+        if (primitive_type.type_name == string_type) {
+            throw std::runtime_error("type must be non-string primitive or generic");
         }
     }
 }
@@ -197,12 +213,12 @@ void ensure_typesignature_is_either_numeric_or_generic(const std::optional<TypeS
     }
     const TypeSignature& type_signature = type_signature_opt.value();
     if (!type_signature.is<PrimitiveType>() && !type_signature.is<TemplateType>()) {
-        throw InternalError("type must be numeric or generic");
+        throw std::runtime_error("type must be numeric or generic");
     }
     if (type_signature.is<PrimitiveType>()) {
         const PrimitiveType& primitive_type = type_signature.get<PrimitiveType>();
-        if (primitive_type.type_name != "Int" && primitive_type.type_name != "Float") {
-            throw InternalError("type must be numeric or generic");
+        if (primitive_type.type_name != int_type && primitive_type.type_name != float_type) {
+            throw std::runtime_error("type must be numeric or generic");
         }
     }
 }
@@ -212,7 +228,7 @@ void ensure_function_overload_was_successfully_retrieved(
     const std::optional<FunctionDefinition::Ref>& retrieved
 ) {
     if (!retrieved.has_value()) {
-        throw InternalError("no function overload found");
+        throw std::runtime_error("no function overload found");
     }
 }
 
@@ -221,15 +237,10 @@ void ensure_function_has_a_return_type(
     const std::optional<TypeSignature>& return_type
 ) {
     if (!return_type.has_value()) {
-        throw InternalError("function has no return type");
+        throw std::runtime_error("function has no return type");
     }
 }
 
-void ensure_operator_kind_was_found(
-    const std::map<std::string, OperatorKind>::const_iterator& operator_kind_search_outcome,
-    const std::map<std::string, OperatorKind>& operator_kinds
-) {
-    if (operator_kind_search_outcome == operator_kinds.end()) {
-        throw InternalError("operator kind not found");
-    }
+void throw_unrecognized_escape_sequence(const Token& token, char current_char) {
+    throw std::runtime_error("unrecognized escape sequence: " + std::string{'\\', current_char});
 }

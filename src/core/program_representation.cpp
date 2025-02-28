@@ -3,7 +3,7 @@
 // LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-#include "frontend/syntax.hpp"
+#include "syntax/primitive_types.hpp"
 #include "core/program_representation.hpp"
 #include "core/expression_type_deducer.hpp"
 #include "core/assignment_type_checker.hpp"
@@ -16,14 +16,12 @@ ProgramRepresentation::ProgramRepresentation(
 ) 
     : project_file_structure(input_project_file_structure)
     , type_definitions_register(project_file_structure)
-    , function_overloads_register(project_file_structure)
-    , overloading_resolution_engine(
-        function_overloads_register, 
+    , function_definitions_register(
         type_definitions_register, 
         project_file_structure
     )
     , common_feature_adoption_plan_generation_engine(
-        overloading_resolution_engine,
+        function_definitions_register,
         type_definitions_register
     )
 {}
@@ -34,7 +32,7 @@ std::optional<TypeSignature> ProgramRepresentation::resolve_expression_type(
 ) {
     return ExpressionTypeDeducer(
         type_definitions_register, 
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine, 
         project_file_structure, 
         scope_context
@@ -42,15 +40,21 @@ std::optional<TypeSignature> ProgramRepresentation::resolve_expression_type(
 }
 
 void ProgramRepresentation::foreach_type_definition(
-    std::function<void(const TypeDefinition&)> visitor
+    std::function<void(const TypeDefinition&)> functor
 ) {
-    type_definitions_register.foreach_type_definition(visitor);
+    type_definitions_register.foreach_type_definition(functor);
+}
+
+void ProgramRepresentation::foreach_main_function_definition(
+    std::function<void(const FunctionDefinition::Ref&, const std::string&)> functor
+) {
+    function_definitions_register.foreach_main_function_definition(functor);
 }
 
 void ProgramRepresentation::foreach_function_definition(
-    std::function<void(const FunctionDefinition::Ref&)> visitor
+    std::function<void(const FunctionDefinition::Ref&)> functor
 ) {
-    function_overloads_register.foreach_function_definition(visitor);
+    function_definitions_register.foreach_function_definition(functor);
 }
 
 void ProgramRepresentation::verify_that_the_type_exists(
@@ -138,14 +142,14 @@ bool ProgramRepresentation::is_void_procedure(
 ) {
     ExpressionTypeDeducer expression_type_deducer(
         type_definitions_register,
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine,
         project_file_structure,
         scope_context
     );
     FunctionCallResolver function_call_resolver(
         type_definitions_register,
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine
     );
     auto arg_types = expression_type_deducer.deduce_argument_types_from_function_call(function_call);
@@ -159,14 +163,14 @@ CallableCodeBlock ProgramRepresentation::resolve_function_call(
 ) {
     ExpressionTypeDeducer expression_type_deducer(
         type_definitions_register,
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine,
         project_file_structure,
         scope_context
     );
     FunctionCallResolver function_call_resolver(
         type_definitions_register,
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine
     );
     auto arg_types = expression_type_deducer.deduce_argument_types_from_function_call(function_call);
@@ -179,7 +183,7 @@ DotMemberAccess ProgramRepresentation::normalize_dot_member_access(
 ) {
     ExpressionTypeDeducer expression_type_deducer(
         type_definitions_register,
-        overloading_resolution_engine,
+        function_definitions_register,
         common_feature_adoption_plan_generation_engine,
         project_file_structure,
         scope_context

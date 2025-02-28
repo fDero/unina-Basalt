@@ -7,8 +7,8 @@
 
 #include "core/project_file_structure.hpp"
 #include "core/type_definitions_register.hpp"
-#include "core/function_overloads_register.hpp"
-#include "core/overloading_resolution_engine.hpp"
+#include "core/function_definitions_register.hpp"
+#include "core/function_definitions_register.hpp"
 #include "core/common_feature_adoption_plan_generation_engine.hpp"
 #include "core/scope_context.hpp"
 #include "core/caching_aware_register.hpp"
@@ -45,11 +45,15 @@ class ProgramRepresentation {
         );
     
         void foreach_type_definition(
-            std::function<void(const TypeDefinition&)> visitor
+            std::function<void(const TypeDefinition&)> functor
+        );
+
+        void foreach_main_function_definition(
+            std::function<void(const FunctionDefinition::Ref&, const std::string&)> functor
         );
 
         void foreach_function_definition(
-            std::function<void(const FunctionDefinition::Ref&)> visitor
+            std::function<void(const FunctionDefinition::Ref&)> functor
         );
 
         void verify_that_the_type_exists(
@@ -114,7 +118,6 @@ class ProgramRepresentation {
     private:
         ProjectFileStructure project_file_structure;
         TypeDefinitionsRegister type_definitions_register;
-        FunctionOverloadsRegister function_overloads_register;
-        OverloadingResolutionEngine overloading_resolution_engine;
+        FunctionDefinitionsRegister function_definitions_register;
         CommonFeatureAdoptionPlanGenerationEngine common_feature_adoption_plan_generation_engine;
 };

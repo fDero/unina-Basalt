@@ -19,7 +19,8 @@ void CommandLineController::typechecker_subcommand() {
     std::vector<FileRepresentation> file_representations;
     for (const std::string& input_file : inputs) {
         Tokenizer tokenizer(input_file);
-        Parser parser(tokenizer.tokenize());
+        TokenizedFile tokenized_file = tokenizer.tokenize();
+        Parser parser(tokenized_file);
         FileRepresentation file_representation = parser.parse_everything();
         file_representations.push_back(file_representation);
     }
@@ -37,7 +38,8 @@ void CommandLineController::compiler_subcommand() {
     std::vector<FileRepresentation> file_representations;
     for (const std::string& input_file : inputs) {
         Tokenizer tokenizer(input_file);
-        Parser parser(tokenizer.tokenize());
+        TokenizedFile tokenized_file = tokenizer.tokenize();
+        Parser parser(tokenized_file);
         FileRepresentation file_representation = parser.parse_everything();
         file_representations.push_back(file_representation);
     }
@@ -57,4 +59,11 @@ void CommandLineController::compiler_subcommand() {
             break; case FileExtension::basalt: throw_basalt_used_as_output(output_file);
         }
     }
+}
+
+void CommandLineController::interpreter_subcommand() {
+    using CompilationError::Kind::CommandLineError;
+    CompilationError::raise<CommandLineError>(
+        "`run` subcommand not yet implemented"
+    );
 }

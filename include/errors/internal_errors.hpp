@@ -12,29 +12,28 @@
 #include <list>
 
 #include "frontend/tokenizer.hpp"
-#include "frontend/syntax.hpp"
 #include "language/typesignatures.hpp"
 #include "language/definitions.hpp"
 #include "frontend/file_representation.hpp"
-#include "errors/error-types.hpp"
+#include "errors/compilation_error.hpp"
 #include "core/common_feature_adoption_plan_descriptor.hpp"
 
 [[noreturn]] void assert_unreachable();
 
 [[noreturn]] inline void throw_unrecognized_binary_operator(const BinaryOperator& bop) {
-    throw InternalError("unrecognized binary operator: " + bop.operator_text);
+    throw std::runtime_error("unrecognized binary operator: " + bop.operator_text);
 }
 
 [[noreturn]] inline void throw_generics_not_allowed_in_backend_layer(const TemplateType& template_type) {
-    throw InternalError("generics_not_allowed_in_backend_layer: " + template_type.type_name + " is a template type in " + std::to_string(template_type.as_debug_informations_aware_entity().line_number));
+    throw std::runtime_error("generics_not_allowed_in_backend_layer: " + template_type.type_name + " is a template type in " + std::to_string(template_type.as_debug_informations_aware_entity().line_number));
 }
 
 [[noreturn]] inline void throw_unrecognized_unary_operator(const UnaryOperator& uop) {
-    throw InternalError("unrecognized unary operator: " + uop.operator_text);
+    throw std::runtime_error("unrecognized unary operator: " + uop.operator_text);
 }
 
 [[noreturn]] inline void throw_unrecognized_type_operator(const TypeOperator& top) {
-    throw InternalError("unrecognized type operator: " + top.operator_text);
+    throw std::runtime_error("unrecognized type operator: " + top.operator_text);
 }
 
 void assert_integer_literal_properly_formatted(const std::vector<Token>::iterator& iterator);
@@ -103,7 +102,7 @@ inline void assert_typesignature_is(const TypeSignature& typesignature) {
     #ifdef DEBUG_BUILD
     if (!typesignature.is<T>()) {
         std::string T_type_converted_to_string = typeid(T).name();
-        throw InternalError {
+        throw std::runtime_error {
             "somehow a typesignature was expected to be a " + 
             T_type_converted_to_string + " instead it wasn't"    
         };
@@ -116,8 +115,8 @@ inline void assert_typedefinition_is(const TypeDefinition& type_definition) {
     #ifdef DEBUG_BUILD
     if (!type_definition.is<T>()) {
         std::string T_type_converted_to_string = typeid(T).name();
-        throw InternalError {
-            "somehow a typesignature was expected to be a " + 
+        throw std::runtime_error {
+            "somehow a type definition was expected to be a " + 
             T_type_converted_to_string + " instead it wasn't"    
         };
     }
@@ -127,7 +126,7 @@ inline void assert_typedefinition_is(const TypeDefinition& type_definition) {
 inline void assert_type_deduction_success_in_backend_layer(bool success) {
     #ifdef DEBUG_BUILD
     if (!success) {
-        throw InternalError {
+        throw std::runtime_error {
             "type deduction failed in backend"    
         };
     }
@@ -139,8 +138,8 @@ inline void assert_expression_is(const Expression& expression) {
     #ifdef DEBUG_BUILD
     if (!expression.is<T>()) {
         std::string T_type_converted_to_string = typeid(T).name();
-        throw InternalError {
-            "somehow a typesignature was expected to be a " + 
+        throw std::runtime_error {
+            "somehow an expression was expected to be a " + 
             T_type_converted_to_string + " instead it wasn't"    
         };
     }
@@ -152,8 +151,8 @@ inline void assert_statement_is(const Statement& statement) {
     #ifdef DEBUG_BUILD
     if (!statement.is<T>()) {
         std::string T_type_converted_to_string = typeid(T).name();
-        throw InternalError {
-            "somehow a typesignature was expected to be a " + 
+        throw std::runtime_error {
+            "somehow a statement was expected to be a " + 
             T_type_converted_to_string + " instead it wasn't"    
         };
     }
@@ -163,7 +162,7 @@ inline void assert_statement_is(const Statement& statement) {
 inline void assert_unary_operator_is(const UnaryOperator& expression, const std::string& operator_text) {
     #ifdef DEBUG_BUILD
     if (expression.operator_text != operator_text) {
-        throw InternalError("expected unary operator to be " + operator_text);
+        throw std::runtime_error("expected unary operator to be " + operator_text);
     }
     #endif
 }
@@ -171,18 +170,9 @@ inline void assert_unary_operator_is(const UnaryOperator& expression, const std:
 inline void assert_binary_operator_is(const BinaryOperator& expression, const std::string& operator_text) {
     #ifdef DEBUG_BUILD
     if (expression.operator_text != operator_text) {
-        throw InternalError("expected unary operator to be " + operator_text);
+        throw std::runtime_error("expected binary operator to be " + operator_text);
     }
     #endif
-}
-
-inline void assert_operator_kind_was_found(
-    const std::map<std::string, OperatorKind>::const_iterator& operator_kind_search_outcome,
-    const std::map<std::string, OperatorKind>& operator_kinds
-) {
-    if (operator_kind_search_outcome == operator_kinds.end()) {
-        throw InternalError("operator kind not found");
-    }
 }
 
 void assert_vectors_have_same_size_hence_they_can_be_zipped(

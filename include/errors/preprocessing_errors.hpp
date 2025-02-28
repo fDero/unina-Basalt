@@ -10,12 +10,13 @@
 
 #include "frontend/tokenizer.hpp"
 #include "language/definitions.hpp"
-#include "errors/error-types.hpp"
+#include "errors/compilation_error.hpp"
 #include "language/functions.hpp"
 #include "misc/forward_declarations.hpp"
 #include "core/scope_context.hpp"
 #include "core/generics_substitution_rules.hpp"
 #include "core/generics_instantiation_engine.hpp"
+#include "syntax/primitive_types.hpp"
 
 inline void ensure_assignment_is_valid(
     bool assignment_is_valid,
@@ -27,6 +28,29 @@ inline void ensure_assignment_is_valid(
     if (!assignment_is_valid) {
         throw std::runtime_error("assignment is invalid-1");
     }
+}
+
+[[noreturn]] inline void throw_bad_dot_member_access_on_type(
+    const TypeSignature& left_operand_type,
+    const DotMemberAccess& dot_member_access
+) {
+    throw std::runtime_error("bad dot member access on type");
+}
+
+[[noreturn]]  inline void throw_no_such_primitive_field(
+    const std::string& member_name,
+    const PrimitiveType& primitive_type_definition,
+    const DotMemberAccess& dot_member_access
+) {
+    throw std::runtime_error("no such primitive field");
+}
+
+[[noreturn]] inline void throw_no_such_slice_field(
+    const std::string& member_name,
+    const SliceType& pointer_type_definition,
+    const DotMemberAccess& dot_member_access
+) {
+    throw std::runtime_error("no such pointer field");
 }
 
 inline void ensure_type_is_union_for_type_operator(bool type_operator_typesignature_is_union) {
@@ -136,11 +160,6 @@ void ensure_function_has_a_return_type(
     const std::optional<TypeSignature>& return_type
 );
 
-void ensure_operator_kind_was_found(
-    const std::map<std::string, OperatorKind>::const_iterator& operator_kind_search_outcome,
-    const std::map<std::string, OperatorKind>& operator_kinds
-);
-
 void ensure_typesignature_is_numeric(
     const TypeSignature& type_signature
 );
@@ -172,7 +191,7 @@ void ensure_typesignature_is_boolean(
 
 void ensure_typesignature_is_int(const std::optional<TypeSignature>& type_signature_opt);
 
-void ensure_typesignature_is_either_array_or_slice_for_square_brackets_access(
+void ensure_typesignature_is_compatible_square_brackets_access(
     const TypeSignature& type_signature
 );
 
@@ -360,7 +379,62 @@ inline void ensure_condition_expression_is_boolean(
     if (!condition_type.has_value()) {
         throw std::runtime_error("condition expression is not boolean");
     }
-    if (!condition_type->is<PrimitiveType>() || condition_type->get<PrimitiveType>().type_name != "Bool") {
+    if (!condition_type->is<PrimitiveType>() || condition_type->get<PrimitiveType>().type_name != bool_type) {
         throw std::runtime_error("condition expression is not boolean");
+    }
+}
+
+inline void ensure_not_multiple_main_functions_have_been_found(
+    size_t main_function_counter
+) {
+    if (main_function_counter > 1) {
+        throw std::runtime_error("multiple main functions have been found");
+    }
+}
+
+inline void ensure_main_function_is_not_generic(
+    const FunctionDefinition::Ref& main_function_definition
+) {
+    if (!main_function_definition->template_generics_names.empty()) {
+        throw std::runtime_error("main function cannot be generic");
+    }
+}
+
+inline void assert_function_name_is_main(
+    const FunctionDefinition::Ref& main_function_definition
+) {
+    if (main_function_definition->function_name != "main") {
+        throw std::runtime_error("main function must be named 'main'");
+    }
+}
+
+inline void ensure_main_function_has_no_arguments(
+    const FunctionDefinition::Ref& main_function_definition
+) {
+    if (!main_function_definition->arguments.empty()) {
+        throw std::runtime_error("main function cannot have arguments");
+    }
+}
+
+inline void ensure_main_function_returns_either_int_or_void(
+    const FunctionDefinition::Ref& main_function_definition
+) {
+    if (!main_function_definition->return_type.has_value()) {
+        return;
+    }
+    TypeSignature return_type = *main_function_definition->return_type;
+    if (!return_type.is<PrimitiveType>()) {
+        throw std::runtime_error("main function must return either void or int");
+    }
+    if (return_type.get<PrimitiveType>().type_name != int_type) {
+        throw std::runtime_error("main function must return either void or int");
+    }
+}
+
+inline void ensure_main_function_is_in_main_package(
+    const std::string& package_name
+) {
+    if (package_name != "main") {
+        throw std::runtime_error("main function must be in the 'main' package");
     }
 }

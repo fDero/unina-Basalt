@@ -3,8 +3,12 @@
 // LICENSE: MIT (https://github.com/fDero/Basalt/blob/master/LICENSE)      //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+#include "frontend/tokenizer.hpp"
 #include "language/expressions.hpp"
 #include "language/functions.hpp"
+#include "syntax/infixes.hpp"
+#include "syntax/prefixes.hpp"
+#include <map>
 
 SquareBracketsAccess::SquareBracketsAccess(
     const DebugInformationsAwareEntity& square_brackets_token, 
@@ -70,7 +74,25 @@ BinaryOperator::BinaryOperator(
     , operator_text(operator_token.sourcetext)
     , left_operand(lx)
     , right_operand(rx) 
-{}
+{
+    static std::map<std::string, Kind> kinds{
+        { boolean_and_operator,       Kind::boolean_and       },
+        { boolean_or_operator,        Kind::boolean_or        },
+        { boolean_xor_operator,       Kind::boolean_xor       },
+        { cmp_lt_operator,            Kind::cmp_lt            },
+        { cmp_gt_operator,            Kind::cmp_gt            },
+        { cmp_leq_operator,           Kind::cmp_leq           },
+        { cmp_geq_operator,           Kind::cmp_geq           },
+        { cmp_eq_operator,            Kind::cmp_eq            },
+        { cmp_neq_operator,           Kind::cmp_neq           },
+        { math_infix_sum_operator,    Kind::math_sum          },
+        { math_infix_sub_operator,    Kind::math_sub          },
+        { math_infix_mul_operator,    Kind::math_mul          },
+        { math_infix_div_operator,    Kind::math_div          },
+        { math_infix_mod_operator,    Kind::math_mod          },
+    };
+    binary_op_kind = kinds[operator_text];
+}
 
 UnaryOperator::UnaryOperator(
     const DebugInformationsAwareEntity& debug_info, 
@@ -80,15 +102,26 @@ UnaryOperator::UnaryOperator(
     : ExpressionBody(debug_info)
     , operator_text(operator_text)
     , operand(expr) 
-{}
+{
+    static std::map<std::string, Kind> kinds {
+        { boolean_not_operator,         Kind::boolean_not         },
+        { prefix_minus_sign,            Kind::minus_sign          },
+        { prefix_plus_sign,             Kind::plus_sign           },
+        { pointer_dereference_operator, Kind::pointer_dereference },
+        { address_operator,             Kind::address_of          },
+    };
+    unary_op_kind = kinds[operator_text];
+}
 
 UnaryOperator::UnaryOperator(
     const Token& operator_token, 
     const Expression& expr
 )
-    : ExpressionBody(operator_token)
-    , operator_text(operator_token.sourcetext)
-    , operand(expr) 
+    : UnaryOperator(
+        operator_token, 
+        operator_token.sourcetext, 
+        expr
+    )
 {}
 
 Identifier::Identifier(const Token& identifier_token)
@@ -101,9 +134,12 @@ Identifier::Identifier(const DebugInformationsAwareEntity& debug_info, const std
     , name(name) 
 {}
 
-StringLiteral::StringLiteral(const Token& string_literal_token)
+StringLiteral::StringLiteral(
+    const Token& string_literal_token,
+    const std::string& value
+)
     : ExpressionBody(string_literal_token)
-    , value(string_literal_token.sourcetext) 
+    , value(value) 
 { }
 
 IntLiteral::IntLiteral(const Token& int_literal_token)
@@ -121,9 +157,12 @@ BoolLiteral::BoolLiteral(const Token& bool_literal_token)
     , value(bool_literal_token.sourcetext == "true") 
 { }
 
-CharLiteral::CharLiteral(const Token& char_literal_token)
+CharLiteral::CharLiteral(
+    const Token& char_literal_token,
+    char value
+)
     : ExpressionBody(char_literal_token)
-    , value(char_literal_token.sourcetext[1]) 
+    , value(value) 
 { }
 
 FunctionCall::FunctionCall(

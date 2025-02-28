@@ -12,7 +12,7 @@
 
 #include "frontend/tokenizer.hpp"
 #include "language/definitions.hpp"
-#include "errors/error-types.hpp"
+#include "errors/compilation_error.hpp"
 
 [[noreturn]] void throw_expression_expected_got_unrecognized(
     const std::vector<Token>::iterator& iterator
@@ -85,4 +85,11 @@ void ensure_square_bracket_gets_closed_in_expression_wrapping(
 void ensure_type_not_already_visited_hence_no_cyclic_dependency(
     const std::string& target_tag_name, 
     const std::unordered_set<std::string>& visited_definitions
+);
+
+[[noreturn]] void throw_unrecognized_escape_sequence(const Token& token, char current_char);
+
+void ensure_character_literal_has_exactly_one_character(
+    const Token& token, 
+    const std::string& char_literal_value
 );
