@@ -4,8 +4,9 @@
 #include "../../tests_utilities/typesignature_factory.hpp"
 #include "../../tests_utilities/function_definition_factory.hpp"
 #include "../../tests_utilities/struct_definition_factory.hpp"
+#include "syntax/keywords.hpp"
 
-TEST(Preprocessing, Const_Constraint_Validator_Assignment_Of_Ref_To_Array_Literal_To_Const_Slice) {
+TEST(Preprocessing, Immutability_Constraint_Validator_Assignment_Of_Ref_To_Array_Literal_To_Const_Slice) {
     ProjectFileStructure single_func_def_project({
         FileRepresentation {
             .file_metadata = {
@@ -35,7 +36,7 @@ TEST(Preprocessing, Const_Constraint_Validator_Assignment_Of_Ref_To_Array_Litera
                                     Token { "[", "test.basalt", 1, 1, 4, Token::Type::type }
                                 },
                             },
-                            Token { "const", "test.basalt", 1, 1, 1, Token::Type::const_keyword }
+                            Token { const_keyword, "test.basalt", 1, 1, 1, Token::Type::const_keyword }
                         }
                     }
                 )
@@ -47,7 +48,7 @@ TEST(Preprocessing, Const_Constraint_Validator_Assignment_Of_Ref_To_Array_Litera
     EXPECT_ANY_THROW(address_sanitzier.visit_all_function_definitions());
 }
 
-TEST(Preprocessing, Const_Constraint_Validator_Assignment_Of_Ref_To_Array_Literal_To_Var_Slice) {
+TEST(Preprocessing, Immutability_Constraint_Validator_Assignment_Of_Ref_To_Array_Literal_To_Var_Slice) {
     ProjectFileStructure single_func_def_project({
         FileRepresentation {
             .file_metadata = {
@@ -77,7 +78,7 @@ TEST(Preprocessing, Const_Constraint_Validator_Assignment_Of_Ref_To_Array_Litera
                                     Token { "[", "test.basalt", 1, 1, 4, Token::Type::type }
                                 },
                             },
-                            Token { "const", "test.basalt", 1, 1, 1, Token::Type::const_keyword }
+                            Token { const_keyword, "test.basalt", 1, 1, 1, Token::Type::const_keyword }
                         }
                     }
                 )
