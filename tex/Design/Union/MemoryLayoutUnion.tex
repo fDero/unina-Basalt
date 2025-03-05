@@ -10,7 +10,7 @@ in byte del valore rappresentato a tempo di esecuzione dalla union. \\
     \centering
     \begin{tikzpicture}[
         label/.style={font=\footnotesize, minimum height=1cm, minimum width=2cm, anchor=west},
-        box/.style={draw, rectangle, minimum height=1cm, minimum width=3.5cm, anchor=west, fill=gray!20}
+        box/.style={draw, rectangle, minimum height=1cm, minimum width=3.5cm, anchor=west}
     ]
     \node[box] (addr) at (0, -1.5) {header (8 byte)};
     \node[box] (length) [right=0cm of addr] {payload (dimensione variabile)};
