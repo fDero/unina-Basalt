@@ -10,9 +10,10 @@ allora non sarebbe possibile assegnare espressioni di tipo \texttt{\#V} a target
 
 Per quanto riguarda i puntatori vettoriali invece, vale quanto detto per i puntatori scalari 
 ma con una dovuta precisazione, ovvero che è possibile assegnare ad un puntatore scalare 
-\texttt{\$T} un valore di tipo \texttt{[N]T}. Ciò è ovviamente vero in quanto in caso contrario 
+valori di tipo "puntatore scalare ad array" purchè il tipo dell'array sia identico al tipo 
+della generica cella del puntatore vettoriale. Ciò è ovviamente vero in quanto in caso contrario 
 verrebbe a mancare il senso stesso dei puntatori vettoriali, ovvero essere uno strumento per la 
-gestione deglia array la cui dimensione è ignora a tempo di compilazione. \\
+gestione deglia array la cui dimensione è ignota a tempo di compilazione. \\
 
 Per capire il motivo di tali restrizioni, è utile considerare il seguente esempio: si considerino
 due puntatori scalari \texttt{ptr : \#Int} e \texttt{ptr2 : \#(Int|Float)}, e si immagini cosa 
